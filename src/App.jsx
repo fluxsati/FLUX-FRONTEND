@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { useSelector } from "react-redux"; // Import useSelector to sync with Auth state
 
+
 // Components
 import Navbar from "./components/Navbar";
 import FluxFooter from "./components/Footer";
@@ -22,6 +23,7 @@ import FluxSkills from "./pages/Skiils";
 import FluxLearningHub from "./pages/LearningHub";
 import LyfatFlux from "./pages/Fluxlyf";
 
+import VercelAnalytics from './VercelAnalytics'; // Import here
 // Private Pages
 import Dashboard from "./Private/Dashboard";
 import AdminDashboard from "./Private/AdminDashboard";
@@ -117,6 +119,7 @@ export default function App() {
         </main>
 
         <FluxFooter />
+        <VercelAnalytics />
       </div>
     </Router>
   );

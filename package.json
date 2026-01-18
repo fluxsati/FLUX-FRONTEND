@@ -16,6 +16,7 @@
     "@splinetool/react-spline": "^4.1.0",
     "@splinetool/runtime": "^1.12.34",
     "@studio-freight/lenis": "^1.0.42",
+    "@vercel/analytics": "^1.6.1",
     "animejs": "^4.2.2",
     "axios": "^1.13.2",
     "framer-motion": "^12.26.2",
