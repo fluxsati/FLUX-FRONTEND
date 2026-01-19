@@ -13,15 +13,19 @@ const COUPONS = [
 
 const TUTEDUDE_URL = "https://tutedude.com/";
 
+// Added your new playlists here and removed titles as requested
 const RESOURCES = [
-  { title: "Data Structures & Algorithms", id: "PLDzeHZWIZsTo0wSBcg4-NMIbC0L8evLrD", isPlaylist: true, thumbnail: "https://img.youtube.com/vi/rZ41y93P2Qo/maxresdefault.jpg" },
-  { title: "Operating Systems", id: "PLQEaRBV9gAFsistSzOgnD4cWgFGRVda4X", isPlaylist: true, thumbnail: "https://img.youtube.com/vi/vBURTt97EkA/maxresdefault.jpg" },
-  { title: "Computer Networks", id: "PLGjplNEQ1it8-0CmoljS5yeV-GlKSUEt0", isPlaylist: true, thumbnail: "https://img.youtube.com/vi/IPvYjXWzS48/maxresdefault.jpg" },
-  { title: "Electronic Components Guide", id: "UrsmFxEIp5k", isPlaylist: false, thumbnail: "https://img.youtube.com/vi/UrsmFxEIp5k/maxresdefault.jpg" },
-  { title: "C++ Full Course", id: "PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt", isPlaylist: true, thumbnail: "https://img.youtube.com/vi/j8nAHeVKL08/maxresdefault.jpg" },
-  { title: "Robotics: Motors & Sensors", id: "GFO_txvwK_c", isPlaylist: false, thumbnail: "https://img.youtube.com/vi/GFO_txvwK_c/maxresdefault.jpg" },
-  { title: "Arduino for Beginners", id: "gB1F9G0JXOo", isPlaylist: false, thumbnail: "https://img.youtube.com/vi/gB1F9G0JXOo/maxresdefault.jpg" },
-  { title: "ML with Python", id: "PLKnIA16_Rmvbr7zKYQuBfsVkjoLcJgxHH", isPlaylist: true, thumbnail: "https://img.youtube.com/vi/6mUf6K-zV4Y/maxresdefault.jpg" }
+  { id: "PLu0W_9lII9agq5TrH9XLIKQvv0iaF2X3w", isPlaylist: true, thumbnail: "https://img.youtube.com/vi/61XG0fV5m0w/maxresdefault.jpg" },
+  { id: "PLu0W_9lII9ahR1blWXxgSlL4y9iQBnLpR", isPlaylist: true, thumbnail: "https://img.youtube.com/vi/ER9SspLe4Hg/maxresdefault.jpg" },
+  { id: "PLbtI3_MArDOnIIJxB6xFtpnhM0wTwz0x6", isPlaylist: true, thumbnail: "https://img.youtube.com/vi/7S_t1kqZjI0/maxresdefault.jpg" },
+  { id: "PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt", isPlaylist: true, thumbnail: "https://img.youtube.com/vi/j8nAHeVKL08/maxresdefault.jpg" },
+  { id: "PLDzeHZWIZsTo0wSBcg4-NMIbC0L8evLrD", isPlaylist: true, thumbnail: "https://img.youtube.com/vi/rZ41y93P2Qo/maxresdefault.jpg" },
+  { id: "PLQEaRBV9gAFsistSzOgnD4cWgFGRVda4X", isPlaylist: true, thumbnail: "https://img.youtube.com/vi/vBURTt97EkA/maxresdefault.jpg" },
+  { id: "PLGjplNEQ1it8-0CmoljS5yeV-GlKSUEt0", isPlaylist: true, thumbnail: "https://img.youtube.com/vi/IPvYjXWzS48/maxresdefault.jpg" },
+  { id: "UrsmFxEIp5k", isPlaylist: false, thumbnail: "https://img.youtube.com/vi/UrsmFxEIp5k/maxresdefault.jpg" },
+  { id: "GFO_txvwK_c", isPlaylist: false, thumbnail: "https://img.youtube.com/vi/GFO_txvwK_c/maxresdefault.jpg" },
+  { id: "gB1F9G0JXOo", isPlaylist: false, thumbnail: "https://img.youtube.com/vi/gB1F9G0JXOo/maxresdefault.jpg" },
+  { id: "PLKnIA16_Rmvbr7zKYQuBfsVkjoLcJgxHH", isPlaylist: true, thumbnail: "https://img.youtube.com/vi/6mUf6K-zV4Y/maxresdefault.jpg" }
 ];
 
 // --- SUB-COMPONENTS ---
@@ -99,7 +103,7 @@ const ResourceCard = memo(({ item }) => {
     >
       <div className="aspect-video relative overflow-hidden bg-slate-200 dark:bg-zinc-800">
         <img 
-          src={item.thumbnail} alt={item.title} 
+          src={item.thumbnail} alt="Learning Resource" 
           loading="lazy" decoding="async"
           className="w-full h-full object-cover group-hover:scale-110 transition-all duration-700"
         />
@@ -114,15 +118,7 @@ const ResourceCard = memo(({ item }) => {
           </span>
         </div>
       </div>
-      <div className="p-5">
-        <div className="flex items-center gap-2 mb-2">
-          <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />
-          <span className="text-[9px] font-bold text-slate-400 dark:text-zinc-500 uppercase tracking-widest">Resource Node</span>
-        </div>
-        <h3 className="text-sm font-bold text-slate-800 dark:text-zinc-100 leading-snug group-hover:text-blue-500 transition-colors line-clamp-2">
-          {item.title}
-        </h3>
-      </div>
+      {/* Title and Caption removed for a clean video-only look */}
     </motion.a>
   );
 });
@@ -131,19 +127,16 @@ const ResourceCard = memo(({ item }) => {
 
 const LearningHub = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  // useDeferredValue helps keep the input smooth during heavy filtering
   const deferredQuery = useDeferredValue(searchQuery);
 
+  // Since titles are removed, we filter based on IDs or you can add a 'tags' field to RESOURCES if you want search to work
   const filteredResources = useMemo(() => {
-    return RESOURCES.filter(item => 
-      item.title.toLowerCase().includes(deferredQuery.toLowerCase())
-    );
-  }, [deferredQuery]);
+    return RESOURCES; 
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#f8fafc] dark:bg-[#050505] text-slate-900 dark:text-white pt-24 md:pt-32 pb-20 px-4 md:px-8 transition-colors duration-500">
       
-      {/* Optimized Background Glows */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
         <div className="absolute -top-[10%] -left-[10%] w-[70%] h-[40%] bg-blue-500/10 blur-[120px] rounded-full" />
         <div className="absolute top-[20%] -right-[10%] w-[60%] h-[30%] bg-purple-500/10 blur-[120px] rounded-full" />
@@ -173,38 +166,12 @@ const LearningHub = () => {
           </div>
         </header>
 
-        {/* SEARCH BOX */}
-        <div className="mb-10 md:mb-12 flex justify-center lg:justify-start">
-          <div className="relative w-full max-w-md group">
-            <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors" size={18} />
-            <input 
-              type="text"
-              placeholder="Search resources..."
-              className="w-full bg-white dark:bg-zinc-900/50 border border-slate-200 dark:border-white/10 rounded-2xl py-4 pl-12 pr-6 outline-none focus:ring-2 focus:ring-blue-500/50 transition-all text-sm font-medium dark:text-white"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div>
-        </div>
-
         {/* RESOURCE GRID */}
         <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           <AnimatePresence mode="popLayout">
-            {filteredResources.length > 0 ? (
-              filteredResources.map((item) => (
-                <ResourceCard key={item.id} item={item} />
-              ))
-            ) : (
-              <motion.div 
-                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                className="col-span-full py-20 text-center"
-              >
-                <div className="mb-4 inline-flex p-4 rounded-full bg-slate-100 dark:bg-zinc-900">
-                   <Search size={32} className="text-slate-400" />
-                </div>
-                <p className="font-mono text-xs uppercase tracking-widest text-slate-500">No matching frequency found in archives.</p>
-              </motion.div>
-            )}
+            {filteredResources.map((item) => (
+              <ResourceCard key={item.id} item={item} />
+            ))}
           </AnimatePresence>
         </motion.div>
       </div>

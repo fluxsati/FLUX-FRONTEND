@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
 import Typewriter from 'typewriter-effect';
 import { useInView } from 'react-intersection-observer';
+import { FileText, Table } from 'lucide-react'; // Added icons for terminal links
 
 // ===== IMAGE IMPORTS =====
 import ykJainImg from '../assets/faculty/ykjainsir.png';
@@ -13,7 +14,7 @@ import kamleshSirImg from '../assets/faculty/kamleshsir.jpeg';
 const ScrollTypewriter = memo(({ content, delay = 20, cursor = '█' }) => {
   const { ref, inView } = useInView({
     triggerOnce: true,
-    threshold: 0.1, // Lower threshold for faster mobile trigger
+    threshold: 0.1,
   });
 
   return (
@@ -32,7 +33,6 @@ const ScrollTypewriter = memo(({ content, delay = 20, cursor = '█' }) => {
   );
 });
 
-// --- Optimized Faculty Card Component ---
 const FacultyCard = memo(({ fac }) => (
   <div className="group relative bg-slate-100 dark:bg-[#0a0a0a] border border-slate-200 dark:border-white/10 p-1 hover:border-cyan-500/50 transition-all duration-300 rounded-sm">
     <div className="relative bg-white dark:bg-[#050505] p-6 lg:p-8 space-y-6 z-10 h-full flex flex-col">
@@ -50,7 +50,6 @@ const FacultyCard = memo(({ fac }) => (
         <ScrollTypewriter content={fac.content} delay={15} cursor="_" />
       </div>
     </div>
-    {/* Hidden animation on mobile to save GPU */}
     <div className="hidden lg:block absolute bottom-0 left-0 w-full h-[2px] bg-cyan-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
   </div>
 ));
@@ -73,22 +72,18 @@ const BehindFlux = () => {
 
   const recentNews = [
     "LOG: TECHNOVISION IS COMING... PREPARE YOUR GEAR.",
-    "LOG: HAVE NEW IDEAS? LET'S BUILD THEM TOGETHER.",
-    "LOG: NEED ELECTRONIC COMPONENTS? WE ARE HERE TO PROVIDE.",
-    "LOG: LAB ACCESS GRANTED FOR UPCOMING PROJECT PHASE.",
-    "LOG: REGISTRATIONS OPEN FOR ROBOTICS WORKSHOP 2.0."
+    "LOG: REGISTRATIONS OPEN FOR ROBOTICS WORKSHOP 2.0.",
+    "LOG: ACCESS CORE DATABASE BELOW."
   ];
 
   return (
     <div id="behind-flux" className="relative min-h-screen w-full bg-white dark:bg-[#030303] text-slate-900 dark:text-white font-sans py-12 lg:py-24 overflow-x-hidden border-t border-slate-200 dark:border-white/5 transition-colors duration-500">
       
-      {/* Background Decor - HIDDEN ON MOBILE */}
       <div className="hidden lg:block absolute inset-0 z-0 pointer-events-none opacity-10" 
            style={{ backgroundImage: 'linear-gradient(#06b6d4 1px, transparent 1px), linear-gradient(90deg, #06b6d4 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
 
       <div className="relative z-10 max-w-6xl mx-auto px-6">
         
-        {/* Header */}
         <header className="mb-12 lg:mb-20 space-y-4 text-center lg:text-left">
           <div className="flex items-center justify-center lg:justify-start gap-4">
             <div className="h-[2px] w-8 lg:w-12 bg-cyan-500" />
@@ -99,23 +94,16 @@ const BehindFlux = () => {
           </h2>
         </header>
 
-        {/* DIRECTOR HERO CARD */}
         <section className="mb-16 lg:mb-32">
           <div className="relative group max-w-5xl mx-auto">
-            {/* Corners hidden on mobile for cleaner look */}
             <div className="hidden lg:block absolute -top-2 -left-2 w-8 h-8 border-t-2 border-l-2 border-cyan-500 z-20" />
             <div className="hidden lg:block absolute -bottom-2 -right-2 w-8 h-8 border-b-2 border-r-2 border-cyan-500 z-20" />
-            
-            {/* High GPU Blur disabled on mobile */}
             <div className="hidden lg:block absolute -inset-1 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-lg blur opacity-20" />
-            
             <div className="relative bg-slate-50 dark:bg-black/40 border border-slate-200 dark:border-white/10 p-6 sm:p-10 lg:p-14 flex flex-col lg:flex-row items-center lg:items-start gap-8 lg:gap-12 rounded-xl lg:rounded-sm">
               <div className="relative w-40 h-40 sm:w-56 sm:h-56 lg:w-72 lg:h-72 flex-shrink-0">
-                {/* Expensive spinning animation hidden on mobile */}
                 <div className="hidden lg:block absolute -inset-4 border border-cyan-500/30 rounded-full animate-[spin_30s_linear_infinite]" />
                 <img src={director.img} alt={director.name} className="w-full h-full object-cover rounded-full border-2 lg:border-4 border-cyan-500 relative z-20" />
               </div>
-              
               <div className="flex-1 space-y-4 lg:space-y-6 text-center lg:text-left w-full">
                 <div>
                   <span className="text-cyan-600 dark:text-cyan-400 font-mono text-[10px] tracking-[0.3em] block mb-2">{director.id} // COMMAND_CENTER</span>
@@ -130,14 +118,13 @@ const BehindFlux = () => {
           </div>
         </section>
 
-        {/* FACULTY GRID */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-10 mb-16 lg:mb-24">
           {mentors.map((fac, i) => <FacultyCard key={fac.id} fac={fac} />)}
         </section>
 
         {/* TERMINAL NOTICE BOARD SECTION */}
         <section className="mt-8 lg:mt-12 max-w-4xl mx-auto">
-          <div className="bg-black dark:bg-zinc-950 border border-cyan-500/30 rounded-lg overflow-hidden">
+          <div className="bg-black dark:bg-zinc-950 border border-cyan-500/30 rounded-lg overflow-hidden shadow-2xl">
             <div className="bg-zinc-900 px-3 py-2 border-b border-white/10 flex items-center justify-between">
               <div className="flex gap-1.5">
                 <div className="w-2.5 h-2.5 rounded-full bg-red-500/50" />
@@ -147,7 +134,7 @@ const BehindFlux = () => {
               <span className="text-[9px] font-mono text-white/40 uppercase tracking-widest">Live_Terminal_Feed</span>
             </div>
             
-            <div className="p-4 sm:p-6 font-mono text-[10px] sm:text-xs md:text-sm text-cyan-400 space-y-3">
+            <div className="p-4 sm:p-6 font-mono text-[10px] sm:text-xs md:text-sm text-cyan-400 space-y-4">
               {recentNews.map((news, index) => (
                 <div key={index} className="flex gap-3 items-start">
                   <span className="text-white/20 select-none shrink-0">{`0${index + 1}`}</span>
@@ -156,6 +143,42 @@ const BehindFlux = () => {
                   </div>
                 </div>
               ))}
+
+              {/* PDF & SHEET LINKS IN TERMINAL STYLE */}
+              <div className="pt-4 space-y-4">
+                <div className="flex flex-col sm:flex-row gap-4">
+                  {/* Flux Members PDF Link */}
+                  <div className="group/link">
+                    <span className="text-white/20 mr-3">04</span>
+                    <span className="text-white">flux_user@system:~$ view --members</span>
+                    <a 
+                      href="/fluxmembers.pdf" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="mt-2 flex items-center gap-3 w-fit bg-cyan-500/10 border border-cyan-500/30 px-4 py-2 text-cyan-400 hover:bg-cyan-500 hover:text-white transition-all rounded-sm group"
+                    >
+                      <FileText size={16} />
+                      <span className="text-[10px] uppercase font-bold tracking-widest">Flux_Members_Archive.pdf</span>
+                    </a>
+                  </div>
+
+                  {/* Attendance Sheet Link */}
+                  <div className="group/link">
+                    <span className="text-white/20 mr-3">05</span>
+                    <span className="text-white">flux_user@system:~$ view --attendance</span>
+                    <a 
+                      href="https://onedrive.live.com/personal/913d06f5320ba2d9/_layouts/15/Doc.aspx?sourcedoc=%7Bdbdae340-e876-46b1-a107-18decf64cb70%7D&action=default&redeem=aHR0cHM6Ly8xZHJ2Lm1zL3gvYy85MTNkMDZmNTMyMGJhMmQ5L0lRQkE0OXJiZHVpeFJxRUhHTjdQWk10d0FUWmtpX2g3UGZteEN6SEhjY043T1hrP2U9YzB4N1g4" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="mt-2 flex items-center gap-3 w-fit bg-purple-500/10 border border-purple-500/30 px-4 py-2 text-purple-400 hover:bg-purple-500 hover:text-white transition-all rounded-sm group"
+                    >
+                      <Table size={16} />
+                      <span className="text-[10px] uppercase font-bold tracking-widest">Attendance_Sheet_Live</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
               <div className="flex gap-2 items-center pt-2">
                 <span className="text-white shrink-0">flux_user@system:~$</span>
                 <span className="w-1.5 h-3 sm:w-2 sm:h-4 bg-cyan-500 animate-pulse" />

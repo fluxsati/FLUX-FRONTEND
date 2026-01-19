@@ -1,4 +1,7 @@
-import { Shield, Cpu, Brain, Wind, Radio, Microscope } from 'lucide-react';
+import { 
+  Shield, Cpu, Brain, Wind, Radio, Microscope, 
+  HelpCircle, Gavel 
+} from 'lucide-react';
 
 export const PROJECTS_DATA = [
   {
@@ -10,7 +13,7 @@ export const PROJECTS_DATA = [
     img: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b",
     git: "#",
     live: "#",
-    reportFile: "ctf-report.pdf", // Match this filename in public/report/
+    reportFile: "ctf-report.pdf",
     category: "security",
     iconName: "shield",
     team: ["Mahesh K.", "Rahul S."]
@@ -84,5 +87,33 @@ export const PROJECTS_DATA = [
     category: "biotech",
     iconName: "microscope",
     team: ["Riya B."]
+  },
+  {
+    id: 7,
+    title: "Flux_KBC_Quiz",
+    desc: "Interactive technical quiz with lifelines.",
+    summary: "A high-pressure competitive quiz platform featuring 'Double Dip' and 'Flip the Question' mechanics for tech enthusiasts.",
+    tech: ["React", "Firebase"],
+    img: "https://images.unsplash.com/photo-1606326666490-45757474e788",
+    git: "#",
+    live: "#",
+    reportFile: "kbc-report.pdf",
+    category: "software",
+    iconName: "help-circle",
+    team: ["Flux Core"]
+  },
+  {
+    id: 8,
+    title: "Tech_Stack_Auction",
+    desc: "IPL-style bidding for developer tools.",
+    summary: "A unique bidding event where teams compete to purchase limited tech stacks (Languages, Frameworks, DBs) to build their projects.",
+    tech: ["Socket.io", "Node.js"],
+    img: "https://images.unsplash.com/photo-1551836022-d5d88e9218df",
+    git: "#",
+    live: "#",
+    reportFile: "auction-report.pdf",
+    category: "event",
+    iconName: "gavel",
+    team: ["Flux Management"]
   }
 ];
