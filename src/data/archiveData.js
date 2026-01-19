@@ -30,7 +30,7 @@ import rocket_poster from '../assets/events/Events-Posters/rocketcrash.jpeg';
 import color_smash_poster from '../assets/events/Events-Posters/colorsmash.jpeg';
 
 /* ===================== REPORT (PDF) IMPORTS ===================== */
-import report_tv25 from '../assets/reports/technovision_25.pdf';
+import report_tv25 from '../assets/reports/Technovision_25.pdf';
 import report_fw25 from '../assets/reports/fluxwave_25.pdf';
 import report_ww from '../assets/reports/web_workshop.pdf';
 
