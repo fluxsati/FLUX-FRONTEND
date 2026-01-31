@@ -208,9 +208,9 @@ const FluxTeam = () => {
                     <p className="text-[8px] font-mono text-slate-500 uppercase truncate">{member.branch}</p>
                   </div>
                 </div>
-                <a href={member.link} target="_blank" rel="noopener noreferrer">
+                {/* <a href={member.link} target="_blank" rel="noopener noreferrer">
                   <ExternalLink size={12} className="text-gray-300 dark:text-white/10 group-hover:text-cyan-500 transition-colors cursor-pointer shrink-0" />
-                </a>
+                </a> */}
               </motion.div>
             ))}
           </div>

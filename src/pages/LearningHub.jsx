@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useDeferredValue, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
+import {
   Search, Tag, Play, ExternalLink,
   Copy, Check, Quote, Globe
 } from 'lucide-react';
@@ -14,17 +14,17 @@ const COUPONS = [
 const TUTEDUDE_URL = "https://tutedude.com/";
 
 const RESOURCES = [
-  { id: "PLu0W_9lII9agq5TrH9XLIKQvv0iaF2X3w", isPlaylist: true, thumbnail: "https://img.youtube.com/vi/61XG0fV5m0w/maxresdefault.jpg" },
+  { id: "PLu0W_9lII9agq5TrH9XLIKQvv0iaF2X3w", isPlaylist: true, thumbnail: "https://i.ytimg.com/vi/tVzUXW6siu0/hqdefault.jpg" },
   { id: "PLu0W_9lII9ahR1blWXxgSlL4y9iQBnLpR", isPlaylist: true, thumbnail: "https://img.youtube.com/vi/ER9SspLe4Hg/maxresdefault.jpg" },
-  { id: "PLbtI3_MArDOnIIJxB6xFtpnhM0wTwz0x6", isPlaylist: true, thumbnail: "https://img.youtube.com/vi/7S_t1kqZjI0/maxresdefault.jpg" },
+  { id: "PLbtI3_MArDOnIIJxB6xFtpnhM0wTwz0x6", isPlaylist: true, thumbnail: "https://i.ytimg.com/vi/9C03V1dXxOU/hqdefault.jpg" },
   { id: "PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt", isPlaylist: true, thumbnail: "https://img.youtube.com/vi/j8nAHeVKL08/maxresdefault.jpg" },
   { id: "PLDzeHZWIZsTo0wSBcg4-NMIbC0L8evLrD", isPlaylist: true, thumbnail: "https://img.youtube.com/vi/rZ41y93P2Qo/maxresdefault.jpg" },
   { id: "PLQEaRBV9gAFsistSzOgnD4cWgFGRVda4X", isPlaylist: true, thumbnail: "https://img.youtube.com/vi/vBURTt97EkA/maxresdefault.jpg" },
-  { id: "PLGjplNEQ1it8-0CmoljS5yeV-GlKSUEt0", isPlaylist: true, thumbnail: "https://img.youtube.com/vi/IPvYjXWzS48/maxresdefault.jpg" },
+  { id: "PLGjplNEQ1it8-0CmoljS5yeV-GlKSUEt0", isPlaylist: true, thumbnail: "https://i.ytimg.com/vi/t2_Q2BRzeEE/hqdefault.jpg" },
   { id: "UrsmFxEIp5k", isPlaylist: false, thumbnail: "https://img.youtube.com/vi/UrsmFxEIp5k/maxresdefault.jpg" },
   { id: "GFO_txvwK_c", isPlaylist: false, thumbnail: "https://img.youtube.com/vi/GFO_txvwK_c/maxresdefault.jpg" },
   { id: "gB1F9G0JXOo", isPlaylist: false, thumbnail: "https://img.youtube.com/vi/gB1F9G0JXOo/maxresdefault.jpg" },
-  { id: "PLKnIA16_Rmvbr7zKYQuBfsVkjoLcJgxHH", isPlaylist: true, thumbnail: "https://img.youtube.com/vi/6mUf6K-zV4Y/maxresdefault.jpg" }
+  { id: "PLKnIA16_Rmvbr7zKYQuBfsVkjoLcJgxHH", isPlaylist: true, thumbnail: "https://i.ytimg.com/vi/ZftI2fEz0Fw/hqdefault.jpg" }
 ];
 
 // --- SUB-COMPONENTS ---
@@ -39,8 +39,8 @@ const CouponCard = memo(() => {
   };
 
   return (
-    <motion.div 
-      initial={{ y: 20, opacity: 0 }} 
+    <motion.div
+      initial={{ y: 20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       className="relative w-full max-w-sm group mx-auto lg:mx-0"
     >
@@ -56,14 +56,13 @@ const CouponCard = memo(() => {
             </div>
             <div className="space-y-2 mb-4">
               {COUPONS.map((coupon) => (
-                <button 
+                <button
                   key={coupon.code}
                   onClick={() => handleCopy(coupon.code)}
-                  className={`w-full group/btn relative py-3 rounded-xl font-bold text-[11px] flex items-center justify-between px-4 transition-all active:scale-[0.98] ${
-                    copiedCode === coupon.code 
-                    ? "bg-green-600 text-white" 
+                  className={`w-full group/btn relative py-3 rounded-xl font-bold text-[11px] flex items-center justify-between px-4 transition-all active:scale-[0.98] ${copiedCode === coupon.code
+                    ? "bg-green-600 text-white"
                     : "bg-white/5 hover:bg-white hover:text-black border border-white/10"
-                  }`}
+                    }`}
                 >
                   <span className="flex items-center gap-2">
                     <Tag size={12} /> {coupon.label}: <span className="font-black tracking-widest uppercase">{coupon.code}</span>
@@ -72,7 +71,7 @@ const CouponCard = memo(() => {
                 </button>
               ))}
             </div>
-            <a 
+            <a
               href={TUTEDUDE_URL} target="_blank" rel="noopener noreferrer"
               className="w-full flex items-center justify-center gap-2 py-3.5 bg-blue-600 hover:bg-blue-500 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all shadow-lg"
             >
@@ -86,7 +85,7 @@ const CouponCard = memo(() => {
 });
 
 const ResourceCard = memo(({ item }) => {
-  const url = item.isPlaylist 
+  const url = item.isPlaylist
     ? `https://www.youtube.com/playlist?list=${item.id}`
     : `https://www.youtube.com/watch?v=${item.id}`;
 
@@ -101,8 +100,8 @@ const ResourceCard = memo(({ item }) => {
       className="group relative bg-white dark:bg-zinc-900 border border-slate-200 dark:border-white/5 rounded-[1.5rem] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300"
     >
       <div className="aspect-video relative overflow-hidden bg-slate-200 dark:bg-zinc-800">
-        <img 
-          src={item.thumbnail} alt="Learning Resource" 
+        <img
+          src={item.thumbnail} alt="Learning Resource"
           loading="lazy" decoding="async"
           className="w-full h-full object-cover group-hover:scale-110 transition-all duration-700"
         />
@@ -130,12 +129,12 @@ const LearningHub = () => {
 
   // Since titles are removed, we filter based on IDs or you can add a 'tags' field to RESOURCES if you want search to work
   const filteredResources = useMemo(() => {
-    return RESOURCES; 
+    return RESOURCES;
   }, []);
 
   return (
     <div className="min-h-screen bg-[#f8fafc] dark:bg-[#050505] text-slate-900 dark:text-white pt-24 md:pt-32 pb-20 px-4 md:px-8 transition-colors duration-500">
-      
+
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
         <div className="absolute -top-[10%] -left-[10%] w-[70%] h-[40%] bg-blue-500/10 blur-[120px] rounded-full" />
         <div className="absolute top-[20%] -right-[10%] w-[60%] h-[30%] bg-purple-500/10 blur-[120px] rounded-full" />

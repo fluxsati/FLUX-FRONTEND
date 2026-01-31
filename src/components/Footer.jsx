@@ -100,13 +100,13 @@ const Footer = () => {
             <div className="flex flex-col gap-4">
                <span className="text-[10px] font-mono text-slate-400 uppercase tracking-widest">System_Access_Points</span>
                <div className="flex items-center gap-2 md:gap-3">
-                <button 
+                {/* <button 
                   onClick={toggleTheme} 
                   className="p-2.5 rounded-md border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 text-slate-500 hover:text-cyan-500 transition-colors"
                   aria-label="Toggle Theme"
                 >
                   {isDark ? <Sun size={18} /> : <Moon size={18} />}
-                </button>
+                </button> */}
                 
                 <SocialButton href="https://github.com/fluxsati" icon={<Github />} label="GitHub" />
                 <SocialButton href="https://www.linkedin.com/company/fluxsati/" icon={<Linkedin />} label="LinkedIn" />

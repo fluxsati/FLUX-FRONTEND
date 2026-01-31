@@ -162,13 +162,13 @@ const FluxServices = () => {
         </motion.div>
       </div>
 
-      <footer className="py-10 px-6 border-t border-slate-200 dark:border-white/10 flex flex-col md:flex-row justify-between items-center gap-6 bg-white/50 dark:bg-black/20 backdrop-blur-sm">
+      {/* <footer className="py-10 px-6 border-t border-slate-200 dark:border-white/10 flex flex-col md:flex-row justify-between items-center gap-6 bg-white/50 dark:bg-black/20 backdrop-blur-sm">
         <p className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">© 2026 FLUX ENGINEERING</p>
         <div className="flex gap-6 md:gap-8">
           <Instagram size={18} className="text-slate-400 hover:text-cyan-500 cursor-pointer transition-colors" />
           <Linkedin size={18} className="text-slate-400 hover:text-cyan-500 cursor-pointer transition-colors" />
         </div>
-      </footer>
+      </footer> */}
     </section>
   );
 };
