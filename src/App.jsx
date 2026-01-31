@@ -22,6 +22,7 @@ import FluxContact from "./pages/Contact";
 import FluxSkills from "./pages/Skiils";
 import FluxLearningHub from "./pages/LearningHub";
 import LyfatFlux from "./pages/Fluxlyf";
+import Ideathon from "./pages/Ideathon";
 
 import VercelAnalytics from './VercelAnalytics'; // Import here
 // Private Pages
@@ -34,7 +35,7 @@ import AdminDashboard from "./Private/AdminDashboard";
  */
 const ProtectedRoute = ({ children }) => {
   const { userInfo } = useSelector((state) => state.auth);
-  
+
   // Use a strict check to ensure userInfo is an object with data
   return userInfo && userInfo._id ? children : <Navigate to="/login" replace />;
 };
@@ -45,11 +46,11 @@ const ProtectedRoute = ({ children }) => {
  */
 const AdminRoute = ({ children }) => {
   const { userInfo } = useSelector((state) => state.auth);
-  
+
   if (!userInfo || !userInfo._id) {
     return <Navigate to="/login" replace />;
   }
-  
+
   return userInfo.role === "admin" ? (
     children
   ) : (
@@ -61,7 +62,7 @@ export default function App() {
   return (
     <Router>
 
-<div className="bg-white dark:bg-[#050505] text-zinc-900 dark:text-white min-h-screen flex flex-col transition-colors duration-300">
+      <div className="bg-white dark:bg-[#050505] text-zinc-900 dark:text-white min-h-screen flex flex-col transition-colors duration-300">
         <ScrollToTop />
         <Navbar />
 
@@ -73,9 +74,9 @@ export default function App() {
               element={
                 <>
                   <Home />
-                   <LyfatFlux />
+                  <LyfatFlux />
                   <BehindFlux />
-                 
+
                   <FluxFeatures />
                 </>
               }
@@ -88,6 +89,7 @@ export default function App() {
             <Route path="/skills" element={<FluxSkills />} />
             <Route path="/contact" element={<FluxContact />} />
             <Route path="/learninghub" element={<FluxLearningHub />} />
+            <Route path="/flux-hard-wired" element={<Ideathon />} />
 
             {/* ---------- AUTH ROUTES ---------- */}
             {/* Note: Auth component itself now handles the "already logged in" redirect */}

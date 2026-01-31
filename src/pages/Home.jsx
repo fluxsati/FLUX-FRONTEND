@@ -1,4 +1,5 @@
 import React, { Suspense, memo } from 'react';
+import { Link } from 'react-router-dom';
 import Spline from '@splinetool/react-spline';
 import Typewriter from 'typewriter-effect';
 
@@ -21,9 +22,10 @@ const MarqueeTicker = memo(() => (
 const Home = () => {
   return (
     <div className="relative min-h-dvh w-full bg-slate-50 dark:bg-[#030303] transition-colors duration-500 overflow-x-hidden font-sans selection:bg-cyan-500 selection:text-black flex flex-col pt-20 md:pt-28">
-      
+
       {/* ===== INJECTED ANIMATIONS ===== */}
-      <style dangerouslySetInnerHTML={{ __html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         @keyframes scan { 0% { top: 0%; opacity: 0; } 50% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
         @keyframes grid-move { 0% { background-position: 0 0; } 100% { background-position: 0 40px; } }
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-33.33%); } }
@@ -61,7 +63,7 @@ const Home = () => {
             }}
           />
         </div>
-        
+
         {/* Ambient Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-slate-200/40 via-transparent to-slate-300/70 dark:from-black/40 dark:via-transparent dark:to-black/70" />
       </div>
@@ -79,7 +81,7 @@ const Home = () => {
                   Neural Link Established
                 </span>
               </div>
-              
+
               <p className="tagline-anim text-cyan-600 dark:text-cyan-500/80 font-mono text-[10px] sm:text-xs tracking-[0.3em] uppercase font-bold">
                 Specialized in <span className="text-slate-900 dark:text-white transition-colors">impossible</span> things
               </p>
@@ -106,21 +108,21 @@ const Home = () => {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4">
-              <button className="px-8 py-4 text-[10px] sm:text-xs font-bold uppercase tracking-widest bg-cyan-500 text-white dark:text-black shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:-translate-y-0.5 transition-all duration-300">
+             <Link to="/login" className="px-8 py-4 text-[10px] sm:text-xs font-bold uppercase tracking-widest bg-cyan-500 text-white dark:text-black shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:-translate-y-0.5 transition-all duration-300">
                 Join Squad
-              </button>
-              <button className="px-8 py-4 text-[10px] sm:text-xs font-semibold uppercase tracking-widest border border-slate-300 dark:border-white/20 text-slate-900 dark:text-white hover:border-cyan-500 hover:text-cyan-500 backdrop-blur-sm transition-all duration-300">
+              </Link>
+              <Link to="/projects" className="px-8 py-4 text-[10px] sm:text-xs font-semibold uppercase tracking-widest border border-slate-300 dark:border-white/20 text-slate-900 dark:text-white hover:border-cyan-500 hover:text-cyan-500 backdrop-blur-sm transition-all duration-300">
                 Projects
-              </button>
+              </Link>
             </div>
           </div>
 
           {/* RIGHT: THE 3D ROBOT - Hidden on Mobile to prevent lag */}
           <div className="relative hidden lg:flex h-[40vh] sm:h-[50vh] lg:h-[70vh] w-full items-center justify-center order-1 lg:order-2">
             <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-2/3 h-2/3 bg-cyan-500/20 dark:bg-cyan-500/10 blur-[100px] rounded-full animate-pulse" />
+              <div className="w-2/3 h-2/3 bg-cyan-500/20 dark:bg-cyan-500/10 blur-[100px] rounded-full animate-pulse" />
             </div>
-            
+
             <Suspense fallback={
               <div className="flex flex-col items-center gap-4">
                 <div className="w-10 h-10 border-2 border-cyan-500/20 border-t-cyan-500 rounded-full animate-spin" />
@@ -128,9 +130,9 @@ const Home = () => {
               </div>
             }>
               <div className="w-full h-full lg:scale-110 cursor-grab active:cursor-grabbing relative z-10">
-                <Spline 
-                    className="w-full h-full"
-                    scene="https://prod.spline.design/cjCHnZAtDbmavil4/scene.splinecode" 
+                <Spline
+                  className="w-full h-full"
+                  scene="https://prod.spline.design/cjCHnZAtDbmavil4/scene.splinecode"
                 />
               </div>
             </Suspense>
