@@ -161,11 +161,18 @@ const FluxContactPage = () => {
 
           <iframe 
             title="Kailash Satyarthi Hall Map" 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3658.058348613484!2d77.8090!3d23.5300!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjPCsDMxJzQ4LjAiTiA3N8KwNDgnMzIuNCJF!5e0!3m2!1sen!2sin!4v1620000000000!5m2!1sen!2sin" 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3658.41560741494!2d77.81751497591492!3d23.51754979767476!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x397c0489839f57d7%3A0x450caad4c72f76b1!2sKailash%20Satyarthi%20Auditorium!5e0!3m2!1sen!2sin!4v1769850729631!5m2!1sen!2sin" 
             className="w-full h-full object-cover filter contrast-[1.1] dark:invert dark:hue-rotate-180" 
             loading="lazy"
           />
-          
+          {/* <iframe 
+            title="SATI Map" 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3658.313178306467!2d77.818057875915!3d23.521235797534494!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x397c048a269d1ab7%3A0xf7b28bf51d19bbcc!2sSamrat%20Ashok%20Technological%20Institute!5e0!3m2!1sen!2sin!4v1769850846903!5m2!1sen!2sin" 
+            className="w-full h-full object-cover filter contrast-[1.1] dark:invert dark:hue-rotate-180" 
+            loading="lazy"
+          /> */}
+
+
           <div className="absolute bottom-8 left-8 right-8 md:right-auto md:w-96 p-6 bg-white/90 dark:bg-[#050505]/80 backdrop-blur-xl border border-slate-200 dark:border-cyan-500/20 rounded-[2rem] shadow-2xl">
             <div className="space-y-3">
               <div className="flex items-center gap-2">

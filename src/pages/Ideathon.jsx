@@ -362,7 +362,7 @@ const Ideathon = () => {
                 </div>
 
                 {/* FOOTER CONTACT */}
-                <div className="text-center pb-12 border-t border-slate-200 dark:border-white/10 pt-20">
+                <div className="text-center pb-0 border-t border-slate-200 dark:border-white/10 pt-10">
                     <h2 className="text-2xl font-bold mb-6 text-slate-900 dark:text-white">Need Help?</h2>
                     <div className="flex flex-col items-center gap-4">
                         <a href="/contact" className="text-slate-600 dark:text-slate-400 font-medium text-lg hover:text-cyan-600 dark:hover:text-cyan-500 transition-colors">Contact Us</a>
@@ -371,10 +371,10 @@ const Ideathon = () => {
                                 <Mail size={18} />
                                 <span>vedansh27ai074@satiengg.in</span>
                             </a>
-                            <a href="tel:+916265320187" className="flex items-center gap-2 text-slate-500 hover:text-cyan-600 dark:text-slate-400 dark:hover:text-cyan-500 transition-colors">
+                            {/* <a href="tel:+916265320187" className="flex items-center gap-2 text-slate-500 hover:text-cyan-600 dark:text-slate-400 dark:hover:text-cyan-500 transition-colors">
                                 <Phone size={18} />
                                 <span>+91 62653 20187</span>
-                            </a>
+                            </a> */}
                         </div>
                     </div>
                 </div>
