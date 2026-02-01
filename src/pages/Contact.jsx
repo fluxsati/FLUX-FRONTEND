@@ -19,9 +19,9 @@ import { LeaderCard, AdaptiveScrollRow } from '../components/TeamComponents';
 import { Layers, GraduationCap, X } from 'lucide-react'; // Added missing icons for modal
 
 // Member Images
-import safalImg from '../assets/members/safal.png';
-import devanshImg from '../assets/members/devansh.png';
-import somilImg from '../assets/members/somil.png';
+import safalImg from '../assets/members/safal.jpeg';
+import devanshImg from '../assets/members/devansh.jpeg';
+import somilImg from '../assets/members/somil.jpeg';
 import somImg from '../assets/members/som.jpeg';
 import nishaImg from '../assets/members/nisha.jpeg';
 import prathameshImg from '../assets/members/prathamesh.jpeg';

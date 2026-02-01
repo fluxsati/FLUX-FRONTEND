@@ -28,7 +28,7 @@ import ww12 from '../assets/events/Web-Workshop/12.jpg';
 // Event Posters
 import rocket_poster from '../assets/events/Events-Posters/rocketcrash.jpeg';
 import color_smash_poster from '../assets/events/Events-Posters/colorsmash.jpeg';
-import flux_hard_wired_poster from '../assets/events/Events-Posters/flux_hard_wired.png';
+import flux_hard_wired_poster from '../assets/events/Events-Posters/flux_hard_wired.jpeg';
 
 /* ===================== REPORT (PDF) IMPORTS ===================== */
 import report_tv25 from '../assets/reports/Technovision_25.pdf';

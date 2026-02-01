@@ -2,7 +2,7 @@
 import poster1 from "../assets/banner/1.png";
 import poster2 from "../assets/banner/2.png";
 import poster3 from "../assets/banner/3.png";
-import poster4 from "../assets/banner/4.png";
+import poster4 from "../assets/banner/4.jpeg";
 
 export const youtubeProjects = [
   { id: "fSaeEhcWA4w", title: "Flying Project: Quadcopter & Glider" },
