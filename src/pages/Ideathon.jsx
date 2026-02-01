@@ -451,10 +451,21 @@ const Ideathon = () => {
                                 <Mail size={18} />
                                 <span>vedansh27ai074@satiengg.in</span>
                             </a>
-                            {/* <a href="tel:+916265320187" className="flex items-center gap-2 text-slate-500 hover:text-cyan-600 dark:text-slate-400 dark:hover:text-cyan-500 transition-colors">
+                        </div>
+
+                        <div className="flex flex-wrap justify-center gap-4 sm:gap-8 mt-2">
+                            <a href="tel:+919179736005" className="flex items-center gap-2 text-slate-500 hover:text-cyan-600 dark:text-slate-400 dark:hover:text-cyan-500 transition-colors">
                                 <Phone size={18} />
-                                <span>+91 62653 20187</span>
-                            </a> */}
+                                <span>Himanshu Deshmukh - 9179736005</span>
+                            </a>
+                            <a href="tel:+916266059669" className="flex items-center gap-2 text-slate-500 hover:text-cyan-600 dark:text-slate-400 dark:hover:text-cyan-500 transition-colors">
+                                <Phone size={18} />
+                                <span>Riddhi Agrawal - 6266059669</span>
+                            </a>
+                            <a href="tel:+919302276804" className="flex items-center gap-2 text-slate-500 hover:text-cyan-600 dark:text-slate-400 dark:hover:text-cyan-500 transition-colors">
+                                <Phone size={18} />
+                                <span>Devansh Patel - 9302276804</span>
+                            </a>
                         </div>
                     </div>
                 </div>
