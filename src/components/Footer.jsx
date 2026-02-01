@@ -108,7 +108,7 @@ const Footer = () => {
                   {isDark ? <Sun size={18} /> : <Moon size={18} />}
                 </button> */}
                 
-                <SocialButton href="https://github.com/fluxsati" icon={<Github />} label="GitHub" />
+                {/* <SocialButton href="https://github.com/fluxsati" icon={<Github />} label="GitHub" /> */}
                 <SocialButton href="https://www.linkedin.com/company/fluxsati/" icon={<Linkedin />} label="LinkedIn" />
                 <SocialButton href="https://www.instagram.com/fluxsati/" icon={<Instagram />} label="Instagram" />
                 <SocialButton href="https://www.youtube.com/@fluxsati" icon={<Youtube />} label="YouTube" />

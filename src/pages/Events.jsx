@@ -8,7 +8,7 @@ import {
 import {
   ChevronDown, Info,
   Download, ChevronLeft, ChevronRight,
-  ExternalLink, Search
+  ExternalLink, Search, Filter
 } from 'lucide-react';
 
 // Import the static data
@@ -164,6 +164,8 @@ const FluxArchive = () => {
   const years = Object.keys(ARCHIVE_DATA).sort((a, b) => b - a);
   const [activeYear, setActiveYear] = useState(years[0] || "2025");
   const [searchQuery, setSearchQuery] = useState("");
+  const [sortOption, setSortOption] = useState("latest");
+  const [isSortOpen, setIsSortOpen] = useState(false);
 
   const filteredEvents = ARCHIVE_DATA[activeYear]?.filter(event =>
     event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -171,6 +173,13 @@ const FluxArchive = () => {
     event.summary.toLowerCase().includes(searchQuery.toLowerCase()) ||
     (event.terminal && event.terminal.toLowerCase().includes(searchQuery.toLowerCase()))
   ) || [];
+
+  const sortedEvents = [...filteredEvents].sort((a, b) => {
+    if (sortOption === "latest") return new Date(b.date) - new Date(a.date);
+    if (sortOption === "oldest") return new Date(a.date) - new Date(b.date);
+    if (sortOption === "popular") return b.popularity - a.popularity;
+    return 0;
+  });
 
   return (
     <div className="relative min-h-screen bg-slate-50 dark:bg-[#020202] text-slate-900 dark:text-white pb-12 px-4 selection:bg-cyan-500/30 font-sans transition-colors duration-500 overflow-x-hidden">
@@ -207,6 +216,47 @@ const FluxArchive = () => {
               />
             </div>
 
+            {/* Sort Dropdown */}
+            <div className="relative z-20">
+              <button
+                onClick={() => setIsSortOpen(!isSortOpen)}
+                className="flex items-center gap-2 bg-white/80 dark:bg-white/5 backdrop-blur-xl px-4 py-3 rounded-xl border border-slate-200 dark:border-white/10 text-sm font-mono text-slate-500 dark:text-slate-300 hover:border-cyan-500/50 hover:text-cyan-500 transition-all min-w-[160px] justify-between"
+              >
+                <div className="flex items-center gap-2">
+                  <Filter size={16} />
+                  <span className="capitalize">{sortOption === 'latest' ? 'Newest First' : sortOption === 'oldest' ? 'Oldest First' : 'Most Popular'}</span>
+                </div>
+                <ChevronDown size={14} className={`transition-transform duration-300 ${isSortOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              <AnimatePresence>
+                {isSortOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    className="absolute top-full right-0 mt-2 w-full bg-white dark:bg-[#0c0c0c] border border-slate-200 dark:border-white/10 rounded-xl shadow-2xl overflow-hidden p-1 min-w-[160px]"
+                  >
+                    {['latest', 'popular', 'oldest'].map((opt) => (
+                      <button
+                        key={opt}
+                        onClick={() => {
+                          setSortOption(opt);
+                          setIsSortOpen(false);
+                        }}
+                        className={`w-full text-left px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors ${sortOption === opt
+                          ? 'bg-cyan-500/10 text-cyan-600 dark:text-cyan-400'
+                          : 'text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white'
+                          }`}
+                      >
+                        {opt === 'latest' ? 'Newest First' : opt === 'oldest' ? 'Oldest First' : 'Most Popular'}
+                      </button>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
             <div className="flex bg-white/80 dark:bg-white/5 backdrop-blur-xl p-1.5 rounded-2xl border border-slate-200 dark:border-white/10 shadow-2xl overflow-x-auto max-w-full no-scrollbar">
               {years.map((year) => (
                 <button
@@ -234,11 +284,11 @@ const FluxArchive = () => {
             exit={{ opacity: 0, y: -30 }}
             className="space-y-32 md:space-y-52 mb-40"
           >
-            {filteredEvents.map((event, i) => (
+            {sortedEvents.map((event, i) => (
               <EventCard key={`${activeYear}-${i}`} event={event} index={i} />
             ))}
 
-            {filteredEvents.length === 0 && (
+            {sortedEvents.length === 0 && (
               <div className="flex flex-col items-center justify-center py-20 text-center space-y-4">
                 <Search size={48} className="text-slate-300 dark:text-white/10" />
                 <p className="text-slate-500 dark:text-white/30 font-mono text-sm">No events found matching "{searchQuery}"</p>

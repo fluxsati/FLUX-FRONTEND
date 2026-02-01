@@ -28,6 +28,7 @@ import VercelAnalytics from './VercelAnalytics'; // Import here
 // Private Pages
 import Dashboard from "./Private/Dashboard";
 import AdminDashboard from "./Private/AdminDashboard";
+import GroupChat from "./Private/GroupChat";
 
 /**
  * Protected Route (For all logged-in users)
@@ -112,6 +113,17 @@ export default function App() {
                 <AdminRoute>
                   <AdminDashboard />
                 </AdminRoute>
+              }
+            />
+
+            <Route
+              path="/chat"
+              element={
+                <ProtectedRoute>
+                  <div className="h-screen pt-24 pb-10 px-4 md:px-10 bg-[#f8fafc] dark:bg-[#050505] transition-colors duration-300">
+                    <GroupChat />
+                  </div>
+                </ProtectedRoute>
               }
             />
 

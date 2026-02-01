@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout as logoutAction } from '../slices/authSlices';
 import { logout as logoutApi } from '../api';
-import { Sun, Moon, LogOut, User as UserIcon, LayoutDashboard, ChevronDown, Menu, X } from 'lucide-react';
+import { Sun, Moon, LogOut, User as UserIcon, LayoutDashboard, ChevronDown, Menu, X, MessageSquare } from 'lucide-react';
 import fluxLogo from '../assets/fluxlogo.png';
 
 const Navbar = () => {
@@ -181,6 +181,10 @@ const Navbar = () => {
                             <LayoutDashboard size={16} />
                             <span className="text-xs font-bold uppercase">Dashboard</span>
                           </Link>
+                          <Link to="/chat" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-cyan-500/10 dark:text-gray-300 hover:text-cyan-500 transition-all">
+                            <MessageSquare size={16} />
+                            <span className="text-xs font-bold uppercase">Group Chat</span>
+                          </Link>
                           <button onClick={handleLogout} className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-500/10 text-red-500 transition-all">
                             <LogOut size={16} />
                             <span className="text-xs font-bold uppercase">Terminate</span>
@@ -257,9 +261,11 @@ const Navbar = () => {
           <div className="mt-auto space-y-3">
             <div className="flex justify-center w-full">
               {userInfo ? (
-                <Link to="/dashboard" onClick={() => setIsOpen(false)} className="flex items-center justify-center gap-2 w-full h-12 bg-cyan-500/10 text-cyan-500 rounded-xl text-[10px] font-bold uppercase">
+                <><Link to="/dashboard" onClick={() => setIsOpen(false)} className="flex items-center justify-center gap-2 w-full h-12 bg-cyan-500/10 text-cyan-500 rounded-xl text-[10px] font-bold uppercase">
                   <LayoutDashboard size={14} /> Dashboard
-                </Link>
+                </Link><Link to="/chat" onClick={() => setIsOpen(false)} className="flex items-center justify-center gap-2 w-full h-12 bg-cyan-500/10 text-cyan-500 rounded-xl text-[10px] font-bold uppercase mt-2">
+                    <MessageSquare size={14} /> Group Chat
+                  </Link></>
               ) : (
                 <Link to="/login" onClick={() => setIsOpen(false)} className="flex items-center justify-center w-full h-12 bg-cyan-500 text-white dark:text-black rounded-xl text-[10px] font-bold uppercase">
                   Login

@@ -2,6 +2,7 @@
 import poster1 from "../assets/banner/1.png";
 import poster2 from "../assets/banner/2.png";
 import poster3 from "../assets/banner/3.png";
+import poster4 from "../assets/banner/4.png";
 
 export const youtubeProjects = [
   { id: "fSaeEhcWA4w", title: "Flying Project: Quadcopter & Glider" },
@@ -20,20 +21,25 @@ export const instaReels = [
 ];
 
 export const eventPosters = [
-  { 
-    title: "Flux Conference", 
-    date: "Nov 2025", 
+  {
+    title: "Flux Conference",
+    date: "Nov 2025",
     img: poster1 // Local Asset
   },
-  { 
-    title: "Tech-Sati Event", 
-    date: "Oct 2025", 
+  {
+    title: "Tech-Sati Event",
+    date: "Oct 2025",
     img: poster2 // Local Asset
   },
-  { 
-    title: "Design Symposium", 
-    date: "Dec 2025", 
+  {
+    title: "Design Symposium",
+    date: "Dec 2025",
     img: poster3 // Local Asset
   },
-  
+  {
+    title: "Flux Hard Wired",
+    date: "Feb 2026",
+    img: poster4 // Local Asset
+  },
+
 ];

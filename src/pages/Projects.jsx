@@ -1,6 +1,6 @@
 import React, { useState, useEffect, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Github, Layers, Cpu, Shield, Wind, Brain, Radio, Microscope, User, Send, Plus, Globe, Loader2, Search } from 'lucide-react';
+import { Github, Layers, Cpu, Shield, Wind, Brain, Radio, Microscope, User, Send, Plus, Globe, Loader2, Search, Filter, ChevronDown } from 'lucide-react';
 import toast, { Toaster } from 'react-hot-toast';
 import API from '../api';
 import { PROJECTS_DATA } from '../data/projectData';
@@ -100,6 +100,8 @@ const FluxProjects = () => {
   const [projects, setProjects] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [sortOption, setSortOption] = useState("latest");
+  const [isSortOpen, setIsSortOpen] = useState(false);
   const [formData, setFormData] = useState({
     submittedBy: '', email: '', title: '', description: '', techStack: '', githubLink: '', liveLink: ''
   });
@@ -115,6 +117,13 @@ const FluxProjects = () => {
       project.description?.toLowerCase().includes(query) ||
       project.tech?.some(t => t.toLowerCase().includes(query))
     );
+  });
+
+  const sortedProjects = [...filteredProjects].sort((a, b) => {
+    if (sortOption === "latest") return new Date(b.date) - new Date(a.date);
+    if (sortOption === "oldest") return new Date(a.date) - new Date(b.date);
+    if (sortOption === "popular") return b.popularity - a.popularity;
+    return 0;
   });
 
   const handleSubmit = async (e) => {
@@ -161,25 +170,68 @@ const FluxProjects = () => {
           </h1>
         </div>
 
-        {/* Search Bar */}
-        <div className="relative group w-full md:w-72">
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
-            <Search size={16} className="text-slate-400 group-focus-within:text-cyan-500 transition-colors" />
+        <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto items-stretch md:items-center">
+          {/* Sort Dropdown */}
+          <div className="relative z-20">
+            <button
+              onClick={() => setIsSortOpen(!isSortOpen)}
+              className="flex items-center gap-2 bg-white dark:bg-white/5 px-4 py-3 rounded-xl border border-slate-200 dark:border-white/10 text-sm font-mono text-slate-500 dark:text-slate-300 hover:border-cyan-500/50 hover:text-cyan-500 transition-all w-full md:min-w-[160px] justify-between"
+            >
+              <div className="flex items-center gap-2">
+                <Filter size={16} />
+                <span className="capitalize">{sortOption === 'latest' ? 'Newest First' : sortOption === 'oldest' ? 'Oldest First' : 'Most Popular'}</span>
+              </div>
+              <ChevronDown size={14} className={`transition-transform duration-300 ${isSortOpen ? 'rotate-180' : ''}`} />
+            </button>
+
+            <AnimatePresence>
+              {isSortOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  className="absolute top-full right-0 mt-2 w-full bg-white dark:bg-[#0c0c0c] border border-slate-200 dark:border-white/10 rounded-xl shadow-2xl overflow-hidden p-1 min-w-[160px] z-50"
+                >
+                  {['latest', 'popular', 'oldest'].map((opt) => (
+                    <button
+                      key={opt}
+                      onClick={() => {
+                        setSortOption(opt);
+                        setIsSortOpen(false);
+                      }}
+                      className={`w-full text-left px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors ${sortOption === opt
+                        ? 'bg-cyan-500/10 text-cyan-600 dark:text-cyan-400'
+                        : 'text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white'
+                        }`}
+                    >
+                      {opt === 'latest' ? 'Newest First' : opt === 'oldest' ? 'Oldest First' : 'Most Popular'}
+                    </button>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
-          <input
-            type="text"
-            placeholder="Search protocols..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-white dark:bg-white/5 pl-10 pr-4 py-3 rounded-xl border border-slate-200 dark:border-white/10 text-sm focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/20 transition-all font-mono placeholder:text-slate-400"
-          />
+
+          {/* Search Bar */}
+          <div className="relative group w-full md:w-72">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
+              <Search size={16} className="text-slate-400 group-focus-within:text-cyan-500 transition-colors" />
+            </div>
+            <input
+              type="text"
+              placeholder="Search protocols..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-white dark:bg-white/5 pl-10 pr-4 py-3 rounded-xl border border-slate-200 dark:border-white/10 text-sm focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/20 transition-all font-mono placeholder:text-slate-400"
+            />
+          </div>
         </div>
       </header>
 
       <div className="max-w-6xl mx-auto">
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-24 items-stretch">
           <AnimatePresence mode="popLayout">
-            {filteredProjects.map((p, index) => (
+            {sortedProjects.map((p, index) => (
               <ProjectCard key={p.title || index} project={p} />
             ))}
           </AnimatePresence>
@@ -193,7 +245,7 @@ const FluxProjects = () => {
           </div>
         </section>
 
-        {filteredProjects.length === 0 && (
+        {sortedProjects.length === 0 && (
           <div className="flex flex-col items-center justify-center py-12 mb-24 text-center space-y-4">
             <Search size={48} className="text-slate-300 dark:text-white/10" />
             <p className="text-slate-500 dark:text-white/30 font-mono text-sm">No projects found matching "{searchQuery}"</p>

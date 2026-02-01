@@ -22,7 +22,7 @@ const SectionHeader = memo(({ title, subtitle, borderColor, textColor, children 
 ));
 
 const FluxGallery = () => {
-  const [isDarkMode, setIsDarkMode] = useState(() => 
+  const [isDarkMode, setIsDarkMode] = useState(() =>
     document.documentElement.classList.contains("dark")
   );
   const [selectedItem, setSelectedItem] = useState(null);
@@ -50,9 +50,9 @@ const FluxGallery = () => {
 
   return (
     <div className={`min-h-screen ${isDarkMode ? "bg-[#0b0b0b] text-white" : "bg-white text-zinc-900"} transition-colors duration-300 pb-20 relative font-sans overflow-x-hidden`}>
-      
-      <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none" 
-           style={{ backgroundImage: `radial-gradient(circle, #888 1px, transparent 1px)`, backgroundSize: '24px 24px' }} />
+
+      <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none"
+        style={{ backgroundImage: `radial-gradient(circle, #888 1px, transparent 1px)`, backgroundSize: '24px 24px' }} />
 
       {/* Lightbox Modal - Adjusted for Mobile height */}
       <AnimatePresence>
@@ -104,45 +104,45 @@ const FluxGallery = () => {
       </header>
 
       <main className="relative z-10 space-y-16 md:space-y-32">
-        
+
         {/* 1. HERO POSTER SECTION - FIXING IMAGE VIEW */}
         {/* 1. HERO POSTER SECTION - NO BLANK SPACE VERSION */}
-<section className="relative group/poster">
-  <div className="max-w-7xl mx-auto px-6 mb-4 flex items-center justify-between">
-    <h2 className="text-[10px] font-bold uppercase tracking-widest opacity-40">Feature Spotlights</h2>
-    <div className="hidden md:flex gap-2">
-      <button className="p-prev p-2 rounded-full border border-current/10 hover:bg-red-600 hover:text-white transition-all"><ChevronLeft size={20} /></button>
-      <button className="p-next p-2 rounded-full border border-current/10 hover:bg-red-600 hover:text-white transition-all"><ChevronRight size={20} /></button>
-    </div>
-  </div>
-
-  <div className="w-full md:px-6 max-w-7xl mx-auto">
-    <Swiper
-      modules={[Navigation, Autoplay, Pagination]}
-      navigation={{ prevEl: ".p-prev", nextEl: ".p-next" }}
-      pagination={{ clickable: true }}
-      autoplay={{ delay: 4000, disableOnInteraction: false }}
-      loop={true}
-      autoHeight={true} // Crucial: adjusts swiper height to the image
-      className="md:rounded-2xl overflow-hidden"
-    >
-      {eventPosters.map((p, i) => (
-        <SwiperSlide key={i}>
-          <div 
-            onClick={() => openLightbox(p, "poster")} 
-            className="relative cursor-pointer w-full h-auto"
-          >
-            <img 
-              src={p.img} 
-              className="w-full h-auto block object-cover md:rounded-2xl" 
-              alt={p.title} 
-            />
+        <section className="relative group/poster">
+          <div className="max-w-7xl mx-auto px-6 mb-4 flex items-center justify-between">
+            <h2 className="text-[10px] font-bold uppercase tracking-widest opacity-40">Feature Spotlights</h2>
+            <div className="hidden md:flex gap-2">
+              <button className="p-prev p-2 rounded-full border border-current/10 hover:bg-red-600 hover:text-white transition-all"><ChevronLeft size={20} /></button>
+              <button className="p-next p-2 rounded-full border border-current/10 hover:bg-red-600 hover:text-white transition-all"><ChevronRight size={20} /></button>
+            </div>
           </div>
-        </SwiperSlide>
-      ))}
-    </Swiper>
-  </div>
-</section>
+
+          <div className="w-full md:px-6 max-w-7xl mx-auto">
+            <Swiper
+              modules={[Navigation, Autoplay, Pagination]}
+              navigation={{ prevEl: ".p-prev", nextEl: ".p-next" }}
+              pagination={{ clickable: true }}
+              autoplay={{ delay: 4000, disableOnInteraction: false }}
+              loop={true}
+              autoHeight={true} // Crucial: adjusts swiper height to the image
+              className="md:rounded-2xl overflow-hidden"
+            >
+              {eventPosters.map((p, i) => (
+                <SwiperSlide key={i}>
+                  <div
+                    onClick={() => openLightbox(p, "poster")}
+                    className="relative cursor-pointer w-full h-auto"
+                  >
+                    <img
+                      src={p.img}
+                      className="w-full h-auto block object-cover md:rounded-2xl"
+                      alt={p.title}
+                    />
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+        </section>
 
         {/* 2. YOUTUBE SECTION */}
         <section className="max-w-7xl mx-auto px-6">
@@ -183,23 +183,35 @@ const FluxGallery = () => {
 
         {/* 3. INSTAGRAM REELS - 1 column for small mobile, 2 for tablet */}
         <section className="max-w-7xl mx-auto px-6">
-          <SectionHeader 
-            title="Social Loop" 
-            subtitle="Latest Reels" 
-            borderColor="border-pink-600" 
+          <SectionHeader
+            title="Social Loop"
+            subtitle="Latest Reels"
+            borderColor="border-pink-600"
             textColor="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-500"
           />
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
             {instaReels.slice(0, 4).map((id, i) => (
               <div key={i} className="rounded-xl overflow-hidden bg-black border border-white/5 aspect-[9/16]">
-                <iframe 
-                  src={`https://www.instagram.com/reel/${id}/embed`} 
-                  className="w-full h-full" 
-                  scrolling="no" 
-                  frameBorder="0" 
+                <iframe
+                  src={`https://www.instagram.com/reel/${id}/embed`}
+                  className="w-full h-full"
+                  scrolling="no"
+                  frameBorder="0"
                 />
               </div>
             ))}
+          </div>
+
+          {/* Instagram Profile Embed */}
+          <div className="mt-8 w-full rounded-xl overflow-hidden bg-black border border-white/5">
+            <iframe
+              src="https://www.instagram.com/fluxsati/embed"
+              className="w-full h-[600px] md:h-[800px]"
+              frameBorder="0"
+              scrolling="yes"
+              allowtransparency="true"
+              title="Flux Instagram Profile"
+            />
           </div>
         </section>
       </main>

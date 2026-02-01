@@ -13,18 +13,55 @@ const COUPONS = [
 
 const TUTEDUDE_URL = "https://tutedude.com/";
 
-const RESOURCES = [
-  { id: "PLu0W_9lII9agq5TrH9XLIKQvv0iaF2X3w", isPlaylist: true, thumbnail: "https://i.ytimg.com/vi/tVzUXW6siu0/hqdefault.jpg" },
-  { id: "PLu0W_9lII9ahR1blWXxgSlL4y9iQBnLpR", isPlaylist: true, thumbnail: "https://img.youtube.com/vi/ER9SspLe4Hg/maxresdefault.jpg" },
-  { id: "PLbtI3_MArDOnIIJxB6xFtpnhM0wTwz0x6", isPlaylist: true, thumbnail: "https://i.ytimg.com/vi/9C03V1dXxOU/hqdefault.jpg" },
-  { id: "PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt", isPlaylist: true, thumbnail: "https://img.youtube.com/vi/j8nAHeVKL08/maxresdefault.jpg" },
-  { id: "PLDzeHZWIZsTo0wSBcg4-NMIbC0L8evLrD", isPlaylist: true, thumbnail: "https://img.youtube.com/vi/rZ41y93P2Qo/maxresdefault.jpg" },
-  { id: "PLQEaRBV9gAFsistSzOgnD4cWgFGRVda4X", isPlaylist: true, thumbnail: "https://img.youtube.com/vi/vBURTt97EkA/maxresdefault.jpg" },
-  { id: "PLGjplNEQ1it8-0CmoljS5yeV-GlKSUEt0", isPlaylist: true, thumbnail: "https://i.ytimg.com/vi/t2_Q2BRzeEE/hqdefault.jpg" },
-  { id: "UrsmFxEIp5k", isPlaylist: false, thumbnail: "https://img.youtube.com/vi/UrsmFxEIp5k/maxresdefault.jpg" },
-  { id: "GFO_txvwK_c", isPlaylist: false, thumbnail: "https://img.youtube.com/vi/GFO_txvwK_c/maxresdefault.jpg" },
-  { id: "gB1F9G0JXOo", isPlaylist: false, thumbnail: "https://img.youtube.com/vi/gB1F9G0JXOo/maxresdefault.jpg" },
-  { id: "PLKnIA16_Rmvbr7zKYQuBfsVkjoLcJgxHH", isPlaylist: true, thumbnail: "https://i.ytimg.com/vi/ZftI2fEz0Fw/hqdefault.jpg" }
+const LEARNING_SECTIONS = [
+  {
+    title: "Web Development",
+    resources: [
+      { id: "PLu0W_9lII9agq5TrH9XLIKQvv0iaF2X3w", isPlaylist: true, thumbnail: "https://i.ytimg.com/vi/tVzUXW6siu0/hqdefault.jpg" },
+      { id: "PLDzeHZWIZsTo0wSBcg4-NMIbC0L8evLrD", isPlaylist: true, thumbnail: "https://i.ytimg.com/vi/Vi9bxu-M-ag/hqdefault.jpg" },
+      { id: "PLQEaRBV9gAFsistSzOgnD4cWgFGRVda4X", isPlaylist: true, thumbnail: "https://i.ytimg.com/vi/1pcikNlDB-4/hqdefault.jpg" },
+    ]
+  },
+  {
+    title: "Game Development",
+    resources: [
+      { id: "gB1F9G0JXOo", isPlaylist: false, thumbnail: "https://img.youtube.com/vi/gB1F9G0JXOo/maxresdefault.jpg" },
+      { id: "GFO_txvwK_c", isPlaylist: false, thumbnail: "https://img.youtube.com/vi/GFO_txvwK_c/maxresdefault.jpg" },
+    ]
+  },
+  {
+    title: "Data Structures & Algorithms",
+    resources: [
+      { id: "PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt", isPlaylist: true, thumbnail: "https://i.ytimg.com/vi/VTLCoHnyACE/hqdefault.jpg" },
+    ]
+  },
+  {
+    title: "AI & ML",
+    resources: [
+      { id: "PLKnIA16_Rmvbr7zKYQuBfsVkjoLcJgxHH", isPlaylist: true, thumbnail: "https://i.ytimg.com/vi/ZftI2fEz0Fw/hqdefault.jpg" }
+    ]
+  },
+  {
+    title: "Python Programming",
+    resources: [
+      { id: "PLGjplNEQ1it8-0CmoljS5yeV-GlKSUEt0", isPlaylist: true, thumbnail: "https://i.ytimg.com/vi/t2_Q2BRzeEE/hqdefault.jpg" },
+       { id: "UrsmFxEIp5k", isPlaylist: false, thumbnail: "https://img.youtube.com/vi/UrsmFxEIp5k/maxresdefault.jpg" },
+    ]
+  },
+  {
+    title: "Javascript",
+    resources: [
+      { id: "PLu0W_9lII9ahR1blWXxgSlL4y9iQBnLpR", isPlaylist: true, thumbnail: "https://img.youtube.com/vi/ER9SspLe4Hg/maxresdefault.jpg" },
+    ]
+  },
+  {
+    title: "Animations",
+    resources: [
+      { id: "PLbtI3_MArDOnIIJxB6xFtpnhM0wTwz0x6", isPlaylist: true, thumbnail: "https://i.ytimg.com/vi/9C03V1dXxOU/hqdefault.jpg" },
+    ]
+  },
+ 
+ 
 ];
 
 // --- SUB-COMPONENTS ---
@@ -94,10 +131,10 @@ const ResourceCard = memo(({ item }) => {
       href={url} target="_blank" rel="noopener noreferrer"
       layout
       initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.9 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true }}
       whileHover={{ y: -8 }}
-      className="group relative bg-white dark:bg-zinc-900 border border-slate-200 dark:border-white/5 rounded-[1.5rem] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300"
+      className="group relative bg-white dark:bg-zinc-900 border border-slate-200 dark:border-white/5 rounded-[1.5rem] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 block h-full"
     >
       <div className="aspect-video relative overflow-hidden bg-slate-200 dark:bg-zinc-800">
         <img
@@ -116,7 +153,6 @@ const ResourceCard = memo(({ item }) => {
           </span>
         </div>
       </div>
-      {/* Title and Caption removed for a clean video-only look */}
     </motion.a>
   );
 });
@@ -124,14 +160,6 @@ const ResourceCard = memo(({ item }) => {
 // --- MAIN COMPONENT ---
 
 const LearningHub = () => {
-  const [searchQuery, setSearchQuery] = useState("");
-  const deferredQuery = useDeferredValue(searchQuery);
-
-  // Since titles are removed, we filter based on IDs or you can add a 'tags' field to RESOURCES if you want search to work
-  const filteredResources = useMemo(() => {
-    return RESOURCES;
-  }, []);
-
   return (
     <div className="min-h-screen bg-[#f8fafc] dark:bg-[#050505] text-slate-900 dark:text-white pt-24 md:pt-32 pb-20 px-4 md:px-8 transition-colors duration-500">
 
@@ -164,14 +192,45 @@ const LearningHub = () => {
           </div>
         </header>
 
-        {/* RESOURCE GRID */}
-        <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          <AnimatePresence mode="popLayout">
-            {filteredResources.map((item) => (
-              <ResourceCard key={item.id} item={item} />
-            ))}
-          </AnimatePresence>
-        </motion.div>
+        {/* SECTIONS */}
+        <div className="space-y-20">
+          {LEARNING_SECTIONS.map((section, index) => (
+            <section key={section.title} className="relative">
+              <motion.div
+                initial={{ x: -20, opacity: 0 }}
+                whileInView={{ x: 0, opacity: 1 }}
+                viewport={{ once: true, margin: "-100px" }}
+                className="mb-8 flex items-end gap-3"
+              >
+                <span className="text-4xl md:text-5xl font-black text-slate-200 dark:text-white/5 font-mono -mb-1 select-none">
+                  0{index + 1}
+                </span>
+                <div className="relative">
+                  <h2 className="text-2xl md:text-3xl font-black uppercase tracking-tight">
+                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-500 dark:from-blue-400 dark:to-purple-400">
+                      {section.title.split(' ')[0]}
+                    </span>
+                    <span className="text-slate-700 dark:text-slate-300">
+                      {' ' + section.title.split(' ').slice(1).join(' ')}
+                    </span>
+                  </h2>
+                  <div className="absolute -bottom-2 left-0 w-full h-1 bg-blue-600/20 rounded-full overflow-hidden">
+                    <div className="w-1/2 h-full bg-blue-600 rounded-full" />
+                  </div>
+                </div>
+                <div className="h-[1px] flex-1 bg-gradient-to-r from-slate-200 to-transparent dark:from-white/10 dark:to-transparent mb-2 ml-4" />
+              </motion.div>
+
+              <motion.div
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+              >
+                {section.resources.map((item) => (
+                  <ResourceCard key={item.id} item={item} />
+                ))}
+              </motion.div>
+            </section>
+          ))}
+        </div>
       </div>
     </div>
   );

@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useCallback, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  MapPin, Phone, Mail, Send, CheckCircle2, 
+import {
+  MapPin, Phone, Mail, Send, CheckCircle2,
   Instagram, Linkedin, Github, Youtube,
   Globe, Database, Zap
 } from 'lucide-react';
 
 // 1. IMPORT YOUR CENTRALIZED API
-import API from '../api'; 
+import API from '../api';
 
 // Assets
 import fluxLogo from '../assets/fluxlogo.png';
@@ -15,11 +15,104 @@ import satiLogo from '../assets/satilogo.png';
 import maheshPhoto from '../assets/Mahesh.jpg'; // UPDATED IMPORT
 
 
+import { LeaderCard, AdaptiveScrollRow } from '../components/TeamComponents';
+import { Layers, GraduationCap, X } from 'lucide-react'; // Added missing icons for modal
+
+// Member Images
+import safalImg from '../assets/members/safal.png';
+import devanshImg from '../assets/members/devansh.png';
+import somilImg from '../assets/members/somil.png';
+import somImg from '../assets/members/som.jpeg';
+import nishaImg from '../assets/members/nisha.jpeg';
+// Placeholders for missing images
+import fluxLogoPlaceholder from '../assets/fluxlogo.png';
+
+/* ===================== HOOKS ===================== */
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+  return isMobile;
+};
+
 // --- Static Data ---
 const CONTACT_INFO = [
   { icon: <MapPin size={20} />, title: "Coordinates", lines: ["SATI Vidisha", "Kailash Satyarthi Hall"], color: "text-cyan-500" },
   { icon: <Mail size={20} />, title: "Digital_Mail", lines: ["flux.club@satiengg.in"], color: "text-purple-500" },
-  { icon: <Phone size={20} />, title: "Voice_Line", lines: ["+91 78699 28242" , "+91 83199 70011"], color: "text-emerald-500" }
+  { icon: <Phone size={20} />, title: "Voice_Line", lines: ["+91 78699 28242", "+91 83199 70011"], color: "text-emerald-500" }
+];
+
+const WEBSITE_MANAGERS = [
+  {
+    name: "Safal Tiwari",
+    role: "Member",
+    branch: "IOT",
+    year: "2nd Year",
+    img: safalImg,
+    linkedin: "https://www.linkedin.com/in/safal-tiwari-a4727139a/",
+    instagram: "https://www.instagram.com/itz_safal_/",
+    github: "https://www.github.com/SAFAL-TIWARI/",
+    bio: "Passionate IoT developer exploring the intersection of hardware and software. Building smart solutions for a connected world."
+  },
+  {
+    name: "Devansh Patel",
+    role: "Member",
+    branch: "CSE(BLOCKCHAIN)",
+    year: "2nd Year",
+    img: devanshImg,
+    linkedin: "https://www.linkedin.com/in/devansh-patel-50ba3732a/",
+    instagram: "https://www.instagram.com/the_devansh_patel/",
+    github: "https://github.com/Devanshpatel07",
+    bio: "Blockchain enthusiast and developer. deciphering the decentralized web one block at a time."
+  },
+  {
+    name: "Somil Jain",
+    role: "Member",
+    branch: "Electrical",
+    year: "2nd Year",
+    img: somilImg,
+    linkedin: "#",
+    instagram: "https://www.instagram.com/somilchandouria/",
+    github: "#",
+    bio: "Electrical engineering student with a spark for innovation and technology."
+  },
+  {
+    name: "Nisha Singh",
+    role: "Member",
+    branch: "CSE",
+    year: "2nd Year",
+    img: nishaImg,
+    linkedin: "https://www.linkedin.com/in/nisha-singh-61499b325/",
+    instagram: "https://www.instagram.com/nisha_singh143_/",
+    github: "#",
+    bio: "Computer Science student dedicated to coding and continuous learning."
+  },
+  {
+    name: "Som Singh Thakur",
+    role: "Member",
+    branch: "CSE",
+    year: "2nd Year",
+    img: somImg,
+    linkedin: "https://www.linkedin.com/in/som-singh-thakur-6b829132a/",
+    instagram: "https://www.instagram.com/somthakur132/",
+    github: "#",
+    bio: "Tech enthusiast focusing on Computer Science fundamentals and application development."
+  },
+  {
+    name: "Prathamesh Mohankar",
+    role: "Member",
+    branch: "AIADS",
+    year: "2nd Year",
+    img: fluxLogoPlaceholder, // Placeholder
+    linkedin: "#",
+    instagram: "https://www.instagram.com/pratham.relates/",
+    github: "#",
+    bio: "Exploring the frontiers of AI and Data Science. Driven by curiosity and data."
+  }
 ];
 
 // --- Optimized Internal Components ---
@@ -45,6 +138,8 @@ const SocialLink = memo(({ href, icon, label }) => (
 const FluxContactPage = () => {
   const [formState, setFormState] = useState('idle'); // idle, sending, success
   const [formData, setFormData] = useState({ operator: '', channel: '', header: '', payload: '' });
+  const [selectedItem, setSelectedItem] = useState(null);
+  const isMobile = useIsMobile();
 
   const handleChange = useCallback((e) => {
     const { name, value } = e.target;
@@ -58,23 +153,23 @@ const FluxContactPage = () => {
     try {
       // API.post automatically uses the BASE_URL from your .env/Vercel
       const response = await API.post('/contact', formData);
-      
+
       if (response.status === 200 || response.status === 201) {
         setFormState('success');
         setFormData({ operator: '', channel: '', header: '', payload: '' });
-      } else { 
-        setFormState('idle'); 
+      } else {
+        setFormState('idle');
       }
-    } catch (err) { 
+    } catch (err) {
       console.error("Transmission Failed:", err);
-      setFormState('idle'); 
+      setFormState('idle');
       alert("System Offline: Could not reach backend.");
     }
   };
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-[#020202] text-slate-900 dark:text-white flex flex-col items-center p-4 md:p-6 font-sans overflow-x-hidden pt-24 md:pt-40 pb-20 transition-colors duration-500">
-      
+
       {/* BACKGROUND AMBIENCE */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
         <div className="absolute top-[-5%] left-[-5%] w-[80%] h-[40%] bg-cyan-500/[0.05] dark:bg-cyan-900/5 blur-[100px] rounded-full" />
@@ -82,7 +177,7 @@ const FluxContactPage = () => {
       </div>
 
       <div className="w-full max-w-7xl z-10 space-y-12 md:space-y-24">
-        
+
         {/* HEADER SECTION */}
         <header className="flex flex-col items-center gap-8 md:gap-12 py-6">
           <div className="flex flex-col md:flex-row items-center gap-8 md:gap-16 relative">
@@ -112,7 +207,7 @@ const FluxContactPage = () => {
             {CONTACT_INFO.map((info, idx) => (
               <ContactCard key={idx} {...info} />
             ))}
-            
+
             <div className="bg-white dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 p-6 rounded-[1.5rem] space-y-4 shadow-sm">
               <p className="text-[9px] font-mono text-cyan-500 uppercase tracking-widest font-bold">Official_Flux_Socials</p>
               <div className="flex gap-4">
@@ -128,7 +223,7 @@ const FluxContactPage = () => {
               {formState === 'success' ? (
                 <SuccessState key="success" onReset={() => setFormState('idle')} />
               ) : (
-                <motion.form 
+                <motion.form
                   key="form"
                   initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
                   onSubmit={handleSubmit} className="space-y-5"
@@ -140,10 +235,10 @@ const FluxContactPage = () => {
                   <InputField label="Header" name="header" placeholder="MESSAGE_SUBJECT" value={formData.header} onChange={handleChange} required />
                   <div className="flex flex-col gap-2">
                     <label className="text-[9px] font-mono uppercase tracking-widest text-slate-400 ml-5">Data_Payload</label>
-                    <textarea name="payload" rows="4" value={formData.payload} onChange={handleChange} required placeholder="ENTER_TRANSMISSION..." 
+                    <textarea name="payload" rows="4" value={formData.payload} onChange={handleChange} required placeholder="ENTER_TRANSMISSION..."
                       className="w-full bg-slate-100/50 dark:bg-white/[0.03] border border-slate-200 dark:border-white/10 rounded-[1.5rem] md:rounded-[2rem] p-5 md:p-6 focus:outline-none focus:border-cyan-500 transition-all text-sm font-mono text-slate-900 dark:text-white resize-none" />
                   </div>
-                  <button type="submit" disabled={formState === 'sending'} 
+                  <button type="submit" disabled={formState === 'sending'}
                     className="w-full py-4 bg-slate-900 dark:bg-white text-white dark:text-black rounded-full font-black uppercase italic tracking-widest hover:bg-cyan-500 dark:hover:bg-cyan-500 hover:text-white transition-all flex items-center justify-center gap-4 group disabled:opacity-50">
                     {formState === 'sending' ? "PROCESSING..." : "SEND_DATA"}
                     <Send size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
@@ -159,19 +254,12 @@ const FluxContactPage = () => {
           <div className="absolute top-0 left-0 w-16 h-16 border-t-4 border-l-4 border-cyan-500 z-10 rounded-tl-[2.5rem] md:rounded-tl-[4rem]" />
           <div className="absolute bottom-0 right-0 w-16 h-16 border-b-4 border-r-4 border-cyan-500 z-10 rounded-br-[2.5rem] md:rounded-br-[4rem]" />
 
-          <iframe 
-            title="Kailash Satyarthi Hall Map" 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3658.41560741494!2d77.81751497591492!3d23.51754979767476!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x397c0489839f57d7%3A0x450caad4c72f76b1!2sKailash%20Satyarthi%20Auditorium!5e0!3m2!1sen!2sin!4v1769850729631!5m2!1sen!2sin" 
-            className="w-full h-full object-cover filter contrast-[1.1] dark:invert dark:hue-rotate-180" 
+          <iframe
+            title="Kailash Satyarthi Hall Map"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3658.41560741494!2d77.81751497591492!3d23.51754979767476!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x397c0489839f57d7%3A0x450caad4c72f76b1!2sKailash%20Satyarthi%20Auditorium!5e0!3m2!1sen!2sin!4v1769850729631!5m2!1sen!2sin"
+            className="w-full h-full object-cover filter contrast-[1.1] dark:invert dark:hue-rotate-180"
             loading="lazy"
           />
-          {/* <iframe 
-            title="SATI Map" 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3658.313178306467!2d77.818057875915!3d23.521235797534494!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x397c048a269d1ab7%3A0xf7b28bf51d19bbcc!2sSamrat%20Ashok%20Technological%20Institute!5e0!3m2!1sen!2sin!4v1769850846903!5m2!1sen!2sin" 
-            className="w-full h-full object-cover filter contrast-[1.1] dark:invert dark:hue-rotate-180" 
-            loading="lazy"
-          /> */}
-
 
           <div className="absolute bottom-8 left-8 right-8 md:right-auto md:w-96 p-6 bg-white/90 dark:bg-[#050505]/80 backdrop-blur-xl border border-slate-200 dark:border-cyan-500/20 rounded-[2rem] shadow-2xl">
             <div className="space-y-3">
@@ -187,56 +275,119 @@ const FluxContactPage = () => {
           </div>
         </section>
 
-        {/* OPERATOR SECTION */}
-        <section className="relative max-w-6xl mx-auto px-4">
-          <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-white dark:bg-black/40 border border-slate-200 dark:border-white/5 p-6 md:p-10 backdrop-blur-xl">
-            <div className="lg:col-span-4 flex justify-center relative group">
-              <div className="relative w-48 h-48 md:w-64 md:h-64 overflow-hidden rounded-xl border border-white/10">
-                <img 
-                    src={maheshPhoto} // UPDATED SOURCE
-                    alt="Mahesh Kushwah" 
-                    className="w-full h-full object-cover group-hover: group-hover:scale-105 transition-all duration-500"
-                  />
-                  <div className="absolute -bottom-1 -right-1 bg-cyan-500 text-black px-3 py-1 font-mono text-[9px] font-bold z-20">CORE_DEV</div>
-              </div>
-            </div>
-
-            <div className="lg:col-span-8 space-y-6 text-center lg:text-left">
-              <div>
-                <div className="flex items-center justify-center lg:justify-start gap-2 mb-2">
-                  <div className="h-[1px] w-8 bg-cyan-500" />
-                  <span className="text-cyan-500 font-mono text-[10px] uppercase tracking-widest">Lead System Architect</span>
-                </div>
-                <h2 className="text-5xl md:text-7xl font-black italic tracking-tighter uppercase leading-none text-slate-900 dark:text-white">
-                  Mahesh <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-blue-500">Kushwah</span>
-                </h2>
-              </div>
-              <p className="text-sm md:text-lg text-slate-500 dark:text-gray-400 font-medium leading-relaxed max-w-2xl">
-                I engineer <span className="text-slate-900 dark:text-white">high-frequency React ecosystems</span> and secure data transmissions. Always ready to build scalable web apps and optimize for peak performance.
-              </p>
-              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6 pt-4 border-t border-slate-100 dark:border-white/5">
-                <div className="flex items-center gap-4">
-                  <SocialLink href="https://github.com/Introvert07" icon={<Github size={18} />} />
-                  <SocialLink href="https://www.linkedin.com/in/mahesh-kushwah-942245276" icon={<Linkedin size={18} />} />
-                  <SocialLink href="https://www.instagram.com/_introvert7/" icon={<Instagram size={18} />} />
-                </div>
-                <div className="flex flex-col items-center lg:items-start">
-                  <span className="text-[8px] font-mono text-slate-400 uppercase tracking-widest">Secure_Comm</span>
-                  <span className="text-sm font-bold text-cyan-500">+91 87707 26065</span>
-                </div>
-              </div>
-            </div>
+        {/* WEBSITE MANAGERS SECTION (REPLACES OLD OPERATOR SECTION) */}
+        <section className="mb-32">
+          <div className="flex items-center gap-4 mb-12">
+            <div className="w-2 h-2 bg-cyan-500 rotate-45" />
+            <h3 className="text-xs font-mono text-cyan-600 dark:text-cyan-400 uppercase tracking-[0.4em]">Web_Protocol // Developers</h3>
+            <div className="h-px w-full bg-gradient-to-r from-cyan-500/50 to-transparent" />
           </div>
+          <AdaptiveScrollRow
+            items={WEBSITE_MANAGERS}
+            isMobile={isMobile}
+            renderItem={(m) => (
+              <div onClick={() => setSelectedItem(m)} className="h-full">
+                <LeaderCard member={m} color="cyan" isMobile={isMobile} />
+              </div>
+            )}
+          />
         </section>
+
       </div>
+
+      {/* MODAL / LIGHTBOX */}
+      <AnimatePresence>
+        {selectedItem && (
+          <motion.div
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-white/90 dark:bg-black/95 backdrop-blur-xl"
+            onClick={() => setSelectedItem(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
+              className="max-w-3xl w-full h-[90vh] md:h-auto bg-white dark:bg-[#0a0a0a] border border-gray-200 dark:border-white/10 relative overflow-y-auto overflow-x-hidden shadow-2xl scrollbar-hide"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex flex-col md:flex-row">
+                <div className="w-full md:w-2/5 aspect-square bg-zinc-950">
+                  <img src={selectedItem.img} alt={selectedItem.name} className="w-full h-full object-cover" />
+                </div>
+
+                <div className="p-8 md:p-12 flex-1 space-y-6 relative">
+                  <button onClick={() => setSelectedItem(null)} className="absolute top-4 right-4 text-slate-400 hover:text-black dark:hover:text-white">
+                    <X size={24} />
+                  </button>
+                  <div className="space-y-1">
+                    <div className="text-[10px] font-mono text-cyan-600 dark:text-cyan-400 tracking-[0.4em] uppercase">Auth_Identity</div>
+                    <h2 className="text-4xl font-black italic uppercase text-black dark:text-white tracking-tighter">{selectedItem.name}</h2>
+                    <p className="font-mono text-slate-400 dark:text-white/40 text-[10px] uppercase">{selectedItem.role}</p>
+                  </div>
+
+                  <div className="flex gap-6 border-y border-gray-100 dark:border-white/5 py-4 my-2">
+                    <div className="space-y-1">
+                      <span className="flex items-center gap-1 text-[8px] font-mono text-slate-400 uppercase"><Layers size={10} /> Sector</span>
+                      <span className="text-[10px] font-black uppercase tracking-wider block text-black dark:text-white">{selectedItem.branch}</span>
+                    </div>
+                    <div className="w-px h-8 bg-gray-100 dark:bg-white/5" />
+                    <div className="space-y-1">
+                      <span className="flex items-center gap-1 text-[8px] font-mono text-slate-400 uppercase"><GraduationCap size={10} /> Clearance</span>
+                      <span className="text-[10px] font-black uppercase tracking-wider block text-black dark:text-white">{selectedItem.year}</span>
+                    </div>
+                  </div>
+
+                  <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed font-light italic">
+                    {selectedItem.bio || "Core tactical unit member specialized in technical orchestration and development excellence."}
+                  </p>
+
+                  <div className="flex pt-4 gap-1.5 md:gap-3">
+                    <a
+                      href={selectedItem.linkedin || "#"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 py-2 md:py-3 bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 flex items-center justify-center gap-1 md:gap-2 hover:bg-cyan-600 dark:hover:bg-cyan-500 hover:text-white transition-all text-[7px] md:text-[10px] font-black uppercase tracking-widest"
+                    >
+                      <Linkedin size={14} /> LinkedIn
+                    </a>
+                    <a
+                      href={selectedItem.github || "#"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 py-2 md:py-3 bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 flex items-center justify-center gap-1 md:gap-2 hover:bg-purple-600 dark:hover:bg-purple-500 hover:text-white transition-all text-[7px] md:text-[10px] font-black uppercase tracking-widest"
+                    >
+                      <Github size={14} /> GitHub
+                    </a>
+                    <a
+                      href={selectedItem.instagram || "#"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 py-2 md:py-3 bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 flex items-center justify-center gap-1 md:gap-2 hover:bg-pink-600 dark:hover:bg-pink-500 hover:text-white transition-all text-[7px] md:text-[10px] font-black uppercase tracking-widest"
+                    >
+                      <Instagram size={14} /> Instagram
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <footer className="mt-20 flex flex-col items-center gap-4 opacity-40 font-mono text-[8px] md:text-[10px] tracking-[0.4em] uppercase text-center">
         <div className="flex items-center gap-6">
-            <div className="flex items-center gap-2"><Database size={12} className="text-cyan-500" /> v2.0.4</div>
-            <Clock />
+          <div className="flex items-center gap-2"><Database size={12} className="text-cyan-500" /> v2.0.4</div>
+          <Clock />
         </div>
         <p>Lead Architect: Mahesh Kushwah // FLUX_WEB_DIV // © 2026</p>
       </footer>
+      <style jsx global>{`
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        @keyframes scan { 
+          0% { transform: translateY(-100%); } 
+          100% { transform: translateY(300%); } 
+        }
+        .animate-scan { animation: scan linear infinite; }
+      `}</style>
     </div>
   );
 };

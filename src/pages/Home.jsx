@@ -109,7 +109,7 @@ const Home = () => {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4">
              <Link to="/login" className="px-8 py-4 text-[10px] sm:text-xs font-bold uppercase tracking-widest bg-cyan-500 text-white dark:text-black shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:-translate-y-0.5 transition-all duration-300">
-                Join Squad
+                Buy Components
               </Link>
               <Link to="/projects" className="px-8 py-4 text-[10px] sm:text-xs font-semibold uppercase tracking-widest border border-slate-300 dark:border-white/20 text-slate-900 dark:text-white hover:border-cyan-500 hover:text-cyan-500 backdrop-blur-sm transition-all duration-300">
                 Projects

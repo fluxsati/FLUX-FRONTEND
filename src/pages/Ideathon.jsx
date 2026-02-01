@@ -3,7 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
     Calendar, MapPin, Users, ExternalLink,
     ChevronDown, MessageCircle, Clock,
-    Award, Zap, CheckCircle, Mail, Phone
+    Award, Zap, CheckCircle, Mail, Phone,
+    Trophy, Gift
 } from 'lucide-react';
 import IdeathonPoster from '../assets/events/Events-Posters/IdeathonPoster.jpg';
 
@@ -51,12 +52,8 @@ const TimelineItem = ({ date, title, description, icon: Icon, index, total }) =>
                         </motion.div>
                     </div>
 
-                    {/* Right Side (Even Index: Empty/Date, Odd Index: Content) */}
-                    <div className={`${isEven ? 'order-2' : 'order-1'} hidden lg:block w-full text-center px-4`}>
-                        <span className="text-5xl font-black text-slate-200 dark:text-white/5 uppercase select-none font-outline-2">
-                            Phase {index + 1}
-                        </span>
-                    </div>
+                    {/* Right Side (Even Index: Empty, Odd Index: Content) - Kept empty for spacing */}
+                    <div className={`${isEven ? 'order-2' : 'order-1'} hidden lg:block w-full text-center px-4`} />
 
                 </div>
             </div>
@@ -278,6 +275,89 @@ const Ideathon = () => {
                     </div>
                 </div>
 
+                {/* REWARDS SECTION */}
+                <div className="max-w-6xl mx-auto mb-32">
+                    <div className="text-center mb-16">
+                        <h2 className="text-4xl md:text-5xl font-black uppercase italic tracking-tighter mb-4 text-slate-900 dark:text-white">
+                            Rewards & <span className="text-cyan-600 dark:text-cyan-500">Prizes</span>
+                        </h2>
+                        <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+                            Win from a <span className="font-bold text-slate-900 dark:text-white">₹10,000 prize pool</span> featuring cash prizes, certificates, and exclusive goodies.
+                        </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        {/* Winner Card */}
+                        <motion.div
+                            initial={{ opacity: 0, x: -20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            className="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-cyan-500 to-blue-600 p-1"
+                        >
+                            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20" />
+                            <div className="relative h-full bg-white/10 backdrop-blur-xl p-8 rounded-[22px] flex flex-col justify-between overflow-hidden">
+                                <div className="absolute top-0 right-0 p-8 opacity-10 transform translate-x-1/2 -translate-y-1/2">
+                                    <Trophy size={200} className="text-white" />
+                                </div>
+
+                                <div className="relative z-10">
+                                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 text-white text-sm font-bold mb-6 border border-white/20">
+                                        <Trophy size={14} />
+                                        <span>WINNERS</span>
+                                    </div>
+                                    <h3 className="text-5xl md:text-6xl font-black text-white italic tracking-tighter mb-2">
+                                        ₹10,000
+                                    </h3>
+                                    <p className="text-cyan-100 text-xl font-medium tracking-wide uppercase">Cash Prize Pool</p>
+                                </div>
+
+                                <div className="mt-8 pt-8 border-t border-white/10 flex items-center justify-between">
+                                    <div className="flex items-center gap-2 text-white/90">
+                                        <CheckCircle size={18} className="text-cyan-300" />
+                                        <span className="font-medium">E-Certificate</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </motion.div>
+
+                        {/* Participation Card */}
+                        <motion.div
+                            initial={{ opacity: 0, x: 20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            className="group relative overflow-hidden rounded-3xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5"
+                        >
+                            <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-cyan-500/5" />
+                            <div className="relative h-full p-8 flex flex-col justify-between">
+                                <div className="absolute top-0 right-0 p-8 opacity-5 dark:opacity-[0.02] transform translate-x-1/3 -translate-y-1/3">
+                                    <Gift size={240} className="text-slate-900 dark:text-white" />
+                                </div>
+
+                                <div className="relative z-10">
+                                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300 text-sm font-bold mb-6 border border-slate-200 dark:border-white/10">
+                                        <Gift size={14} />
+                                        <span>PARTICIPANTS</span>
+                                    </div>
+                                    <h3 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white italic tracking-tighter mb-2">
+                                        Participation Certificate
+                                    </h3>
+                                    <p className="text-slate-500 dark:text-slate-400 text-lg">For all shortlisted teams</p>
+                                </div>
+                                <div className="mt-8 pt-8 border-t border-white/10 flex items-center justify-between">
+                                    <div className="flex items-center gap-2 text-white/90">
+                                        <CheckCircle size={18} className="text-cyan-300" />
+                                        <span className="font-medium">E-Certificate</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </div>
+
+                    <p className="text-center text-slate-400 dark:text-slate-500 text-sm mt-8">
+                        * Prizes and certificates will be distributed within 15 days of the event conclusion.
+                    </p>
+                </div>
+
                 {/* TIMELINE SECTION */}
                 <div className="max-w-6xl mx-auto mb-32">
                     <div className="text-center mb-24">
@@ -297,7 +377,7 @@ const Ideathon = () => {
                                 description="Register on Unstop and submit your initial idea abstract. This is your entry ticket."
                                 icon={Calendar}
                             />
-                            <TimelineItem
+                            {/* <TimelineItem
                                 index={1}
                                 date="06 Feb"
                                 title="Screening"
@@ -317,13 +397,13 @@ const Ideathon = () => {
                                 title="Mentorship"
                                 description="Refine your models with guidance from industry experts before the final showdown."
                                 icon={Users}
-                            />
+                            /> */}
                             <TimelineItem
-                                index={4}
-                                date="10 Feb"
-                                title="Grand Finale"
-                                description="Present your hardware solution online to the jury. Winners take it all."
-                                icon={Clock}
+                                index={1}
+                                date="08-09 Feb"
+                                title="Virtual Presentation"
+                                description="Refine documentation and prototypes, then present virtually to an expert panel focusing on innovation and feasibility."
+                                icon={Award}
                                 isLast={true}
                             />
                         </div>
@@ -352,7 +432,7 @@ const Ideathon = () => {
                         />
                         <FAQItem
                             question="Is this an online or offline event?"
-                            answer="The event is primarily online, allowing you to participate from anywhere. However, the final presentation might have hybrid options (details to be announced)."
+                            answer="The event is primarily online, allowing you to participate from anywhere."
                         />
                         <FAQItem
                             question="What themes can we choose from?"
