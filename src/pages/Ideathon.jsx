@@ -6,7 +6,7 @@ import {
     Award, Zap, CheckCircle, Mail, Phone,
     Trophy, Gift
 } from 'lucide-react';
-import IdeathonPoster from '../assets/events/Events-Posters/IdeathonPoster.png';
+import IdeathonPoster from '../assets/events/Events-Posters/IdeathonPoster.jpeg';
 
 const TimelineItem = ({ date, title, description, icon: Icon, index, total }) => {
     const isEven = index % 2 === 0;
