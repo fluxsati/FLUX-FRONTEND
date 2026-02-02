@@ -118,9 +118,9 @@ const WEBSITE_MANAGERS = [
     branch: "Computer Science & Engeering",
     year: "2nd Year",
     img: somImg,
-    linkedin: "https://www.linkedin.com/in/som-singh-thakur-6b829132a/",
+    linkedin: "https://www.linkedin.com/in/som-thakur-43b020355",
     instagram: "https://www.instagram.com/somthakur132/",
-    github: "#",
+    github: "https://github.com/Som86029",
     bio: "Tech enthusiast focusing on Computer Science fundamentals and application development."
   },
   {
@@ -129,9 +129,9 @@ const WEBSITE_MANAGERS = [
     branch: "AIADS",
     year: "2nd Year",
     img: prathameshImg,
-    linkedin: "#",
+    linkedin: "https://in.linkedin.com/in/prathamesh-m-487167385",
     instagram: "https://www.instagram.com/pratham.relates/",
-    github: "#",
+    github: "https://github.com/pratham-relates",
     bio: "Exploring the frontiers of AI and Data Science. Driven by curiosity and data."
   }
 ];
