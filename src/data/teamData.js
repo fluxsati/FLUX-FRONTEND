@@ -93,7 +93,7 @@ export const TEAM_DATA = {
     },
   ],
   thirdYear: [
-    { name: "Akansh", branch: "CSE(Blockchain)", link: "#" },
+    { name: "Aakansh", branch: "CSE(Blockchain)", link: "#" },
     { name: "Akash", branch: "CSE(Blockchain)", link: "#" },
     { name: "Anshika Gupta", branch: "Computer Science and Engineering", link: "#" },
     { name: "Anshika Jain", branch: "AIADS", link: "#" },

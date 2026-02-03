@@ -96,9 +96,9 @@ const WEBSITE_MANAGERS = [
     branch: "Electrical",
     year: "2nd Year",
     img: somilImg,
-    linkedin: "#",
+    linkedin: "https://www.linkedin.com/in/somil-jain-611561361",
     instagram: "https://www.instagram.com/somilchandouria/",
-    github: "#",
+    github: "https://github.com/SomilJains",
     bio: "Electrical engineering student with a spark for innovation and technology."
   },
   {
@@ -109,7 +109,7 @@ const WEBSITE_MANAGERS = [
     img: nishaImg,
     linkedin: "https://www.linkedin.com/in/nisha-singh-61499b325/",
     instagram: "https://www.instagram.com/nisha_singh143_/",
-    github: "#",
+    github: "https://github.com/nisha28079",
     bio: "Computer Science student dedicated to coding and continuous learning."
   },
   {

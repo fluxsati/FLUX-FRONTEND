@@ -61,8 +61,8 @@ const Footer = () => {
       title: "Connect",
       links: [
         { name: "Contact_System", href: "/contact" },
-        { name: "Sponsorship", href: "#" },
-        { name: "Bug_Report", href: "#" },
+        { name: "Sponsorship", href: "/contact" },
+        { name: "Bug_Report", href: "/contact" },
         { name: "System_Status", href: "#" },
       ]
     }

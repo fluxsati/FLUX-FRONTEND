@@ -2,7 +2,8 @@ import React, { useState, useMemo, useDeferredValue, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Search, Tag, Play, ExternalLink,
-  Copy, Check, Quote, Globe
+  Copy, Check, Quote, Globe, X,
+  ChevronDown
 } from 'lucide-react';
 
 // --- CONSTANTS ---
@@ -15,11 +16,22 @@ const TUTEDUDE_URL = "https://tutedude.com/";
 
 const LEARNING_SECTIONS = [
   {
+    title: "Git & Github",
+    resources: [
+      { id: "Ez8F0nW6S-w", isPlaylist: false, thumbnail: "https://i.ytimg.com/vi/Ez8F0nW6S-w/hqdefault.jpg" },
+      { id: "eHaXw8Bd_ms", isPlaylist: false, thumbnail: "https://i.ytimg.com/vi/eHaXw8Bd_ms/hqdefault.jpg" },
+      { id: "TWPSmBzziYM", isPlaylist: false, thumbnail: "https://i.ytimg.com/vi/TWPSmBzziYM/hqdefault.jpg" },
+      { id: "cgOPg5cCr2g", isPlaylist: false, thumbnail: "https://i.ytimg.com/vi/cgOPg5cCr2g/hqdefault.jpg" },
+    ]
+  },
+  {
     title: "Web Development",
     resources: [
       { id: "PLu0W_9lII9agq5TrH9XLIKQvv0iaF2X3w", isPlaylist: true, thumbnail: "https://i.ytimg.com/vi/tVzUXW6siu0/hqdefault.jpg" },
-      { id: "PLDzeHZWIZsTo0wSBcg4-NMIbC0L8evLrD", isPlaylist: true, thumbnail: "https://i.ytimg.com/vi/Vi9bxu-M-ag/hqdefault.jpg" },
-      { id: "PLQEaRBV9gAFsistSzOgnD4cWgFGRVda4X", isPlaylist: true, thumbnail: "https://i.ytimg.com/vi/1pcikNlDB-4/hqdefault.jpg" },
+      { id: "nTOVIGsqCuY", isPlaylist: false, thumbnail: "https://i.ytimg.com/vi/nTOVIGsqCuY/hqdefault.jpg" },
+      { id: "pw14NzfYPa8", isPlaylist: false, thumbnail: "https://i.ytimg.com/vi/pw14NzfYPa8/hqdefault.jpg" },
+      { id: "wwFeyYyvb8k", isPlaylist: false, thumbnail: "https://i.ytimg.com/vi/wwFeyYyvb8k/hqdefault.jpg" },
+      { id: "f7j3JSBD6so", isPlaylist: false, thumbnail: "https://i.ytimg.com/vi/f7j3JSBD6so/hqdefault.jpg" },
     ]
   },
   {
@@ -33,19 +45,22 @@ const LEARNING_SECTIONS = [
     title: "Data Structures & Algorithms",
     resources: [
       { id: "PLfqMhTWNBTe137I_EPQd34TsgV6IO55pt", isPlaylist: true, thumbnail: "https://i.ytimg.com/vi/VTLCoHnyACE/hqdefault.jpg" },
+      { id: "PL9gnSGHSqcnr_DxHsP7AW9ftq0AtAyYqJ", isPlaylist: true, thumbnail: "https://i.ytimg.com/vi/rZ41y93P2Qo/hqdefault.jpg" },
+      { id: "xF554Tlzo-c", isPlaylist: false, thumbnail: "https://i.ytimg.com/vi/xF554Tlzo-c/hqdefault.jpg" },
     ]
   },
   {
     title: "AI & ML",
     resources: [
-      { id: "PLKnIA16_Rmvbr7zKYQuBfsVkjoLcJgxHH", isPlaylist: true, thumbnail: "https://i.ytimg.com/vi/ZftI2fEz0Fw/hqdefault.jpg" }
+      { id: "PLKnIA16_Rmvbr7zKYQuBfsVkjoLcJgxHH", isPlaylist: true, thumbnail: "https://i.ytimg.com/vi/ZftI2fEz0Fw/hqdefault.jpg" },
+      { id: "5NgNicANyqM", isPlaylist: false, thumbnail: "https://i.ytimg.com/vi/5NgNicANyqM/hqdefault.jpg" },
     ]
   },
   {
     title: "Python Programming",
     resources: [
       { id: "PLGjplNEQ1it8-0CmoljS5yeV-GlKSUEt0", isPlaylist: true, thumbnail: "https://i.ytimg.com/vi/t2_Q2BRzeEE/hqdefault.jpg" },
-       { id: "UrsmFxEIp5k", isPlaylist: false, thumbnail: "https://img.youtube.com/vi/UrsmFxEIp5k/maxresdefault.jpg" },
+      { id: "UrsmFxEIp5k", isPlaylist: false, thumbnail: "https://img.youtube.com/vi/UrsmFxEIp5k/maxresdefault.jpg" },
     ]
   },
   {
@@ -58,10 +73,57 @@ const LEARNING_SECTIONS = [
     title: "Animations",
     resources: [
       { id: "PLbtI3_MArDOnIIJxB6xFtpnhM0wTwz0x6", isPlaylist: true, thumbnail: "https://i.ytimg.com/vi/9C03V1dXxOU/hqdefault.jpg" },
+      { id: "PLLsWqScv2NVz8q1M78bJMhzNtcBAwoG79", isPlaylist: true, thumbnail: "https://i.ytimg.com/vi/zqDKPidfS1Q/hqdefault.jpg" },
+      { id: "PLaHJrmUm5PVOtQcvurPM_0KFvGX24GtvE&si", isPlaylist: true, thumbnail: "https://i.ytimg.com/vi/X6IWFMeh-bc/hqdefault.jpg" },
     ]
   },
- 
- 
+
+  {
+    title: "Mobile App Development",
+    resources: [
+      { id: "PLS1QulWo1RIa5W8F_XInRJrZLwkLY39oK", isPlaylist: true, thumbnail: "https://i.ytimg.com/vi/UqLQ51_BBsM/hqdefault.jpg" }, // Flutter (Net Ninja)
+      { id: "SqcY0GlETPk", isPlaylist: false, thumbnail: "https://i.ytimg.com/vi/SqcY0GlETPk/hqdefault.jpg" }, // React Native (Net Ninja)
+    ]
+  },
+  {
+    title: "DevOps & Cloud",
+    resources: [
+      { id: "PLy7NrYWoggjwPggqtFsI_zMAwvG0SqYCb", isPlaylist: true, thumbnail: "https://i.ytimg.com/vi/3c-iBn73dDE/hqdefault.jpg" }, // Docker & K8s (Nana)
+      { id: "BSGcQi2WNPg", isPlaylist: false, thumbnail: "https://i.ytimg.com/vi/BSGcQi2WNPg/hqdefault.jpg" }, // AWS (Simplilearn)
+      { id: "PLGjZwEtPN7j-Q59JYso3L4_yoCjj2syrM", isPlaylist: true, thumbnail: "https://i.ytimg.com/vi/NPEsD6n9A_I/hqdefault.jpg" }, // AWS (Simplilearn)
+      { id: "PLLrA_pU9-Gz2OnBoICkewd9-Fc9Mi0nm7", isPlaylist: true, thumbnail: "https://i.ytimg.com/pl_c/PLLrA_pU9-Gz2OnBoICkewd9-Fc9Mi0nm7/studio_square_thumbnail.jpg?sqp=COGIhMwG-oaymwEICKoDEPABSFqi85f_AwYIt93LuwY=&rs=AOn4CLAkZVERUrZ1ClzFlk4hyijXZz35zg" }, // AWS (Simplilearn)
+    ]
+  },
+  {
+    title: "Visual Design",
+    resources: [
+     
+    ]
+  },
+  {
+    title: "Video Editing",
+    resources: [
+   
+    ]
+  },
+  {
+    title: "IoT & Hardware",
+    resources: [
+    
+    ]
+  },
+  {
+    title: "Blockchain",
+    resources: [
+      
+    ]
+  },
+  {
+    title: "Cybersecurity",
+    resources: [
+      
+    ]
+  },
 ];
 
 // --- SUB-COMPONENTS ---
@@ -121,20 +183,30 @@ const CouponCard = memo(() => {
   );
 });
 
-const ResourceCard = memo(({ item }) => {
+const ResourceCard = memo(({ item, onClick }) => {
   const url = item.isPlaylist
     ? `https://www.youtube.com/playlist?list=${item.id}`
     : `https://www.youtube.com/watch?v=${item.id}`;
 
+  const handleClick = (e) => {
+    if (!item.isPlaylist && onClick) {
+      e.preventDefault();
+      onClick(item);
+    }
+  };
+
   return (
     <motion.a
-      href={url} target="_blank" rel="noopener noreferrer"
+      href={url}
+      target={item.isPlaylist ? "_blank" : undefined}
+      rel={item.isPlaylist ? "noopener noreferrer" : undefined}
+      onClick={handleClick}
       layout
       initial={{ opacity: 0, scale: 0.9 }}
       whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true }}
       whileHover={{ y: -8 }}
-      className="group relative bg-white dark:bg-zinc-900 border border-slate-200 dark:border-white/5 rounded-[1.5rem] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 block h-full"
+      className="group relative bg-white dark:bg-zinc-900 border border-slate-200 dark:border-white/5 rounded-[1.5rem] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 block h-full cursor-pointer"
     >
       <div className="aspect-video relative overflow-hidden bg-slate-200 dark:bg-zinc-800">
         <img
@@ -149,7 +221,7 @@ const ResourceCard = memo(({ item }) => {
         </div>
         <div className="absolute top-3 right-3 px-3 py-1 bg-black/60 backdrop-blur-md rounded-full">
           <span className="text-[8px] font-black text-white uppercase tracking-[0.15em]">
-            {item.isPlaylist ? "Series" : "Single"}
+            {item.isPlaylist ? "Series" : "Video"}
           </span>
         </div>
       </div>
@@ -160,8 +232,64 @@ const ResourceCard = memo(({ item }) => {
 // --- MAIN COMPONENT ---
 
 const LearningHub = () => {
+  const [selectedVideo, setSelectedVideo] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const categories = ["All", ...LEARNING_SECTIONS.map((section) => section.title)];
+
+  const filteredSections = selectedCategory === "All"
+    ? LEARNING_SECTIONS
+    : LEARNING_SECTIONS.filter((section) => section.title === selectedCategory);
+
+  // Lock body scroll when modal is open
+  React.useEffect(() => {
+    if (selectedVideo) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+  }, [selectedVideo]);
+
   return (
     <div className="min-h-screen bg-[#f8fafc] dark:bg-[#050505] text-slate-900 dark:text-white pt-24 md:pt-32 pb-20 px-4 md:px-8 transition-colors duration-500">
+
+      {/* VIDEO MODAL */}
+      <AnimatePresence>
+        {selectedVideo && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[9999] bg-black/95 flex items-center justify-center p-2 md:p-10 backdrop-blur-md"
+            onClick={() => setSelectedVideo(null)}
+          >
+            <button
+              onClick={() => setSelectedVideo(null)}
+              className="absolute top-4 right-4 z-[10000] p-2 rounded-full bg-red-600 text-white shadow-xl hover:bg-red-700 transition-colors"
+            >
+              <X size={20} />
+            </button>
+
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="w-full max-w-5xl aspect-video rounded-xl overflow-hidden bg-black shadow-2xl border border-white/10"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <iframe
+                src={`https://www.youtube.com/embed/${selectedVideo.id}?autoplay=1`}
+                className="w-full h-full"
+                allow="autoplay; encrypted-media; picture-in-picture"
+                allowFullScreen
+                title="video"
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
 
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
         <div className="absolute -top-[10%] -left-[10%] w-[70%] h-[40%] bg-blue-500/10 blur-[120px] rounded-full" />
@@ -193,8 +321,59 @@ const LearningHub = () => {
         </header>
 
         {/* SECTIONS */}
+        <div className="md:mb-10 flex flex-col md:flex-row justify-between items-center gap-6 relative z-20">
+          <div className="flex items-center gap-3 w-full md:w-auto">
+            <div className="h-8 w-1.5 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full" />
+            <h2 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-slate-900 dark:text-white">
+              Browse Content
+            </h2>
+          </div>
+          <div className="relative w-full md:w-auto min-w-[200px]">
+            <button
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              className="flex items-center gap-3 px-6 py-3 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-white/10 rounded-xl shadow-lg hover:shadow-xl transition-all min-w-[200px] justify-between"
+            >
+              <span className="font-bold text-sm tracking-wide uppercase text-slate-600 dark:text-slate-300">
+                {selectedCategory}
+              </span>
+              <ChevronDown
+                size={18}
+                className={`text-blue-500 transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''}`}
+              />
+            </button>
+
+            <AnimatePresence>
+              {isDropdownOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                  className="absolute top-full right-0 mt-2 w-64 max-h-64 overflow-y-auto bg-white dark:bg-zinc-900 border border-slate-200 dark:border-white/10 rounded-xl shadow-2xl z-50 py-2 custom-scrollbar"
+                >
+                  {categories.map((category) => (
+                    <button
+                      key={category}
+                      onClick={() => {
+                        setSelectedCategory(category);
+                        setIsDropdownOpen(false);
+                      }}
+                      className={`w-full text-left px-5 py-3 text-sm font-bold uppercase tracking-wider transition-colors
+                          ${selectedCategory === category
+                          ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400'
+                          : 'text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white'}
+                        `}
+                    >
+                      {category}
+                    </button>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
+
         <div className="space-y-20">
-          {LEARNING_SECTIONS.map((section, index) => (
+          {filteredSections.map((section, index) => (
             <section key={section.title} className="relative">
               <motion.div
                 initial={{ x: -20, opacity: 0 }}
@@ -225,7 +404,11 @@ const LearningHub = () => {
                 className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
               >
                 {section.resources.map((item) => (
-                  <ResourceCard key={item.id} item={item} />
+                  <ResourceCard
+                    key={item.id}
+                    item={item}
+                    onClick={setSelectedVideo}
+                  />
                 ))}
               </motion.div>
             </section>

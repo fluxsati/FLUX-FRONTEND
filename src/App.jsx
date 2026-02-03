@@ -23,6 +23,7 @@ import FluxSkills from "./pages/Skiils";
 import FluxLearningHub from "./pages/LearningHub";
 import LyfatFlux from "./pages/Fluxlyf";
 import Ideathon from "./pages/Ideathon";
+import LegacySite from "./pages/LegacySite";
 
 import VercelAnalytics from './VercelAnalytics'; // Import here
 // Private Pages
@@ -91,6 +92,7 @@ export default function App() {
             <Route path="/contact" element={<FluxContact />} />
             <Route path="/learninghub" element={<FluxLearningHub />} />
             <Route path="/flux-hard-wired" element={<Ideathon />} />
+            <Route path="/Old-Site" element={<LegacySite />} />
 
             {/* ---------- AUTH ROUTES ---------- */}
             {/* Note: Auth component itself now handles the "already logged in" redirect */}
