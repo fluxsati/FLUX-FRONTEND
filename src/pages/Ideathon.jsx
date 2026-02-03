@@ -282,7 +282,7 @@ const Ideathon = () => {
                             Rewards & <span className="text-cyan-600 dark:text-cyan-500">Prizes</span>
                         </h2>
                         <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-                            Win from a <span className="font-bold text-slate-900 dark:text-white">₹10,000 prize pool</span> featuring cash prizes, certificates, and exclusive goodies.
+                            Win from a <span className="font-bold text-slate-900 dark:text-white">₹10,000 prize pool</span> featuring cash prizes and certificates.
                         </p>
                     </div>
 
