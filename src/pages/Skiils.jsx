@@ -60,7 +60,7 @@ const FluxSkillsPage = () => {
             <div className="flex items-center gap-3 text-cyan-600 dark:text-cyan-500 font-mono text-[10px] tracking-[0.5em] uppercase mb-6">
               <span className="w-12 h-[1px] bg-cyan-600 dark:bg-cyan-500"></span> core_capabilities
             </div>
-            <h1 className="text-8xl md:text-[10rem] font-black italic tracking-tighter leading-[0.75] uppercase opacity-90 text-slate-900 dark:text-white">
+            <h1 className="text-6xl md:text-7xl font-black italic tracking-tighter leading-[0.75] uppercase opacity-90 text-slate-900 dark:text-white">
               TECH<br />
               <span className="text-transparent stroke-slate-200 dark:stroke-white" style={{ WebkitTextStroke: '1px currentColor' }}>
                 STACK
@@ -155,7 +155,7 @@ const FluxSkillsPage = () => {
                 <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-[10px] font-mono text-cyan-600 dark:text-cyan-500 tracking-[0.3em] uppercase">
                   <Rocket size={12} /> Project_Inquiry
                 </div>
-                <h2 className="text-5xl md:text-7xl font-black italic tracking-tighter uppercase leading-none text-slate-900 dark:text-white">
+                <h2 className="text-4xl md:text-5xl font-black italic tracking-tighter uppercase leading-none text-slate-900 dark:text-white">
                   Got a vision?<br />
                   <span className="text-cyan-600 dark:text-cyan-500">Let's build it.</span>
                 </h2>

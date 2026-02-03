@@ -1,5 +1,7 @@
 import React, { memo } from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
+
 import { useNavigate } from 'react-router-dom';
 import { 
   Instagram, Linkedin, Cpu, CircuitBoard, 
@@ -107,7 +109,7 @@ const FluxServices = () => {
           variants={staggerContainer} 
           className="mb-16 md:mb-20 text-center md:text-left"
         >
-          <motion.h1 variants={fadeInUp} className="text-4xl sm:text-5xl md:text-8xl font-black tracking-tighter mb-6 leading-[0.9]">
+          <motion.h1 variants={fadeInUp} className="text-3xl sm:text-4xl md:text-6xl font-black tracking-tighter mb-6 leading-[0.9]">
             WE DESIGN THE <br />
             <span className="text-cyan-500 italic">NEXT GENERATION.</span>
           </motion.h1>
@@ -141,25 +143,45 @@ const FluxServices = () => {
           </div>
         </motion.div>
 
-        {/* COMPACT CTA */}
-        <motion.div 
-          initial="initial"
-          whileInView="animate"
-          viewport={{ once: true }}
-          variants={fadeInUp}
-          onClick={() => navigate('/contact')}
-          className="mt-16 md:mt-20 bg-gradient-to-br from-cyan-600 to-blue-700 p-8 md:p-12 rounded-[2rem] md:rounded-[2.5rem] text-center cursor-pointer transition-all group relative overflow-hidden active:scale-95 lg:hover:shadow-xl lg:hover:shadow-cyan-500/20"
-        >
-          <div className="relative z-10">
-            <h3 className="text-xl md:text-4xl font-black text-white uppercase italic">Ready to Work Together?</h3>
-            <p className="text-white/80 font-bold mt-2 uppercase tracking-widest text-[9px] md:text-xs">
-              Sponsor us • Grow your Business • Hire the Team
+  
+     {/* ===== CTA SECTION ===== */}
+      <section className="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-12 md:py-20">
+        <div className="flux-card-glass p-8 md:p-12 lg:p-16 text-center space-y-6 md:space-y-8 relative overflow-hidden">
+          {/* Background decoration */}
+          <div className="absolute inset-0 opacity-10 dark:opacity-5"
+            style={{
+              backgroundImage: 'linear-gradient(#06b6d4 1px, transparent 1px), linear-gradient(90deg, #06b6d4 1px, transparent 1px)',
+              backgroundSize: '40px 40px'
+            }}
+          />
+          
+          <div className="relative z-10 space-y-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1 border border-cyan-600/30 bg-cyan-600/5 rounded-full backdrop-blur-md">
+              <span className="text-cyan-600 dark:text-cyan-400 text-xs font-mono tracking-widest uppercase font-bold">
+                Join The Movement
+              </span>
+            </div>
+            
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white">
+              Ready to Build the Future?
+            </h2>
+            
+            <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+              Join FLUX Robotics and be part of a community that's shaping tomorrow's technology today.
             </p>
-            <div className="mt-6 md:mt-8 inline-flex items-center gap-2 px-6 md:px-8 py-2.5 md:py-3 bg-white text-cyan-700 rounded-full text-[10px] md:text-xs font-black uppercase tracking-widest lg:group-hover:scale-105 transition-transform">
-              Contact Us <ArrowUpRight size={14} />
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+              <Link to="/contact" className="btn-primary text-sm sm:text-base">
+                Get In Touch
+              </Link>
+              <Link to="/about" className="btn-secondary text-sm sm:text-base">
+                Learn More
+              </Link>
             </div>
           </div>
-        </motion.div>
+        </div>
+      </section>
+        
       </div>
 
       {/* <footer className="py-10 px-6 border-t border-slate-200 dark:border-white/10 flex flex-col md:flex-row justify-between items-center gap-6 bg-white/50 dark:bg-black/20 backdrop-blur-sm">

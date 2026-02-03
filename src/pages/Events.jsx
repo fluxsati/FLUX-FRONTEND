@@ -10,6 +10,7 @@ import {
   Download, ChevronLeft, ChevronRight,
   ExternalLink, Search, Filter
 } from 'lucide-react';
+import Breadcrumb from '../components/Breadcrumb';
 
 // Import the static data
 import { ARCHIVE_DATA } from '../data/archiveData';
@@ -85,16 +86,16 @@ const EventCard = ({ event, index }) => {
       {/* Text Content Section */}
       <div className="lg:col-span-5 space-y-6">
         <div className="space-y-4">
-          <span className="inline-block bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 text-[9px] font-black px-4 py-1.5 rounded-full border border-cyan-500/20 uppercase tracking-[0.2em]">
+          <span className="inline-block bg-cyan-600/10 text-cyan-600 dark:text-cyan-400 text-xs font-black px-4 py-1.5 rounded-full border border-cyan-600/20 uppercase tracking-wider">
             {event.tag}
           </span>
-          <h2 className="text-5xl md:text-6xl lg:text-7xl font-black italic uppercase tracking-tighter leading-none text-slate-900 dark:text-white">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black italic uppercase tracking-tighter leading-none text-slate-900 dark:text-white">
             {event.title}
           </h2>
         </div>
 
         {/* Terminal Text Block */}
-        <div className="relative bg-[#050505] p-6 rounded-[1.5rem] border border-cyan-500/10 font-mono text-[12px] text-cyan-400/90 leading-relaxed shadow-2xl overflow-hidden">
+        <div className="relative bg-[#050505] p-6 rounded-[1.5rem] border border-cyan-600/10 font-mono text-sm text-cyan-400 leading-relaxed shadow-2xl overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent animate-scan" />
           <pre className="whitespace-pre-wrap max-h-32 overflow-y-auto custom-scrollbar">
             {event.terminal}
@@ -182,22 +183,24 @@ const FluxArchive = () => {
   });
 
   return (
-    <div className="relative min-h-screen bg-slate-50 dark:bg-[#020202] text-slate-900 dark:text-white pb-12 px-4 selection:bg-cyan-500/30 font-sans transition-colors duration-500 overflow-x-hidden">
+    <div className="relative min-h-screen bg-slate-50 dark:bg-[#020202] text-slate-900 dark:text-white pb-12 px-4 selection:bg-cyan-600/30 font-sans transition-colors duration-500 overflow-x-hidden">
       {/* HUD Background Grid */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px]" />
-        <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/5 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-cyan-600/5 via-transparent to-transparent" />
       </div>
 
       <div className="relative z-10 max-w-6xl mx-auto mt-20 md:mt-32">
+        <Breadcrumb items={[{ label: 'Events', path: '/events' }]} />
+        
         <header className="flex flex-col md:flex-row justify-between items-start md:items-end mb-20 border-b border-slate-200 dark:border-white/10 pb-12 gap-8">
           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
             <div className="flex items-center gap-3 mb-3">
-              <span className="w-2 h-2 bg-cyan-500 rotate-45 animate-pulse" />
-              <p className="text-cyan-600 dark:text-cyan-500 font-mono text-xs tracking-[0.4em] uppercase">Archive_System_Live</p>
+              <span className="w-2 h-2 bg-cyan-600 dark:bg-cyan-400 rotate-45 animate-pulse" />
+              <p className="text-cyan-600 dark:text-cyan-400 font-mono text-xs tracking-widest uppercase">Archive System Live</p>
             </div>
-            <h1 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase leading-none">
-              Events<span className="text-cyan-600 dark:text-cyan-500"></span>
+            <h1 className="text-4xl md:text-6xl font-black italic tracking-tighter uppercase leading-none">
+              Events<span className="text-cyan-600 dark:text-cyan-400"></span>
             </h1>
           </motion.div>
 
@@ -205,14 +208,14 @@ const FluxArchive = () => {
             {/* Search Bar */}
             <div className="relative group w-full md:w-64">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
-                <Search size={16} className="text-slate-400 group-focus-within:text-cyan-500 transition-colors" />
+                <Search size={16} className="text-slate-400 group-focus-within:text-cyan-600 dark:group-focus-within:text-cyan-400 transition-colors" />
               </div>
               <input
                 type="text"
-                placeholder="Search events..."
+                placeholder="    Search events..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-white/80 dark:bg-white/5 backdrop-blur-xl pl-10 pr-4 py-3 rounded-xl border border-slate-200 dark:border-white/10 text-sm focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/20 transition-all font-mono placeholder:text-slate-400"
+                className="flux-input"
               />
             </div>
 

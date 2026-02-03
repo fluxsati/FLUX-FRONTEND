@@ -4,6 +4,7 @@ import { Github, Layers, Cpu, Shield, Wind, Brain, Radio, Microscope, User, Send
 import toast, { Toaster } from 'react-hot-toast';
 import API from '../api';
 import { PROJECTS_DATA } from '../data/projectData';
+import Breadcrumb from '../components/Breadcrumb';
 
 /* ===================== ICON HELPER ===================== */
 const ICONS = {
@@ -53,33 +54,32 @@ const ProjectCard = memo(({ project }) => {
       </div>
 
       <div className="px-1 flex-1 flex flex-col">
-        <h3 className="text-base md:text-lg font-bold tracking-tight text-slate-900 dark:text-white uppercase mb-1">
+        <h3 className="text-lg md:text-xl font-bold tracking-tight text-slate-900 dark:text-white uppercase mb-2">
           {project.title}
         </h3>
 
-        {/* REMOVED line-clamp-2 TO SHOW FULL DESCRIPTION */}
-        <p className="text-[11px] md:text-xs text-slate-500 dark:text-gray-400 font-medium mb-3">
+        <p className="text-sm md:text-base text-slate-500 dark:text-slate-400 font-medium mb-3 leading-relaxed">
           {project.description}
         </p>
 
         <div className="flex items-center gap-2 mb-4 bg-slate-50 dark:bg-white/5 p-2 rounded-lg">
-          <User size={12} className="text-cyan-500" />
-          <span className="text-[9px] md:text-[10px] font-bold text-slate-600 dark:text-gray-300 uppercase">
+          <User size={14} className="text-cyan-600 dark:text-cyan-400" />
+          <span className="text-xs md:text-sm font-bold text-slate-500 dark:text-slate-400 uppercase">
             Lead Developer
           </span>
         </div>
 
         <div className="flex flex-wrap gap-1 mb-5">
           {project.tech?.map((t, idx) => (
-            <span key={idx} className="px-2 py-0.5 bg-cyan-500/5 text-[9px] font-mono text-cyan-600 dark:text-cyan-400 rounded border border-cyan-500/10">
+            <span key={idx} className="px-2 py-0.5 bg-cyan-600/5 text-xs font-mono text-cyan-600 dark:text-cyan-400 rounded border border-cyan-600/10">
               {t}
             </span>
           ))}
         </div>
 
         <div className="flex gap-2 mt-auto">
-          <button className="flex-1 flex items-center justify-center gap-2 bg-slate-900 dark:bg-white text-white dark:text-black py-2.5 md:py-3 rounded-xl font-bold text-[10px] uppercase transition-colors">
-            <Globe size={12} /> <span>Report</span>
+          <button className="flex-1 flex items-center justify-center gap-2 bg-slate-900 dark:bg-white text-white dark:text-black py-2.5 md:py-3 rounded-xl font-bold text-xs uppercase transition-colors min-h-touch">
+            <Globe size={14} /> <span>Report</span>
           </button>
           <a
             href={project.git || "#"}
@@ -156,21 +156,24 @@ const FluxProjects = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-[#050505] text-slate-900 dark:text-slate-100 pt-24 md:pt-32 pb-20 px-4 md:px-6 font-sans overflow-x-hidden">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#050505] text-slate-900 dark:text-white pt-24 md:pt-32 pb-20 px-4 md:px-6 font-sans overflow-x-hidden">
       <Toaster position="bottom-right" reverseOrder={false} />
 
-      <header className="max-w-6xl mx-auto mb-12 md:mb-20 flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
-        <div>
-          <div className="flex items-center gap-2 text-cyan-600 dark:text-cyan-400 text-[10px] font-bold uppercase tracking-[0.3em] mb-3">
-            <Layers size={14} /> System Registry
-          </div>
-          <h1 className="text-4xl xs:text-5xl md:text-7xl font-black tracking-tighter uppercase leading-[0.9]">
-            Our <br className="sm:hidden" />
-            <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-blue-500">Projects</span>
-          </h1>
-        </div>
+      <div className="max-w-6xl mx-auto">
+        <Breadcrumb items={[{ label: 'Projects', path: '/projects' }]} />
 
-        <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto items-stretch md:items-center">
+        <header className="mb-12 md:mb-20 flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
+          <div>
+            <div className="flex items-center gap-2 text-cyan-600 dark:text-cyan-400 text-xs font-bold uppercase tracking-widest mb-3">
+              <Layers size={16} /> System Registry
+            </div>
+            <h1 className="text-3xl xs:text-4xl md:text-5xl font-black tracking-tighter uppercase leading-[0.9]">
+              Our <br className="sm:hidden" />
+              <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-blue-600 dark:from-cyan-400 dark:to-blue-400">Projects</span>
+            </h1>
+          </div>
+
+          <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto items-stretch md:items-center">
           {/* Sort Dropdown */}
           <div className="relative z-20">
             <button
@@ -228,7 +231,6 @@ const FluxProjects = () => {
         </div>
       </header>
 
-      <div className="max-w-6xl mx-auto">
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-24 items-stretch">
           <AnimatePresence mode="popLayout">
             {sortedProjects.map((p, index) => (

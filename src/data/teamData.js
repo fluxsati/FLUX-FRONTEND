@@ -7,7 +7,7 @@
 import dhananjayImg from "../assets/convenors/dhananjay.png";
 import shrutiImg from "../assets/convenors/shruti.jpg";
 import snehaImg from "../assets/convenors/sneha.jpg";
-import yashwantImg from "../assets/convenors/yashwant.jpeg";
+import yashwantImg from "../assets/convenors/yashwant.jpg";
 
 // Import Co-Convenor Images
 import ashishImg from "../assets/co-convenors/ashish.png";
@@ -27,6 +27,15 @@ export const TEAM_DATA = {
       bio: "The steady pulse of the system. A firm believer that true building happens when logic meets empathy, steering the team through high-pressure sprints with a focus on collective growth and architectural harmony." 
     },
     { 
+      name: "Yashwant Singh Gour", 
+      role: "Convenor", 
+      branch: "IOT",
+      year: "Final Year",
+      img: yashwantImg, 
+      link: "https://www.linkedin.com/in/yashwant-singh-gour/", 
+      bio: "The guardian of the Flux spirit. Focusing on the long-term journey and mentoring the next generation of units to value the process of building as much as the final product." 
+    },
+    { 
       name: "Shruti Zunjarke", 
       role: "Convenor", 
       branch: "Computer Science and Engineering",
@@ -43,15 +52,6 @@ export const TEAM_DATA = {
       img: snehaImg, 
       link: "#", 
       bio: "The bridge between abstract ideas and reality. Nurturing the Flux ecosystem by turning individual curiosity into shared technical breakthroughs, proving that we build better when we build together." 
-    },
-    { 
-      name: "Yashwant Singh Gour", 
-      role: "Convenor", 
-      branch: "IOT",
-      year: "Final Year",
-      img: yashwantImg, 
-      link: "https://www.linkedin.com/in/yashwant-singh-gour/", 
-      bio: "The guardian of the Flux spirit. Focusing on the long-term journey and mentoring the next generation of units to value the process of building as much as the final product." 
     },
   ],
   coConvenors: [

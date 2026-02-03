@@ -112,7 +112,7 @@ const Navbar = () => {
           <div className={`relative flex items-center justify-between h-16 sm:h-20 px-4 sm:px-8 lg:px-10 transition-all duration-500 
             ${scrolled
               ? 'bg-white/95 dark:bg-black/95 backdrop-blur-2xl border-b border-gray-200 dark:border-cyan-500/30'
-              : 'bg-white/90 dark:bg-black/80 lg:dark:bg-white/[0.03] backdrop-blur-md border-b lg:border border-gray-200 dark:border-white/10 lg:rounded-2xl shadow-lg lg:shadow-2xl'}`}>
+              : 'bg-transparent'}`}>
 
             {/* --- LOGO SECTION (Restored Desktop Animations) --- */}
             <Link
@@ -158,12 +158,17 @@ const Navbar = () => {
                 <Link
                   key={link.name}
                   to={link.path}
-                  className={`relative px-3 py-2 text-[10px] font-bold uppercase tracking-[0.2em] transition-all group overflow-hidden
-                    ${location.pathname === link.path ? 'text-cyan-500' : 'text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white'}`}
+                  className={`relative px-3 py-2 text-xs font-bold uppercase tracking-wider transition-all group overflow-hidden
+                    ${location.pathname === link.path ? 'text-cyan-600 dark:text-cyan-400' : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}`}
                 >
                   {/* Sliding Text Effect */}
                   <span className="relative z-10 transition-transform duration-300 group-hover:-translate-y-full block">{link.name}</span>
-                  <span className="absolute inset-0 z-10 flex items-center justify-center translate-y-full group-hover:translate-y-0 transition-transform duration-300 text-cyan-500">{link.name}</span>
+                  <span className="absolute inset-0 z-10 flex items-center justify-center translate-y-full group-hover:translate-y-0 transition-transform duration-300 text-cyan-600 dark:text-cyan-400">{link.name}</span>
+                  
+                  {/* Active Page Indicator */}
+                  {location.pathname === link.path && (
+                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 bg-cyan-600 dark:bg-cyan-400 rounded-full shadow-flux-cyan" />
+                  )}
                 </Link>
               ))}
             </div>

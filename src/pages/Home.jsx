@@ -1,4 +1,4 @@
-import React, { Suspense, memo } from 'react';
+import React, { Suspense, memo, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Spline from '@splinetool/react-spline';
 import Typewriter from 'typewriter-effect';
@@ -19,9 +19,38 @@ const MarqueeTicker = memo(() => (
   </div>
 ));
 
+// Animated Counter Component
+const AnimatedCounter = memo(({ end, duration = 2000, suffix = '' }) => {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    let startTime;
+    let animationFrame;
+
+    const animate = (currentTime) => {
+      if (!startTime) startTime = currentTime;
+      const progress = Math.min((currentTime - startTime) / duration, 1);
+      
+      setCount(Math.floor(progress * end));
+
+      if (progress < 1) {
+        animationFrame = requestAnimationFrame(animate);
+      }
+    };
+
+    animationFrame = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animationFrame);
+  }, [end, duration]);
+
+  return <span>{count}{suffix}</span>;
+});
+
+ 
+ 
+
 const Home = () => {
   return (
-    <div className="relative min-h-dvh w-full bg-slate-50 dark:bg-[#030303] transition-colors duration-500 overflow-x-hidden font-sans selection:bg-cyan-500 selection:text-black flex flex-col pt-20 md:pt-28">
+    <div className="relative min-h-dvh w-full bg-slate-50 dark:bg-[#030303] transition-colors duration-500 overflow-x-hidden font-sans selection:bg-cyan-500 selection:text-black">
 
       {/* ===== INJECTED ANIMATIONS ===== */}
       <style dangerouslySetInnerHTML={{
@@ -33,7 +62,17 @@ const Home = () => {
           0% { letter-spacing: -0.5em; opacity: 0; } 
           40% { opacity: 0.6; } 100% { opacity: 1; } 
         }
+        @keyframes fadeInUp {
+          0% { opacity: 0; transform: translateY(30px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-20px); }
+        }
         .animate-scan { animation: scan 3.5s linear infinite; }
+        .animate-fadeInUp { animation: fadeInUp 0.6s ease-out forwards; }
+        .animate-float { animation: float 3s ease-in-out infinite; }
         /* Optimized: will-change used only on desktop */
         @media (min-width: 1024px) {
           .animate-grid-move { animation: grid-move 1.5s linear infinite; will-change: background-position; }
@@ -69,20 +108,20 @@ const Home = () => {
       </div>
 
       {/* ===== HERO CONTENT ===== */}
-      <main className="relative z-10 w-full max-w-7xl mx-auto flex-grow flex flex-col justify-center px-6 sm:px-8 lg:px-12 py-8">
+      <section className="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-20 md:pt-28 pb-12 md:pb-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
 
           {/* LEFT: TEXT CONTENT */}
           <div className="space-y-6 md:space-y-8 text-center lg:text-left z-20 order-2 lg:order-1">
             <div className="space-y-4">
-              <div className="inline-flex items-center gap-2 px-3 py-1 border border-cyan-500/30 bg-cyan-500/5 rounded-full backdrop-blur-md">
-                <span className="h-1.5 w-1.5 rounded-full bg-cyan-500 animate-pulse" />
-                <span className="text-cyan-600 dark:text-cyan-400 text-[10px] font-mono tracking-widest uppercase">
+              <div className="inline-flex items-center gap-2 px-3 py-1 border border-cyan-600/30 bg-cyan-600/5 rounded-full backdrop-blur-md">
+                <span className="h-1.5 w-1.5 rounded-full bg-cyan-600 dark:bg-cyan-400 animate-pulse" />
+                <span className="text-cyan-600 dark:text-cyan-400 text-xs font-mono tracking-widest uppercase">
                   Neural Link Established
                 </span>
               </div>
 
-              <p className="tagline-anim text-cyan-600 dark:text-cyan-500/80 font-mono text-[10px] sm:text-xs tracking-[0.3em] uppercase font-bold">
+              <p className="tagline-anim text-cyan-600 dark:text-cyan-400 font-mono text-xs sm:text-sm tracking-widest uppercase font-bold">
                 Specialized in <span className="text-slate-900 dark:text-white transition-colors">impossible</span> things
               </p>
             </div>
@@ -94,7 +133,7 @@ const Home = () => {
               </span>
             </h1>
 
-            <div className="max-w-md mx-auto lg:mx-0 text-sm md:text-base text-slate-600 dark:text-gray-400 leading-relaxed border-l-2 border-cyan-500 pl-4 min-h-[80px] flex items-center text-left">
+            <div className="max-w-md mx-auto lg:mx-0 text-base md:text-lg text-slate-500 dark:text-slate-400 leading-relaxed border-l-2 border-cyan-600 dark:border-cyan-400 pl-4 min-h-[80px] flex items-center text-left">
               <Typewriter
                 options={{ autoStart: true, loop: false, delay: 30, cursor: '_' }}
                 onInit={(typewriter) => {
@@ -108,10 +147,10 @@ const Home = () => {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4">
-             <Link to="/login" className="px-8 py-4 text-[10px] sm:text-xs font-bold uppercase tracking-widest bg-cyan-500 text-white dark:text-black shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:-translate-y-0.5 transition-all duration-300">
+             <Link to="/login" className="btn-primary text-sm sm:text-base">
                 Buy Components
               </Link>
-              <Link to="/projects" className="px-8 py-4 text-[10px] sm:text-xs font-semibold uppercase tracking-widest border border-slate-300 dark:border-white/20 text-slate-900 dark:text-white hover:border-cyan-500 hover:text-cyan-500 backdrop-blur-sm transition-all duration-300">
+              <Link to="/projects" className="btn-secondary text-sm sm:text-base">
                 Projects
               </Link>
             </div>
@@ -143,11 +182,11 @@ const Home = () => {
           </div>
 
         </div>
-      </main>
-
+      </section>
+ 
       {/* ===== FOOTER TICKER ===== */}
       <footer className="w-full border-t border-slate-200 dark:border-white/5 bg-slate-100/90 dark:bg-black/90 backdrop-blur-md z-40 mt-auto">
-        <div className="max-w-7xl mx-auto px-4 py-3 md:py-4 flex items-center text-[9px] sm:text-[10px] font-mono tracking-[0.2em] uppercase">
+        <div className="max-w-7xl mx-auto px-4 py-3 md:py-4 flex items-center text-xs font-mono tracking-wider uppercase">
           <div className="flex-1 overflow-hidden relative">
             <div className="absolute inset-y-0 left-0 w-12 z-10 bg-gradient-to-r from-slate-100 dark:from-black to-transparent" />
             <div className="absolute inset-y-0 right-0 w-12 z-10 bg-gradient-to-l from-slate-100 dark:from-black to-transparent" />

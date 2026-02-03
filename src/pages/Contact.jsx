@@ -5,6 +5,7 @@ import {
   Instagram, Linkedin, Github, Youtube,
   Globe, Database, Zap
 } from 'lucide-react';
+import toast, { Toaster } from 'react-hot-toast';
 
 // 1. IMPORT YOUR CENTRALIZED API
 import API from '../api';
@@ -159,37 +160,90 @@ const SocialLink = memo(({ href, icon, label }) => (
 const FluxContactPage = () => {
   const [formState, setFormState] = useState('idle'); // idle, sending, success
   const [formData, setFormData] = useState({ operator: '', channel: '', header: '', payload: '' });
+  const [errors, setErrors] = useState({});
   const [selectedItem, setSelectedItem] = useState(null);
   const isMobile = useIsMobile();
 
   const handleChange = useCallback((e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-  }, []);
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: '' }));
+    }
+  }, [errors]);
 
-  // 2. UPDATED HANDLESUBMIT USING AXIOS INSTANCE
+  const validateForm = () => {
+    const newErrors = {};
+    
+    if (!formData.operator.trim()) {
+      newErrors.operator = 'Name is required';
+    } else if (formData.operator.trim().length < 2) {
+      newErrors.operator = 'Name must be at least 2 characters';
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!formData.channel.trim()) {
+      newErrors.channel = 'Email is required';
+    } else if (!emailRegex.test(formData.channel)) {
+      newErrors.channel = 'Please enter a valid email';
+    }
+
+    if (!formData.header.trim()) {
+      newErrors.header = 'Subject is required';
+    } else if (formData.header.trim().length < 3) {
+      newErrors.header = 'Subject must be at least 3 characters';
+    }
+
+    if (!formData.payload.trim()) {
+      newErrors.payload = 'Message is required';
+    } else if (formData.payload.trim().length < 10) {
+      newErrors.payload = 'Message must be at least 10 characters';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (!validateForm()) {
+      toast.error('Please fix the errors before submitting', {
+        style: { background: '#0c0c0c', color: '#fff', border: '1px solid rgba(255,255,255,0.1)' },
+        iconTheme: { primary: '#ef4444', secondary: '#fff' }
+      });
+      return;
+    }
+
     setFormState('sending');
     try {
-      // API.post automatically uses the BASE_URL from your .env/Vercel
       const response = await API.post('/contact', formData);
 
       if (response.status === 200 || response.status === 201) {
         setFormState('success');
         setFormData({ operator: '', channel: '', header: '', payload: '' });
+        setErrors({});
+        toast.success('Message sent successfully!', {
+          style: { background: '#0c0c0c', color: '#fff', border: '1px solid rgba(255,255,255,0.1)' },
+          iconTheme: { primary: '#06b6d4', secondary: '#fff' }
+        });
       } else {
         setFormState('idle');
       }
     } catch (err) {
       console.error("Transmission Failed:", err);
       setFormState('idle');
-      alert("System Offline: Could not reach backend.");
+      toast.error(err.response?.data?.message || 'Failed to send message. Please try again.', {
+        style: { background: '#0c0c0c', color: '#fff', border: '1px solid rgba(255,255,255,0.1)' },
+        iconTheme: { primary: '#ef4444', secondary: '#fff' }
+      });
     }
   };
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-[#020202] text-slate-900 dark:text-white flex flex-col items-center p-4 md:p-6 font-sans overflow-x-hidden pt-24 md:pt-40 pb-20 transition-colors duration-500">
+      <Toaster position="bottom-right" reverseOrder={false} />
 
       {/* BACKGROUND AMBIENCE */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
@@ -250,19 +304,38 @@ const FluxContactPage = () => {
                   onSubmit={handleSubmit} className="space-y-5"
                 >
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <InputField label="Operator" name="operator" placeholder="YOUR_NAME" value={formData.operator} onChange={handleChange} required />
-                    <InputField label="Channel" name="channel" type="email" placeholder="YOUR_EMAIL" value={formData.channel} onChange={handleChange} required />
+                    <InputField label="Operator" name="operator" placeholder="Your name" value={formData.operator} onChange={handleChange} required error={errors.operator} />
+                    <InputField label="Channel" name="channel" type="email" placeholder="your@email.com" value={formData.channel} onChange={handleChange} required error={errors.channel} />
                   </div>
-                  <InputField label="Header" name="header" placeholder="MESSAGE_SUBJECT" value={formData.header} onChange={handleChange} required />
+                  <InputField label="Header" name="header" placeholder="Message subject" value={formData.header} onChange={handleChange} required error={errors.header} />
                   <div className="flex flex-col gap-2">
-                    <label className="text-[9px] font-mono uppercase tracking-widest text-slate-400 ml-5">Data_Payload</label>
-                    <textarea name="payload" rows="4" value={formData.payload} onChange={handleChange} required placeholder="ENTER_TRANSMISSION..."
-                      className="w-full bg-slate-100/50 dark:bg-white/[0.03] border border-slate-200 dark:border-white/10 rounded-[1.5rem] md:rounded-[2rem] p-5 md:p-6 focus:outline-none focus:border-cyan-500 transition-all text-sm font-mono text-slate-900 dark:text-white resize-none" />
+                    <label className="text-xs font-mono uppercase tracking-widest text-slate-500 dark:text-slate-400 ml-5">Data Payload</label>
+                    <textarea 
+                      name="payload" 
+                      rows="4" 
+                      value={formData.payload} 
+                      onChange={handleChange} 
+                      required 
+                      placeholder="Enter your message..."
+                      className={`w-full rounded-[1.5rem] md:rounded-[2rem] p-5 md:p-6 resize-none ${errors.payload ? 'flux-input-error' : 'flux-input'}`}
+                    />
+                    {errors.payload && (
+                      <span className="text-xs text-red-500 ml-5 font-medium">{errors.payload}</span>
+                    )}
                   </div>
                   <button type="submit" disabled={formState === 'sending'}
-                    className="w-full py-4 bg-slate-900 dark:bg-white text-white dark:text-black rounded-full font-black uppercase italic tracking-widest hover:bg-cyan-500 dark:hover:bg-cyan-500 hover:text-white transition-all flex items-center justify-center gap-4 group disabled:opacity-50">
-                    {formState === 'sending' ? "PROCESSING..." : "SEND_DATA"}
-                    <Send size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                    className="btn-primary w-full text-base uppercase tracking-wider flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed">
+                    {formState === 'sending' ? (
+                      <>
+                        <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }} className="w-5 h-5 border-2 border-white border-t-transparent rounded-full" />
+                        <span>Sending...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>Send Message</span>
+                        <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                      </>
+                    )}
                   </button>
                 </motion.form>
               )}
@@ -316,7 +389,7 @@ const FluxContactPage = () => {
                   <div className="h-[1px] w-8 bg-cyan-500" />
                   <span className="text-cyan-500 font-mono text-[10px] uppercase tracking-widest">Lead System Architect</span>
                 </div>
-                <h2 className="text-5xl md:text-6xl font-black italic tracking-tighter uppercase leading-none text-slate-900 dark:text-white">
+                <h2 className="text-4xl md:text-5xl font-black italic tracking-tighter uppercase leading-none text-slate-900 dark:text-white">
                   Mahesh <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-blue-500">Kushwah</span>
                 </h2>
               </div>
@@ -509,10 +582,13 @@ const ContactCard = memo(({ icon, title, lines, color, link }) => {
   );
 });
 
-const InputField = memo(({ label, ...props }) => (
+const InputField = memo(({ label, error, ...props }) => (
   <div className="flex flex-col gap-2">
-    <label className="text-[9px] font-mono uppercase tracking-widest text-slate-400 ml-5">{label}</label>
-    <input {...props} className="bg-slate-100/50 dark:bg-white/[0.03] border border-slate-200 dark:border-white/10 rounded-full px-6 py-3 focus:outline-none focus:border-cyan-500 transition-all text-sm font-mono text-slate-900 dark:text-white w-full" />
+    <label className="text-xs font-mono uppercase tracking-widest text-slate-500 dark:text-slate-400 ml-5">{label}</label>
+    <input {...props} className={`flux-input ${error ? 'flux-input-error' : ''}`} />
+    {error && (
+      <span className="text-xs text-red-500 ml-5 font-medium">{error}</span>
+    )}
   </div>
 ));
 
