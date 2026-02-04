@@ -8,6 +8,7 @@ import Navbar from "./components/Navbar";
 import FluxFooter from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 import Auth from "./components/Auth";
+import BackToTop from "./components/BackToTop";
 
 // Pages
 import Home from "./pages/Home";
@@ -77,10 +78,10 @@ export default function App() {
               element={
                 <>
                   <Home />
-                  <LyfatFlux />
+                  <FluxFeatures />
+                  {/* <LyfatFlux /> */}
                   <BehindFlux />
 
-                  <FluxFeatures />
                 </>
               }
             />
@@ -136,6 +137,7 @@ export default function App() {
         </main>
 
         <FluxFooter />
+        <BackToTop />
         <VercelAnalytics />
       </div>
     </Router>

@@ -203,7 +203,7 @@ const FluxGallery = () => {
           </div>
 
           {/* Instagram Profile Embed */}
-          <div className="mt-8 w-full rounded-xl overflow-hidden bg-black border border-white/5">
+          {/* <div className="mt-8 w-full rounded-xl overflow-hidden bg-black border border-white/5">
             <iframe
               src="https://www.instagram.com/fluxsati/embed"
               className="w-full h-[600px] md:h-[800px]"
@@ -212,7 +212,7 @@ const FluxGallery = () => {
               allowtransparency="true"
               title="Flux Instagram Profile"
             />
-          </div>
+          </div> */}
         </section>
       </main>
     </div>

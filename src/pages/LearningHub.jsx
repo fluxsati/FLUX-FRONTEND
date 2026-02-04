@@ -304,7 +304,7 @@ const LearningHub = () => {
                 <div className="h-[2px] w-8 bg-blue-600" />
                 <span className="text-blue-600 dark:text-blue-400 font-bold tracking-[0.3em] text-[10px] uppercase">Curated Resources</span>
               </div>
-              <h1 className="text-4xl md:text-6xl font-black tracking-tight uppercase leading-tight mb-6">
+              <h1 className="text-3xl md:text-5xl font-black tracking-tight uppercase leading-tight mb-6">
                 SKILL<span className="text-blue-600">FORGE</span>
               </h1>
               <div className="flex gap-3 items-start text-slate-500 dark:text-zinc-400 italic justify-center lg:justify-start">

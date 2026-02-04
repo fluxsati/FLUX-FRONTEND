@@ -118,7 +118,7 @@ const Ideathon = () => {
                     <motion.h1
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="text-5xl md:text-7xl lg:text-8xl font-black italic uppercase tracking-tighter leading-none mb-8 text-slate-900 dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-b dark:from-white dark:via-slate-200 dark:to-slate-500"
+                        className="text-4xl md:text-5xl lg:text-6xl font-black italic uppercase tracking-tighter leading-none mb-8 text-slate-900 dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-b dark:from-white dark:via-slate-200 dark:to-slate-500"
                     >
                         Flux <span className="text-cyan-600 dark:text-cyan-500">Hard-Wired</span> 1.0
                     </motion.h1>
@@ -476,3 +476,4 @@ const Ideathon = () => {
 };
 
 export default Ideathon;
+
