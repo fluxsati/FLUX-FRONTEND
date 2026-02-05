@@ -24,7 +24,7 @@ const Dashboard = () => {
   // Dynamic Base URL for Images and Sockets
   const BASE_URL = api.defaults.baseURL.replace('/api', '');
 
-  const upiIds = ["flux.terminal@okaxis", "admin.flux@upi", "node.payment@ybl"];
+  const upiIds = ["fluxupi-this feature is under construction", "fluxupi@flux", "fluxupi@flux"];
 
   const fetchData = async () => {
     try {
@@ -251,7 +251,7 @@ const Dashboard = () => {
             <div className="p-6 md:p-8 bg-slate-900 text-white flex justify-between items-center shrink-0">
               <div>
                 <h2 className="font-black uppercase tracking-tighter text-xl md:text-2xl">Terminal Cart</h2>
-                <p className="text-[10px] text-indigo-300 font-bold tracking-widest uppercase mt-1">Order Manifest v1.0</p>
+                <p className="text-[10px] text-indigo-300 font-bold tracking-widest uppercase mt-1">This feature is under Construction, this service will start soon stay connected</p>
               </div>
               <button onClick={() => setShowCart(false)} className="hover:bg-white/10 p-2 md:p-3 rounded-2xl shrink-0"><X size={24} /></button>
             </div>
