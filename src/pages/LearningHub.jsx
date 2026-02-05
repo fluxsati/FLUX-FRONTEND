@@ -19,7 +19,7 @@ const LEARNING_SECTIONS = [
     title: "Git & Github",
     resources: [
       { id: "Ez8F0nW6S-w", isPlaylist: false, thumbnail: "https://i.ytimg.com/vi/Ez8F0nW6S-w/hqdefault.jpg" },
-      { id: "eHaXw8Bd_ms", isPlaylist: false, thumbnail: "https://i.ytimg.com/vi/eHaXw8Bd_ms/hqdefault.jpg" },
+      { id: "rCt9DatF63I", isPlaylist: false, thumbnail: "https://i.ytimg.com/vi/rCt9DatF63I/hqdefault.jpg" },
       { id: "TWPSmBzziYM", isPlaylist: false, thumbnail: "https://i.ytimg.com/vi/TWPSmBzziYM/hqdefault.jpg" },
       { id: "cgOPg5cCr2g", isPlaylist: false, thumbnail: "https://i.ytimg.com/vi/cgOPg5cCr2g/hqdefault.jpg" },
     ]

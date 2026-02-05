@@ -36,7 +36,7 @@ export const uploadProject = (projectData) => API.post('/projects', projectData)
 
 // --- USER ENDPOINTS ---
 export const fetchActiveUsers = () => API.get('/users/active');
-export const fetchAllUsers = () => API.get('/users'); 
+export const fetchAllUsers = () => API.get('/users');
 
 // --- CHAT ENDPOINTS ---
 export const fetchChatHistory = () => API.get('/chat');

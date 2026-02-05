@@ -309,6 +309,14 @@ const Ideathon = () => {
                                         ₹10,000
                                     </h3>
                                     <p className="text-cyan-100 text-xl font-medium tracking-wide uppercase">Cash Prize Pool</p>
+
+                                    <div className="mt-6 pt-6 border-t border-white/10">
+                                        <h3 className="text-3xl md:text-4xl font-black text-white italic tracking-tighter mb-1">
+                                            ₹5,000
+                                        </h3>
+                                        <p className="text-cyan-100 text-lg font-medium tracking-wide uppercase">Prototype Support Grant</p>
+                                        <p className="text-cyan-50/80 text-sm mt-1 font-medium">Funding support for prototype development</p>
+                                    </div>
                                 </div>
 
                                 <div className="mt-8 pt-8 border-t border-white/10 flex items-center justify-between">
@@ -342,6 +350,14 @@ const Ideathon = () => {
                                         Participation Certificate
                                     </h3>
                                     <p className="text-slate-500 dark:text-slate-400 text-lg">For all shortlisted teams</p>
+
+                                    <div className="mt-6 pt-6 border-t border-slate-200 dark:border-white/10">
+                                        <h3 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white italic tracking-tighter mb-1">
+                                            Networking
+                                        </h3>
+                                        <p className="text-slate-500 dark:text-slate-400 text-lg font-medium tracking-wide uppercase">Community Access</p>
+                                        <p className="text-slate-500/80 dark:text-slate-400/80 text-sm mt-1 font-medium">Connect with like-minded innovators and peers</p>
+                                    </div>
                                 </div>
                                 <div className="mt-8 pt-8 border-t border-black/10 dark:border-white/10 flex items-center justify-between">
                                     <div className="flex items-center gap-2 text-white/90">
@@ -355,6 +371,9 @@ const Ideathon = () => {
 
                     <p className="text-center text-slate-400 dark:text-slate-500 text-sm mt-8">
                         * Prizes and certificates will be distributed within 15 days of the event conclusion.
+                    </p>
+                    <p className="text-center text-slate-400 dark:text-slate-500 text-sm mt-3">
+                        * <b>Please note:</b> Accommodation and food facilities will not be provided by the organizing team for this event. Participants are requested to make their own arrangements accordingly.
                     </p>
                 </div>
 
@@ -372,7 +391,7 @@ const Ideathon = () => {
                         <div className="space-y-4">
                             <TimelineItem
                                 index={0}
-                                date="Until 05 Feb"
+                                date="Until 08 Feb"
                                 title="Registration"
                                 description="Register on Unstop and submit your initial idea abstract. This is your entry ticket."
                                 icon={Calendar}
@@ -400,9 +419,9 @@ const Ideathon = () => {
                             /> */}
                             <TimelineItem
                                 index={1}
-                                date="08-09 Feb"
+                                date="11-12 Feb"
                                 title="Virtual Presentation"
-                                description="Refine documentation and prototypes, then present virtually to an expert panel focusing on innovation and feasibility."
+                                description="Refine documentation, then present virtually to an expert panel focusing on innovation and feasibility."
                                 icon={Award}
                                 isLast={true}
                             />
@@ -437,6 +456,10 @@ const Ideathon = () => {
                         <FAQItem
                             question="What themes can we choose from?"
                             answer="You can choose from a wide range of hardware domains including IoT, Robotics, Automobile, Sustainable Tech, and more. Innovation is the only constraint."
+                        />
+                        <FAQItem
+                            question="Do we have to prepare prototype?"
+                            answer="No, you don't have to prepare a prototype. You just have to submit your idea abstract and present it virtually to an expert panel."
                         />
                     </div>
                 </div>

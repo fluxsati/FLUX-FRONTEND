@@ -1,7 +1,9 @@
-import React, { Suspense, memo } from 'react';
+import React, { Suspense, memo, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Spline from '@splinetool/react-spline';
+// import Spline from '@splinetool/react-spline'; // Removed static import
 import Typewriter from 'typewriter-effect';
+
+const Spline = React.lazy(() => import('@splinetool/react-spline'));
 
 // Memoized Ticker for performance
 const MarqueeTicker = memo(() => (
@@ -20,6 +22,15 @@ const MarqueeTicker = memo(() => (
 ));
 
 const Home = () => {
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    // Only load 3D model if width > 1024px (lg breakpoint)
+    const checkDesktop = () => setIsDesktop(window.innerWidth >= 1024);
+    checkDesktop();
+    window.addEventListener('resize', checkDesktop);
+    return () => window.removeEventListener('resize', checkDesktop);
+  }, []);
   return (
     <div className="relative min-h-dvh w-full bg-slate-50 dark:bg-[#030303] transition-colors duration-500 overflow-x-hidden font-sans selection:bg-cyan-500 selection:text-black flex flex-col pt-20 md:pt-28">
 
@@ -108,7 +119,7 @@ const Home = () => {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4">
-             <Link to="/login" className="px-8 py-4 text-[10px] sm:text-xs font-bold uppercase tracking-widest bg-cyan-500 text-white dark:text-black shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:-translate-y-0.5 transition-all duration-300">
+              <Link to="/login" className="px-8 py-4 text-[10px] sm:text-xs font-bold uppercase tracking-widest bg-cyan-500 text-white dark:text-black shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:-translate-y-0.5 transition-all duration-300">
                 Buy Components
               </Link>
               <Link to="/projects" className="px-8 py-4 text-[10px] sm:text-xs font-semibold uppercase tracking-widest border border-slate-300 dark:border-white/20 text-slate-900 dark:text-white hover:border-cyan-500 hover:text-cyan-500 backdrop-blur-sm transition-all duration-300">
@@ -123,19 +134,22 @@ const Home = () => {
               <div className="w-2/3 h-2/3 bg-cyan-500/20 dark:bg-cyan-500/10 blur-[100px] rounded-full animate-pulse" />
             </div>
 
-            <Suspense fallback={
-              <div className="flex flex-col items-center gap-4">
-                <div className="w-10 h-10 border-2 border-cyan-500/20 border-t-cyan-500 rounded-full animate-spin" />
-                <div className="text-cyan-600 dark:text-cyan-500 font-mono text-[10px] uppercase tracking-widest">Initialising_V-Model...</div>
-              </div>
-            }>
-              <div className="w-full h-full lg:scale-110 cursor-grab active:cursor-grabbing relative z-10">
-                <Spline
-                  className="w-full h-full"
-                  scene="https://prod.spline.design/cjCHnZAtDbmavil4/scene.splinecode"
-                />
-              </div>
-            </Suspense>
+            {/* Only render Spline on Desktop to save bandwidth on mobile */}
+            {isDesktop && (
+              <Suspense fallback={
+                <div className="flex flex-col items-center gap-4">
+                  <div className="w-10 h-10 border-2 border-cyan-500/20 border-t-cyan-500 rounded-full animate-spin" />
+                  <div className="text-cyan-600 dark:text-cyan-500 font-mono text-[10px] uppercase tracking-widest">Initialising_V-Model...</div>
+                </div>
+              }>
+                <div className="w-full h-full lg:scale-110 cursor-grab active:cursor-grabbing relative z-10">
+                  <Spline
+                    className="w-full h-full"
+                    scene="https://prod.spline.design/cjCHnZAtDbmavil4/scene.splinecode"
+                  />
+                </div>
+              </Suspense>
+            )}
 
             {/* Aesthetic Overlays */}
             <div className="absolute inset-4 pointer-events-none border border-black/5 dark:border-white/5 rounded-3xl z-20" />

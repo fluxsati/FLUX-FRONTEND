@@ -8,29 +8,31 @@ import Navbar from "./components/Navbar";
 import FluxFooter from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 import Auth from "./components/Auth";
+import Loader from "./components/Loader";
 
-// Pages
-import Home from "./pages/Home";
-import BehindFlux from "./pages/BehindFlux";
-import FluxFeatures from "./pages/FLuxFeatures";
-import FluxAbout from "./pages/About";
-import FluxEvent from "./pages/Events";
-import OurTeam from "./pages/Team";
-import FluxProjects from "./pages/Projects";
-import FluxGallery from "./pages/Gallery";
-import FluxContact from "./pages/Contact";
-import FluxSkills from "./pages/Skiils";
-import FluxLearningHub from "./pages/LearningHub";
-import LyfatFlux from "./pages/Fluxlyf";
-import Ideathon from "./pages/Ideathon";
-import LegacySite from "./pages/LegacySite";
-import NotFound from "./pages/NotFound";
+// Lazy Load Pages
+const Home = React.lazy(() => import("./pages/Home"));
+const BehindFlux = React.lazy(() => import("./pages/BehindFlux"));
+const FluxFeatures = React.lazy(() => import("./pages/FLuxFeatures"));
+const FluxAbout = React.lazy(() => import("./pages/About"));
+const FluxEvent = React.lazy(() => import("./pages/Events"));
+const OurTeam = React.lazy(() => import("./pages/Team"));
+const FluxProjects = React.lazy(() => import("./pages/Projects"));
+const FluxGallery = React.lazy(() => import("./pages/Gallery"));
+const FluxContact = React.lazy(() => import("./pages/Contact"));
+const FluxSkills = React.lazy(() => import("./pages/Skiils"));
+const FluxLearningHub = React.lazy(() => import("./pages/LearningHub"));
+const LyfatFlux = React.lazy(() => import("./pages/Fluxlyf"));
+const Ideathon = React.lazy(() => import("./pages/Ideathon"));
+const LegacySite = React.lazy(() => import("./pages/LegacySite"));
+const NotFound = React.lazy(() => import("./pages/NotFound"));
 
-import VercelAnalytics from './VercelAnalytics'; // Import here
-// Private Pages
-import Dashboard from "./Private/Dashboard";
-import AdminDashboard from "./Private/AdminDashboard";
-import GroupChat from "./Private/GroupChat";
+const VercelAnalytics = React.lazy(() => import('./VercelAnalytics'));
+
+// Lazy Load Private Pages
+const Dashboard = React.lazy(() => import("./Private/Dashboard"));
+const AdminDashboard = React.lazy(() => import("./Private/AdminDashboard"));
+const GroupChat = React.lazy(() => import("./Private/GroupChat"));
 
 /**
  * Protected Route (For all logged-in users)
@@ -70,73 +72,77 @@ export default function App() {
         <Navbar />
 
         <main className="flex-grow">
-          <Routes>
-            {/* ---------- PUBLIC ROUTES ---------- */}
-            <Route
-              path="/"
-              element={
-                <>
-                  <Home />
-                  <LyfatFlux />
-                  <BehindFlux />
+          <React.Suspense fallback={<Loader />}>
+            <Routes>
+              {/* ---------- PUBLIC ROUTES ---------- */}
+              <Route
+                path="/"
+                element={
+                  <>
+                    <Home />
+                    <LyfatFlux />
+                    <BehindFlux />
 
-                  <FluxFeatures />
-                </>
-              }
-            />
-            <Route path="/about" element={<FluxAbout />} />
-            <Route path="/events" element={<FluxEvent />} />
-            <Route path="/team" element={<OurTeam />} />
-            <Route path="/projects" element={<FluxProjects />} />
-            <Route path="/gallery" element={<FluxGallery />} />
-            <Route path="/skills" element={<FluxSkills />} />
-            <Route path="/contact" element={<FluxContact />} />
-            <Route path="/learninghub" element={<FluxLearningHub />} />
-            <Route path="/flux-hard-wired" element={<Ideathon />} />
-            <Route path="/Old-Site" element={<LegacySite />} />
+                    <FluxFeatures />
+                  </>
+                }
+              />
+              <Route path="/about" element={<FluxAbout />} />
+              <Route path="/events" element={<FluxEvent />} />
+              <Route path="/team" element={<OurTeam />} />
+              <Route path="/projects" element={<FluxProjects />} />
+              <Route path="/gallery" element={<FluxGallery />} />
+              <Route path="/skills" element={<FluxSkills />} />
+              <Route path="/contact" element={<FluxContact />} />
+              <Route path="/learninghub" element={<FluxLearningHub />} />
+              <Route path="/flux-hard-wired" element={<Ideathon />} />
+              <Route path="/Old-Site" element={<LegacySite />} />
 
-            {/* ---------- AUTH ROUTES ---------- */}
-            {/* Note: Auth component itself now handles the "already logged in" redirect */}
-            <Route path="/login" element={<Auth isLoginMode={true} />} />
-            <Route path="/register" element={<Auth isLoginMode={false} />} />
+              {/* ---------- AUTH ROUTES ---------- */}
+              {/* Note: Auth component itself now handles the "already logged in" redirect */}
+              <Route path="/login" element={<Auth isLoginMode={true} />} />
+              <Route path="/register" element={<Auth isLoginMode={false} />} />
 
-            {/* ---------- PRIVATE ROUTES ---------- */}
-            <Route
-              path="/dashboard"
-              element={
-                <ProtectedRoute>
-                  <Dashboard />
-                </ProtectedRoute>
-              }
-            />
+              {/* ---------- PRIVATE ROUTES ---------- */}
+              <Route
+                path="/dashboard"
+                element={
+                  <ProtectedRoute>
+                    <Dashboard />
+                  </ProtectedRoute>
+                }
+              />
 
-            <Route
-              path="/admin"
-              element={
-                <AdminRoute>
-                  <AdminDashboard />
-                </AdminRoute>
-              }
-            />
+              <Route
+                path="/admin"
+                element={
+                  <AdminRoute>
+                    <AdminDashboard />
+                  </AdminRoute>
+                }
+              />
 
-            <Route
-              path="/chat"
-              element={
-                <ProtectedRoute>
-                  <div className="h-screen pt-24 pb-10 px-4 md:px-10 bg-[#f8fafc] dark:bg-[#050505] transition-colors duration-300">
-                    <GroupChat />
-                  </div>
-                </ProtectedRoute>
-              }
-            />
+              <Route
+                path="/chat"
+                element={
+                  <ProtectedRoute>
+                    <div className="h-screen pt-24 pb-10 px-4 md:px-10 bg-[#f8fafc] dark:bg-[#050505] transition-colors duration-300">
+                      <GroupChat />
+                    </div>
+                  </ProtectedRoute>
+                }
+              />
 
-            {/* Catch-all for 404s */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+              {/* Catch-all for 404s */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </React.Suspense>
         </main>
 
         <FluxFooter />
-        <VercelAnalytics />
+        <React.Suspense fallback={null}>
+          <VercelAnalytics />
+        </React.Suspense>
       </div>
     </Router>
   );
