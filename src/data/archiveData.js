@@ -46,8 +46,8 @@ export const ARCHIVE_DATA = {
       tag: "Hardware Ideathon",
       detailsUrl: "/flux-hard-wired",
       images: [flux_hard_wired_poster],
-      terminal: "> mode: Online\n> deadline: 05_Feb_2026\n> team_size: 2-3_Members\n> focus: Hardware_Innovation",
-      date: "2026-02-05",
+      terminal: "> mode: Online\n> deadline: 08_Feb_2026\n> team_size: 2-3_Members\n> focus: Hardware_Innovation",
+      date: "2026-02-08",
       popularity: 95,
       summary: "FLUX Hard-Wired 1.0 is a competitive hardware-focused innovation challenge designed to evaluate participants on their ability to convert ideas into logically sound, well-structured, and defensible solutions."
     },
