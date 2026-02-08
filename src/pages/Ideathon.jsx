@@ -6,7 +6,7 @@ import {
     Award, Zap, CheckCircle, Mail, Phone,
     Trophy, Gift
 } from 'lucide-react';
-import IdeathonPoster from '../assets/events/Events-Posters/IdeathonPoster.jpeg';
+import IdeathonPoster from '../assets/events/Events-Posters/IdeathonPoster.jpg';
 
 const TimelineItem = ({ date, title, description, icon: Icon, index, total }) => {
     const isEven = index % 2 === 0;
@@ -391,7 +391,7 @@ const Ideathon = () => {
                         <div className="space-y-4">
                             <TimelineItem
                                 index={0}
-                                date="Until 08 Feb"
+                                date="Until 09 Feb"
                                 title="Registration"
                                 description="Register on Unstop and submit your initial idea abstract. This is your entry ticket."
                                 icon={Calendar}
