@@ -8,7 +8,7 @@ import {
 } from 'lucide-react';
 import IdeathonPoster from '../assets/events/Events-Posters/IdeathonPoster.jpg';
 
-const TimelineItem = ({ date, title, description, icon: Icon, index, total }) => {
+const TimelineItem = ({ date, title, description, link, icon: Icon, index, total }) => {
     const isEven = index % 2 === 0;
 
     return (
@@ -48,6 +48,17 @@ const TimelineItem = ({ date, title, description, icon: Icon, index, total }) =>
                             </div>
                             <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-sm md:text-base">
                                 {description}
+                                {link && (
+                                    <a
+                                        href={link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-2 mt-3 text-cyan-600 dark:text-cyan-400 font-medium hover:underline"
+                                    >
+                                        <ExternalLink size={16} />
+                                        <span>Join Meeting</span>
+                                    </a>
+                                )}
                             </p>
                         </motion.div>
                     </div>
@@ -369,11 +380,12 @@ const Ideathon = () => {
                         </motion.div>
                     </div>
 
-                    <p className="text-center text-slate-400 dark:text-slate-500 text-sm mt-8">
+                    <p className="text-left text-slate-400 dark:text-slate-500 text-sm mt-8">
                         * Prizes and certificates will be distributed within 15 days of the event conclusion.
                     </p>
-                    <p className="text-center text-slate-400 dark:text-slate-500 text-sm mt-3">
-                        * <b>Please note:</b> Accommodation and food facilities will not be provided by the organizing team for this event. Participants are requested to make their own arrangements accordingly.
+                    <p className="text-left text-slate-400 dark:text-slate-500 text-sm mt-3">
+                        * <b>Please note:</b><br />1. Accommodation and food facilities will not be provided by the organizing team for this event. Participants are requested to make their own arrangements accordingly.
+                        <br />2. If you are selected in top 20 teams after round 2 then you can showcase your prototype in <b>Technovision</b> (annual technical fest of Samrat Ashok Technological Institute).
                     </p>
                 </div>
 
@@ -396,29 +408,16 @@ const Ideathon = () => {
                                 description="Register on Unstop and submit your initial idea abstract. This is your entry ticket."
                                 icon={Calendar}
                             />
-                            {/* <TimelineItem
-                                index={1}
-                                date="06 Feb"
-                                title="Screening"
-                                description="Expert panel reviews all submissions. The most innovative and feasible hardware ideas get shortlisted."
-                                icon={Zap}
+                            <TimelineItem
+                                index={3}
+                                date="10 Feb | 8 PM"
+                                title="Orientation Session"
+                                description="Join us for a short session where we'll explain the event flow, idea presentation guidelines and solve any doubts you have."
+                                link="https://meet.google.com/ebq-yxmk-spf"
+                                icon={Users}
                             />
                             <TimelineItem
                                 index={2}
-                                date="07 Feb"
-                                title="Announcement"
-                                description="List of shortlisted teams is released. Selected teams prepare for the final presentation."
-                                icon={Award}
-                            />
-                            <TimelineItem
-                                index={3}
-                                date="08-09 Feb"
-                                title="Mentorship"
-                                description="Refine your models with guidance from industry experts before the final showdown."
-                                icon={Users}
-                            /> */}
-                            <TimelineItem
-                                index={1}
                                 date="11-12 Feb"
                                 title="Virtual Presentation"
                                 description="Refine documentation, then present virtually to an expert panel focusing on innovation and feasibility."
