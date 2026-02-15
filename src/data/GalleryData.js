@@ -28,16 +28,10 @@ export const eventPosters = [
     date: "Nov 2025",
     img: poster1 // Local Asset
   },
-
   {
-    title: "Design Symposium",
-    date: "Dec 2025",
-    img: poster3 // Local Asset
-  },
-  {
-    title: "Flux Hard Wired",
+    title: "Technovision 2026",
     date: "Feb 2026",
-    img: poster4 // Local Asset
+    img: poster6 // Local Asset
   },
   {
     title: "Robotics Workshop",
@@ -45,9 +39,17 @@ export const eventPosters = [
     img: poster5 // Local Asset
   },
   {
-    title: "Technovision 2026",
+    title: "Flux Hard Wired",
     date: "Feb 2026",
-    img: poster6 // Local Asset
+    img: poster4 // Local Asset
   },
+  {
+    title: "Design Symposium",
+    date: "Dec 2025",
+    img: poster3 // Local Asset
+  },
+  
+  
+
 
 ];

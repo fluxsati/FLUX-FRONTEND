@@ -13,8 +13,34 @@ import bannerRopeway from '../assets/events/technovision_2026/1.png';
 import bannerRobo from '../assets/events/technovision_2026/2.png';
 import bannerModel from '../assets/events/technovision_2026/3.png';
 import roboIcon from '../assets/events/technovision_2026/robo_rumble_icon.webp';
+// import roboIcon from '../assets/events/technovision_2026/robo_rumble_icon.webp';
+import Typewriter from 'typewriter-effect';
+import { useInView } from 'react-intersection-observer';
 
 
+
+
+const TypingText = ({ content, delay = 20, cursor = '█', className = "" }) => {
+    const { ref, inView } = useInView({
+        triggerOnce: true,
+        threshold: 0.1,
+    });
+
+    return (
+        <div ref={ref} className={`inline-block w-full ${className}`}>
+            {inView ? (
+                <Typewriter
+                    options={{ delay, cursor, wrapperClassName: 'inline-block' }}
+                    onInit={(typewriter) => {
+                        typewriter.typeString(content).start();
+                    }}
+                />
+            ) : (
+                <span className="opacity-0">{content}</span>
+            )}
+        </div>
+    );
+};
 
 const Technovision = () => {
     const [activeTab, setActiveTab] = useState(null); // 'ropeway', 'robo', 'model'
@@ -64,6 +90,29 @@ const Technovision = () => {
     }, [activeTab]);
 
     const events = {
+        model: {
+            id: 'model',
+            title: 'Model Presentation',
+            icon: <Lightbulb size={32} />,
+            banner: bannerModel,
+            registrationLink: 'https://unstop.com/hackathons/flux-hard-wired-10-showcase-samrat-ashok-technological-institute-sati-vidisha-1641988',
+            description: "An innovation-driven technical event where participants present their hardware robots, kits, and working models. The event focuses on structured presentation, technical explanation, and critical evaluation.",
+            rules: [
+                "The project must be hardware-based (working model only) or science-based.",
+                "The project must be safe to operate and must demonstrate a valid technical concept.",
+                "The project must be original. Copied or commercially available ready-made projects may lead to disqualification.",
+                "The use of dangerous materials, chemicals, explosives, or high-risk components is strictly prohibited."
+            ],
+            prizes: [
+                "Winner:Goodies & Certificates",
+                "Participation Certificates for all"
+            ],
+            timeline: [
+                { time: "Registration Deadline", event: "18 Feb 2026" },
+                { time: "Presentation", event: "19 Feb 2026" },
+                // { time: "Presentation", event: "Day 1" }
+            ]
+        },
         ropeway: {
             id: 'ropeway',
             title: 'Ropeway Racing',
@@ -84,9 +133,9 @@ const Technovision = () => {
             ],
             timeline: [
                 { time: "Registration Deadline", event: "18 Feb 2026" },
-                { time: "Event Day", event: "19-20 Feb 2026" },
-                { time: "Round-Robin Matches", event: "Day 1" },
-                { time: "Finals", event: "Day 2" }
+                { time: "Round-Robin Matches", event: "19 Feb 2026" },
+                // { time: "Round-Robin Matches", event: "Day 1" },
+                // { time: "Finals", event: "Day 2" }
             ]
         },
         robo: {
@@ -97,10 +146,8 @@ const Technovision = () => {
             registrationLink: 'https://unstop.com/p/roborumble-samrat-ashok-technological-institute-1641998',
             description: "An intensive hardware-focused competition where students create robots to navigate varying terrains and specialized hurdles. The competition track features unique obstacles and technical challenges.",
             rules: [
-                "Bots must be capable of traversing rough terrain.",
-                "Technical inspection will be conducted before the event.",
-                "Time limit constraints apply for each round.",
-                "Safety gears are mandatory for bot handling."
+                "Weight of the bot should not exceed 1.5 kg. The bot must be able to fit in a maximum dimension of length 20cm x breadth 20cm x height 15cm. 0% error for each dimension will not be tolerated.",
+                "Voltage difference between two points in the bot should not be greater than 12 V and (only one 12v battery pack is allowed)."
             ],
             prizes: [
                 "Winner: Certificates & Special Gifts",
@@ -108,34 +155,12 @@ const Technovision = () => {
             ],
             timeline: [
                 { time: "Registration Deadline", event: "18 Feb 2026" },
-                { time: "Event Day", event: "19-20 Feb 2026" },
-                { time: "Inspection", event: "Day 1 Morning" },
-                { time: "Rounds", event: "Day 1 Afternoon" }
+                { time: "Event Day", event: "20 Feb 2026" },
+                // { time: "Inspection", event: "Day 1 Morning" },
+                // { time: "Rounds", event: "Day 1 Afternoon" }
             ]
         },
-        model: {
-            id: 'model',
-            title: 'Model Presentation',
-            icon: <Lightbulb size={32} />,
-            banner: bannerModel,
-            registrationLink: 'https://unstop.com/hackathons/flux-hard-wired-10-showcase-samrat-ashok-technological-institute-sati-vidisha-1641988',
-            description: "An innovation-driven technical event where participants present their hardware robots, kits, and working models. The event focuses on structured presentation, technical explanation, and critical evaluation.",
-            rules: [
-                "Maximum team size: 4 members.",
-                "Minimum team size: 1 member.",
-                "Projects must be hardware-based (robots, kits, or working models).",
-                "School students in Vidisha are also eligible."
-            ],
-            prizes: [
-                "Winner:Goodies & Certificates",
-                "Participation Certificates for all"
-            ],
-            timeline: [
-                { time: "Registration Deadline", event: "18 Feb 2026" },
-                { time: "Event Day", event: "19-20 Feb 2026" },
-                { time: "Presentation", event: "Day 1 & 2" }
-            ]
-        }
+
     };
 
     const currentEvent = activeTab ? events[activeTab] : null;
@@ -255,12 +280,15 @@ const Technovision = () => {
                         </motion.div>
 
                         <div className="space-y-8">
-                            <h2 className="text-4xl font-bold uppercase tracking-tight">
+                            <h2 className="text-4xl font-black italic uppercase tracking-tighter">
                                 Quick <span className="text-cyan-500">Overview</span>
                             </h2>
-                            <p className="text-lg text-slate-600 dark:text-slate-300 leading-relaxed text-justify">
-                                Technovision 2026 is the premier technical fest of Samrat Ashok Technological Institute, organized by the Technical Club 'Flux'. It brings together the brightest minds to compete in high-octane robotics and innovation challenges. Witness the clash of metal and code in Ropeway Racing, Robo Rumble, and Model Presentation.
-                            </p>
+                            <div className="text-lg text-slate-600 dark:text-slate-300 leading-relaxed text-justify">
+                                <TypingText
+                                    content="Technovision 2026 is the premier technical fest of Samrat Ashok Technological Institute, organized by the Technical Club 'Flux'. It brings together the brightest minds to compete in high-octane robotics and innovation challenges. Witness the clash of metal and code in Ropeway Racing, Robo Rumble, and Model Presentation."
+                                    delay={10}
+                                />
+                            </div>
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="p-4 bg-white dark:bg-white/5 rounded-2xl border border-slate-200 dark:border-white/10">
@@ -400,16 +428,16 @@ const Technovision = () => {
                                         {/* Left Column: Description & Rules */}
                                         <div className="space-y-8">
                                             <div>
-                                                <h3 className="text-xl font-black uppercase tracking-wider text-cyan-500 mb-4 flex items-center gap-2">
+                                                <h3 className="text-xl font-black italic uppercase tracking-wider text-cyan-500 mb-4 flex items-center gap-2">
                                                     <Info size={20} /> About Event
                                                 </h3>
-                                                <p className="text-slate-600 dark:text-gray-400 leading-relaxed text-lg">
-                                                    {currentEvent.description}
-                                                </p>
+                                                <div className="text-slate-600 dark:text-gray-400 leading-relaxed text-lg">
+                                                    <TypingText content={currentEvent.description} delay={15} />
+                                                </div>
                                             </div>
 
                                             <div>
-                                                <h3 className="text-xl font-black uppercase tracking-wider text-cyan-500 mb-4 flex items-center gap-2">
+                                                <h3 className="text-xl font-black italic uppercase tracking-wider text-cyan-500 mb-4 flex items-center gap-2">
                                                     <Bot size={20} /> Key Rules
                                                 </h3>
                                                 <ul className="space-y-3">
@@ -426,27 +454,27 @@ const Technovision = () => {
                                         {/* Right Column: Timeline & Prizes */}
                                         <div className="space-y-8">
                                             <div className="bg-slate-50 dark:bg-white/5 p-6 rounded-2xl border border-slate-200 dark:border-white/10">
-                                                <h3 className="text-xl font-black uppercase tracking-wider text-cyan-500 mb-6 flex items-center gap-2">
+                                                <h3 className="text-xl font-black italic uppercase tracking-wider text-cyan-500 mb-6 flex items-center gap-2">
                                                     <Clock size={20} /> Event Timeline
                                                 </h3>
                                                 <div className="space-y-4">
                                                     {currentEvent.timeline.map((item, idx) => (
                                                         <div key={idx} className="flex justify-between items-center border-b border-slate-200 dark:border-white/5 last:border-0 pb-3 last:pb-0">
-                                                            <span className="text-slate-500 dark:text-slate-400 font-mono text-sm">{item.event}</span>
-                                                            <span className="font-bold text-slate-900 dark:text-white">{item.time}</span>
+                                                            <span className="text-slate-500 dark:text-slate-400 font-mono text-sm text-left">{item.event}</span>
+                                                            <span className="font-bold text-slate-900 dark:text-white text-right">{item.time}</span>
                                                         </div>
                                                     ))}
                                                 </div>
                                             </div>
 
                                             <div className="bg-gradient-to-br from-amber-500/10 to-transparent p-6 rounded-2xl border border-amber-500/20">
-                                                <h3 className="text-xl font-black uppercase tracking-wider text-amber-500 mb-6 flex items-center gap-2">
+                                                <h3 className="text-xl font-black italic uppercase tracking-wider text-amber-500 mb-6 flex items-center gap-2">
                                                     <Trophy size={20} /> Prize Pool
                                                 </h3>
                                                 <ul className="space-y-3">
                                                     {currentEvent.prizes.map((prize, idx) => (
-                                                        <li key={idx} className="flex items-center gap-3 text-slate-700 dark:text-amber-100/80">
-                                                            <Trophy size={14} className="text-amber-500" />
+                                                        <li key={idx} className="flex items-start gap-3 text-slate-700 dark:text-amber-100/80">
+                                                            <Trophy size={14} className="text-amber-500 mt-1 shrink-0" />
                                                             {prize}
                                                         </li>
                                                     ))}
@@ -463,12 +491,12 @@ const Technovision = () => {
 
                 {/* FAQs Section */}
                 <section className="max-w-4xl mx-auto px-6 py-20 border-t border-slate-200 dark:border-white/10">
-                    <h2 className="text-3xl font-black uppercase tracking-tight text-center mb-12">
+                    <h2 className="text-3xl font-black italic uppercase tracking-tight text-center mb-12">
                         Frequently Asked <span className="text-cyan-500">Questions</span>
                     </h2>
                     <div className="space-y-4">
                         {[
-                            { q: "Is there any registration fee?", a: "Yes, there is a some amount of registration fee for other students but for SATI students it is free." },
+                            { q: "Is there any registration fee?", a: "Yes, there is of some amount of registration fee for other students but for SATI students it is free. There is no fee for Model Presentation." },
                             { q: "Can I participate in multiple events?", a: "Yes, you can participate in multiple events as long as the schedules do not clash. Please check the timeline." },
                             { q: "Are teams from other colleges allowed?", a: "Yes, Technovision 2026 welcomes participation from other institutes and schools." },
                             { q: "Will certificates be provided?", a: "Yes, all participants will receive certificates of participation, and winners will get certificates and goodies." }
