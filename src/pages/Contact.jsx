@@ -345,12 +345,69 @@ const FluxContactPage = () => {
               <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6 pt-4 border-t border-slate-100 dark:border-white/5">
                 <div className="flex items-center gap-4">
                   <SocialLink href="https://www.linkedin.com/in/mahesh-kushwah-942245276" icon={<Linkedin size={18} />} />
-                  <SocialLink href="https://github.com/Introvert07" icon={<Github size={18} />} />
                   <SocialLink href="https://www.instagram.com/_introvert7/" icon={<Instagram size={18} />} />
+                  <SocialLink href="https://github.com/Introvert07" icon={<Github size={18} />} />
                 </div>
                 <div className="flex flex-col items-center lg:items-start">
-                  <span className="text-[8px] font-mono text-slate-400 uppercase tracking-widest">Secure_Comm</span>
+                  <span className="text-[8px] font-mono text-slate-400 uppercase tracking-widest">Secure_Communication</span>
                   <a href="tel:+918770726065" className="text-sm font-bold text-cyan-500 hover:text-cyan-400 transition-colors">+91 87707 26065</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* SAFAL TIWARI SECTION */}
+        <section className="relative max-w-6xl mx-auto px-4 mt-8 md:mt-12">
+          <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-white dark:bg-black/40 border border-slate-200 dark:border-white/5 p-6 md:p-10 backdrop-blur-xl">
+            <div className="lg:col-span-4 flex justify-center relative group">
+              <div className="relative w-48 h-48 md:w-64 md:h-64 overflow-hidden rounded-xl border border-white/10">
+                <img
+                  src={safalImg}
+                  alt="Safal Tiwari"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-all duration-500"
+                />
+                <div className="absolute -bottom-1 -right-1 bg-cyan-500 text-black px-3 py-1 font-mono text-[9px] font-bold z-20">CORE_DEV</div>
+              </div>
+            </div>
+
+            <div className="lg:col-span-8 space-y-6 text-center lg:text-left">
+              <div>
+                <div className="flex items-center justify-center lg:justify-start gap-2 mb-2">
+                  <div className="h-[1px] w-8 bg-cyan-500" />
+                  <span className="text-cyan-500 font-mono text-[10px] uppercase tracking-widest">Jr. Lead System Architect</span>
+                </div>
+                <h2 className="text-5xl md:text-6xl font-black italic tracking-tighter uppercase leading-none text-slate-900 dark:text-white">
+                  Safal <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-blue-500">Tiwari</span>
+                </h2>
+              </div>
+              <p className="text-sm md:text-lg text-slate-500 dark:text-gray-400 font-medium leading-relaxed max-w-2xl">
+                Passionate <span className="text-slate-900 dark:text-white">IoT developer</span> exploring the intersection of hardware and software. Building smart solutions for a connected world.
+              </p>
+
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6 lg:gap-10 py-4">
+                <div className="space-y-1">
+                  <p className="text-[10px] font-mono text-cyan-500 uppercase tracking-widest">Branch</p>
+                  <p className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-tight">IOT</p>
+                </div>
+                <div className="hidden md:block w-px h-8 bg-slate-200 dark:bg-white/10" />
+                <div className="space-y-1">
+                  <p className="text-[10px] font-mono text-cyan-500 uppercase tracking-widest">Year</p>
+                  <p className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-tight">2nd Year</p>
+                </div>
+
+                <div className="hidden md:block w-px h-8 bg-slate-200 dark:bg-white/10" />
+
+                <div className="space-y-1">
+                  <p className="text-[10px] font-mono text-cyan-500 uppercase tracking-widest">Exploring</p>
+                  <p className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-tight">Video editing, Mern stack</p>
+                </div>
+              </div>
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6 pt-4 border-t border-slate-100 dark:border-white/5">
+                <div className="flex items-center gap-4">
+                  <SocialLink href="https://www.linkedin.com/in/safal-tiwari-a4727139a/" icon={<Linkedin size={18} />} />
+                  <SocialLink href="https://www.instagram.com/itz_safal_/" icon={<Instagram size={18} />} />
+                  <SocialLink href="https://www.github.com/SAFAL-TIWARI/" icon={<Github size={18} />} />
                 </div>
               </div>
             </div>
@@ -360,7 +417,7 @@ const FluxContactPage = () => {
 
 
         {/* WEBSITE MANAGERS SECTION (REPLACES OLD OPERATOR SECTION) */}
-        <section className="mb-32">
+        {/* <section className="mb-32">
           <div className="flex items-center gap-4 mb-12">
             <div className="w-2 h-2 bg-cyan-500 rotate-45" />
             <h3 className="text-xs font-mono text-cyan-600 dark:text-cyan-400 uppercase tracking-[0.4em]">Web_Protocol // Developers</h3>
@@ -375,7 +432,7 @@ const FluxContactPage = () => {
               </div>
             )}
           />
-        </section>
+        </section> */}
 
       </div>
 
@@ -458,8 +515,8 @@ const FluxContactPage = () => {
 
       <footer className="mt-20 flex flex-col items-center gap-4 opacity-40 font-mono text-[8px] md:text-[10px] tracking-[0.4em] uppercase text-center">
         <div className="flex items-center gap-6">
-          <div className="flex items-center gap-2"><Database size={12} className="text-cyan-500" /> v2.0.4</div>
-          <Clock />
+          {/* <div className="flex items-center gap-2"><Database size={12} className="text-cyan-500" /> v2.0.4</div>
+          <Clock /> */}
         </div>
         <p>Lead Architect: Mahesh Kushwah // FLUX_WEB_DIV // © 2026</p>
       </footer>

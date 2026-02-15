@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  X, Cpu, Layers, ChevronRight, 
-  Maximize2, ChevronLeft, Zap, Users
+import {
+  X, Cpu, Layers, ChevronRight,
+  Maximize2, ChevronLeft, Zap, Users, Bot
 } from 'lucide-react';
 
 /* ===================== AUTOMATIC IMAGE IMPORTS ===================== */
@@ -11,44 +11,53 @@ const tvImages = import.meta.glob('../assets/events/technovision-2025/*.{png,jpg
 const fwImages = import.meta.glob('../assets/events/FluxWave/*.{png,jpg,jpeg,webp}', { eager: true });
 const webImages = import.meta.glob('../assets/events/Web-Workshop/*.{png,jpg,jpeg,webp}', { eager: true });
 const recruitImages = import.meta.glob('../assets/events/FluxRecruitment/*.{png,jpg,jpeg,webp}', { eager: true });
+const roboImages = import.meta.glob('../assets/events/Robo_workshop/*.{png,jpg,jpeg,webp}', { eager: true });
 
 // Helper to convert the Glob objects into simple arrays of URLs
 const getImageUrls = (globObj) => Object.values(globObj).map(mod => mod.default);
 
 /* ===================== DATA STRUCTURE ===================== */
 const EVENTS = [
-  { 
-    id: 'technovision25', 
-    label: 'TECHNOVISION_25', 
-    desc: 'Robotics & Hardware Showcase', 
-    icon: <Cpu size={24}/>,
-    assets: getImageUrls(tvImages)
+  {
+    id: 'robo_workshop',
+    label: 'ROBOTICS_WORKSHOP',
+    desc: 'Hands-on Robotics Training',
+    icon: <Bot size={24} />,
+    assets: getImageUrls(roboImages)
   },
-  { 
-    id: 'webdev_workshop', 
-    label: 'WEB_DEV_25', 
-    desc: 'Modern Fullstack Training', 
-    icon: <Layers size={24}/>,
+  {
+    id: 'recruitment25',
+    label: 'RECRUITMENT_25',
+    desc: 'New Talent Induction',
+    icon: <Users size={24} />,
+    assets: getImageUrls(recruitImages)
+  },
+  {
+    id: 'webdev_workshop',
+    label: 'WEB_DEV_25',
+    desc: 'Modern Fullstack Training',
+    icon: <Layers size={24} />,
     assets: getImageUrls(webImages)
   },
-  { 
-    id: 'fluxwave', 
-    label: 'FLUXWAVE', 
-    desc: 'State Level Hackathon Archive', 
-    icon: <Zap size={24}/>,
+  {
+    id: 'fluxwave',
+    label: 'FLUXWAVE',
+    desc: 'State Level Hackathon Archive',
+    icon: <Zap size={24} />,
     assets: getImageUrls(fwImages)
   },
-  { 
-    id: 'recruitment25', 
-    label: 'RECRUITMENT_25', 
-    desc: 'New Talent Induction', 
-    icon: <Users size={24}/>,
-    assets: getImageUrls(recruitImages)
-  }
+  {
+    id: 'technovision25',
+    label: 'TECHNOVISION_25',
+    desc: 'Robotics & Hardware Showcase',
+    icon: <Cpu size={24} />,
+    assets: getImageUrls(tvImages)
+  },
+  
 ];
 
 // Flat array for the internal gallery logic
-const GALLERY_DATA = EVENTS.flatMap(evt => 
+const GALLERY_DATA = EVENTS.flatMap(evt =>
   evt.assets.map((url, index) => ({
     id: `${evt.id}-${index}`,
     type: 'image',
@@ -59,7 +68,7 @@ const GALLERY_DATA = EVENTS.flatMap(evt =>
 
 /* ===================== LIGHTBOX COMPONENT ===================== */
 const Lightbox = ({ item, onClose }) => (
-  <motion.div 
+  <motion.div
     initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
     className="fixed inset-0 z-[9999] bg-black/95 flex items-center justify-center p-2 md:p-6"
     onClick={onClose}
@@ -67,7 +76,7 @@ const Lightbox = ({ item, onClose }) => (
     <button className="absolute top-6 right-6 text-white bg-white/10 p-3 rounded-full hover:bg-white/20 z-[10000]">
       <X size={24} />
     </button>
-    <motion.div 
+    <motion.div
       initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }}
       className="max-w-6xl w-full max-h-full overflow-hidden flex flex-col items-center"
       onClick={(e) => e.stopPropagation()}
@@ -103,7 +112,7 @@ const HorizontalStrip = ({ eventId, onClose }) => {
   };
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
       className="fixed inset-0 z-[999] bg-slate-50 dark:bg-zinc-950 text-slate-900 dark:text-white flex flex-col"
     >
@@ -125,14 +134,14 @@ const HorizontalStrip = ({ eventId, onClose }) => {
       <div className="flex-1 relative flex flex-col items-center justify-center overflow-hidden">
         {/* Navigation Controls */}
         <div className="absolute inset-x-8 z-10 hidden md:flex justify-between pointer-events-none">
-          <button 
+          <button
             disabled={currentIndex === 0}
             onClick={() => handleScrollTo(currentIndex - 1)}
             className={`p-4 bg-black/50 backdrop-blur-md text-white rounded-full pointer-events-auto transition-all ${currentIndex === 0 ? 'opacity-0 scale-50' : 'opacity-100 hover:bg-cyan-500 hover:scale-110'}`}
           >
             <ChevronLeft size={32} />
           </button>
-          <button 
+          <button
             disabled={currentIndex === items.length - 1}
             onClick={() => handleScrollTo(currentIndex + 1)}
             className={`p-4 bg-black/50 backdrop-blur-md text-white rounded-full pointer-events-auto transition-all ${currentIndex === items.length - 1 ? 'opacity-0 scale-50' : 'opacity-100 hover:bg-cyan-500 hover:scale-110'}`}
@@ -142,12 +151,12 @@ const HorizontalStrip = ({ eventId, onClose }) => {
         </div>
 
         {/* Scrollable Container */}
-        <div 
+        <div
           ref={scrollRef}
           className="w-full h-full flex overflow-x-auto no-scrollbar snap-x snap-mandatory"
           onScroll={(e) => {
             const index = Math.round(e.target.scrollLeft / e.target.offsetWidth);
-            if(index !== currentIndex) setCurrentIndex(index);
+            if (index !== currentIndex) setCurrentIndex(index);
           }}
         >
           {items.map((item) => (
@@ -155,8 +164,8 @@ const HorizontalStrip = ({ eventId, onClose }) => {
               <div className="relative w-full max-w-5xl aspect-[4/5] md:aspect-video rounded-2xl overflow-hidden border-2 border-black/5 dark:border-white/10 bg-white dark:bg-zinc-900 shadow-2xl">
                 <img src={item.url} className="w-full h-full object-cover" alt="" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent md:opacity-0 md:hover:opacity-100 transition-opacity flex items-center justify-center">
-                  <button 
-                    onClick={() => setActiveLightbox(item)} 
+                  <button
+                    onClick={() => setActiveLightbox(item)}
                     className="flex items-center gap-2 bg-white text-black px-6 py-2.5 md:px-8 md:py-3 rounded-full font-bold hover:bg-cyan-500 hover:text-white transition-all shadow-xl text-xs md:text-sm"
                   >
                     <Maximize2 size={18} /> <span className="tracking-widest">VIEW FULLSCREEN</span>
@@ -170,7 +179,7 @@ const HorizontalStrip = ({ eventId, onClose }) => {
 
       {/* Progress Bar */}
       <div className="h-1.5 w-full bg-black/5 dark:bg-white/5">
-        <motion.div 
+        <motion.div
           className="h-full bg-cyan-500"
           animate={{ width: `${((currentIndex + 1) / items.length) * 100}%` }}
         />

@@ -23,9 +23,10 @@ const FluxContact = React.lazy(() => import("./pages/Contact"));
 const FluxSkills = React.lazy(() => import("./pages/Skiils"));
 const FluxLearningHub = React.lazy(() => import("./pages/LearningHub"));
 const LyfatFlux = React.lazy(() => import("./pages/Fluxlyf"));
-const Ideathon = React.lazy(() => import("./pages/Ideathon"));
+const Ideathon = React.lazy(() => import("./pages/Ideathon_26"));
 const LegacySite = React.lazy(() => import("./pages/LegacySite"));
 const NotFound = React.lazy(() => import("./pages/NotFound"));
+const Technovision = React.lazy(() => import("./pages/Technovision_26"));
 
 const VercelAnalytics = React.lazy(() => import('./VercelAnalytics'));
 
@@ -97,6 +98,7 @@ export default function App() {
               <Route path="/learninghub" element={<FluxLearningHub />} />
               <Route path="/flux-hard-wired" element={<Ideathon />} />
               <Route path="/Old-Site" element={<LegacySite />} />
+              <Route path="/technovision-2026" element={<Technovision />} />
 
               {/* ---------- AUTH ROUTES ---------- */}
               {/* Note: Auth component itself now handles the "already logged in" redirect */}
