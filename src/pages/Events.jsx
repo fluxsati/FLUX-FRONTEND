@@ -88,7 +88,7 @@ const EventCard = ({ event, index }) => {
           <span className="inline-block bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 text-[9px] font-black px-4 py-1.5 rounded-full border border-cyan-500/20 uppercase tracking-[0.2em]">
             {event.tag}
           </span>
-          <h2 className="text-5xl md:text-6xl lg:text-7xl font-black italic uppercase tracking-tighter leading-none text-slate-900 dark:text-white">
+          <h2 className="text-4xl md:text-6xl lg:text-5xl font-black italic uppercase tracking-tighter leading-none text-slate-900 dark:text-white">
             {event.title}
           </h2>
         </div>
@@ -282,7 +282,7 @@ const FluxArchive = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -30 }}
-            className="space-y-32 md:space-y-52 mb-40"
+            className="space-y-32 md:space-y-20 mb-40"
           >
             {sortedEvents.map((event, i) => (
               <EventCard key={`${activeYear}-${i}`} event={event} index={i} />

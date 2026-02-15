@@ -78,12 +78,12 @@ const BehindFlux = () => {
 
   return (
     <div id="behind-flux" className="relative min-h-screen w-full bg-white dark:bg-[#030303] text-slate-900 dark:text-white font-sans py-12 lg:py-24 overflow-x-hidden border-t border-slate-200 dark:border-white/5 transition-colors duration-500">
-      
-      <div className="hidden lg:block absolute inset-0 z-0 pointer-events-none opacity-10" 
-           style={{ backgroundImage: 'linear-gradient(#06b6d4 1px, transparent 1px), linear-gradient(90deg, #06b6d4 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
+
+      <div className="hidden lg:block absolute inset-0 z-0 pointer-events-none opacity-10"
+        style={{ backgroundImage: 'linear-gradient(#06b6d4 1px, transparent 1px), linear-gradient(90deg, #06b6d4 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
 
       <div className="relative z-10 max-w-6xl mx-auto px-6">
-        
+
         <header className="mb-12 lg:mb-20 space-y-4 text-center lg:text-left">
           <div className="flex items-center justify-center lg:justify-start gap-4">
             <div className="h-[2px] w-8 lg:w-12 bg-cyan-500" />
@@ -133,7 +133,7 @@ const BehindFlux = () => {
               </div>
               <span className="text-[9px] font-mono text-white/40 uppercase tracking-widest">Live_Terminal_Feed</span>
             </div>
-            
+
             <div className="p-4 sm:p-6 font-mono text-[10px] sm:text-xs md:text-sm text-cyan-400 space-y-4">
               {recentNews.map((news, index) => (
                 <div key={index} className="flex gap-3 items-start">
@@ -151,9 +151,9 @@ const BehindFlux = () => {
                   <div className="group/link">
                     <span className="text-white/20 mr-3">04</span>
                     <span className="text-white">flux_user@system:~$ view --members</span>
-                    <a 
-                      href="/fluxmembers.pdf" 
-                      target="_blank" 
+                    <a
+                      href="/fluxmembers.pdf"
+                      target="_blank"
                       rel="noopener noreferrer"
                       className="mt-2 flex items-center gap-3 w-fit bg-cyan-500/10 border border-cyan-500/30 px-4 py-2 text-cyan-400 hover:bg-cyan-500 hover:text-white transition-all rounded-sm group"
                     >
@@ -163,7 +163,7 @@ const BehindFlux = () => {
                   </div>
 
                   {/* Attendance Sheet Link */}
-                  
+
                 </div>
               </div>
 

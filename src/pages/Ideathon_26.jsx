@@ -7,8 +7,9 @@ import {
     Trophy, Gift
 } from 'lucide-react';
 import IdeathonPoster from '../assets/events/Events-Posters/IdeathonPoster.jpg';
+import InsightsLogo from '../assets/events/sponsors/insights.webp';
 
-const TimelineItem = ({ date, title, description, link, icon: Icon, index, total }) => {
+const TimelineItem = ({ date, title, description, link, linkText, icon: Icon, index, total }) => {
     const isEven = index % 2 === 0;
 
     return (
@@ -56,7 +57,7 @@ const TimelineItem = ({ date, title, description, link, icon: Icon, index, total
                                         className="inline-flex items-center gap-2 mt-3 text-cyan-600 dark:text-cyan-400 font-medium hover:underline"
                                     >
                                         <ExternalLink size={16} />
-                                        <span>Join Meeting</span>
+                                        <span>{linkText || "Join Meeting"}</span>
                                     </a>
                                 )}
                             </p>
@@ -286,6 +287,52 @@ const Ideathon = () => {
                     </div>
                 </div>
 
+                {/* SPONSORS SECTION */}
+                <div className="max-w-6xl mx-auto mb-32">
+                    <div className="text-center mb-16">
+                        <h2 className="text-4xl md:text-5xl font-black uppercase italic tracking-tighter mb-4 text-slate-900 dark:text-white">
+                            Event <span className="text-cyan-600 dark:text-cyan-500">Sponsors</span>
+                        </h2>
+                        <div className="h-1 w-20 bg-cyan-500 mx-auto rounded-full" />
+                    </div>
+
+                    <div className="flex flex-row flex-nowrap justify-center items-center gap-4 md:gap-16">
+                        <motion.a
+                            href="https://unstop.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            // initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 0.1 }}
+                            className="w-36 sm:w-64 md:w-72 h-20 sm:h-32 md:h-40 flex-shrink-0 flex items-center justify-center group"
+                        >
+                            <img
+                                src="https://d8it4huxumps7.cloudfront.net/uploads/images/unstop/svg/unstop-logo.svg"
+                                alt="Unstop Logo"
+                                className="max-w-full max-h-full object-contain transition-all duration-300 scale-90"
+                            />
+                        </motion.a>
+
+                        <motion.a
+                            // initial={{ opacity: 0, y: 20 }}
+                            href="https://www.insight.com/en_US/careers/india.html"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 0.2 }}
+                            className="w-36 sm:w-64 md:w-72 h-20 sm:h-32 md:h-40 flex-shrink-0 flex items-center justify-center group"
+                        >
+                            <img
+                                src={InsightsLogo}
+                                alt="Insights Logo"
+                                className="max-w-full max-h-full object-contain transition-all duration-300 scale-150 group-hover:scale-160"
+                            />
+                        </motion.a>
+                    </div>
+                </div>
+
                 {/* REWARDS SECTION */}
                 <div className="max-w-6xl mx-auto mb-32">
                     <div className="text-center mb-16">
@@ -412,8 +459,9 @@ const Ideathon = () => {
                                 index={3}
                                 date="10 Feb | 8 PM"
                                 title="Orientation Session"
-                                description="Join us for a short session where we'll explain the event flow, idea presentation guidelines and solve any doubts you have."
-                                link="https://meet.google.com/ebq-yxmk-spf"
+                                description="We held a short session where we explained the event flow, idea presentation guidelines and solved everyone's doubts."
+                                link="https://drive.google.com/file/d/18DLc2ahfLNvqdvErd83qhRo5cNXO6zZG/view"
+                                linkText="Watch Recording"
                                 icon={Users}
                             />
                             <TimelineItem

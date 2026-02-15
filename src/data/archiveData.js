@@ -30,6 +30,17 @@ import rocket_poster from '../assets/events/Events-Posters/rocketcrash.jpeg';
 import color_smash_poster from '../assets/events/Events-Posters/colorsmash.jpeg';
 import flux_hard_wired_poster from '../assets/events/Events-Posters/flux_hard_wired.jpeg';
 
+// Robotics Workshop 2026
+import rw1 from '../assets/events/Robo_workshop/2.jpeg';
+import rw2 from '../assets/events/Robo_workshop/3.jpeg';
+import rw3 from '../assets/events/Robo_workshop/4.jpeg';
+import rw4 from '../assets/events/Robo_workshop/5.jpeg';
+import rw5 from '../assets/events/Robo_workshop/6.jpeg';
+import rw6 from '../assets/events/Robo_workshop/7.jpeg';
+import rw7 from '../assets/events/Robo_workshop/8.jpeg';
+import rw_poster from '../assets/events/Robo_workshop/robotics_workshop.png';
+import tv26_poster from '../assets/events/technovision_2026/banner.jpeg';
+
 /* ===================== REPORT (PDF) IMPORTS ===================== */
 import report_tv25 from '../assets/reports/Technovision_25.pdf';
 import report_fw25 from '../assets/reports/fluxwave_25.pdf';
@@ -41,6 +52,26 @@ import report_intra_club from '../assets/reports/intra_club_activity_reports25-2
 export const ARCHIVE_DATA = {
 
   "2026": [
+    {
+      title: "TECHNOVISION '26",
+      tag: "Mega Technical Fest",
+      detailsUrl: "/technovision-2026",
+      images: [tv26_poster],
+      terminal: "> arena: SU_Ground\n> date: 19-20_Feb_2026\n> events: Ropeway, Robo_Rumble, Model_Presentation\n> focus: Robotics_&_Innovation",
+      date: "2026-02-19",
+      popularity: 100,
+      summary: "Technovision 2026 is the premier technical fest of SATI, featuring high-octane robotics and innovation challenges. Witness the clash of metal and code in Ropeway Racing, Robo Rumble, and Model Presentation."
+    },
+    {
+      title: "ROBOTICS WORKSHOP",
+      tag: "Technical Workshop",
+      reportUrl: null,
+      images: [rw_poster, rw1, rw2, rw3, rw4, rw5, rw6, rw7],
+      terminal: "> venue: Embedded_Lab\n> date: 13_Feb_2026\n> guest: Mr._Kapil_Soni\n> focus: 1st_Year_Students",
+      date: "2026-02-13",
+      popularity: 92,
+      summary: "Exclusive hands-on workshop led by Mr. Kapil Soni for 1st-year students. Built ropeway racing robots and RC cars, bridging theory with practical mechanical assembly."
+    },
     {
       title: "FLUX HARD-WIRED 1.0",
       tag: "Hardware Ideathon",
@@ -106,12 +137,12 @@ export const ARCHIVE_DATA = {
     },
     {
       title: "TECHNOVISION '25",
-      tag: "Robotics",
+      tag: "Mega Technical Fest",
       reportUrl: report_tv25,
       images: [tv25_1, tv25_2, tv25_3, tv25_4, tv25_5, tv25_6, tv25_7],
       terminal: "> arena: IT_Garden\n> date: 20-21_Feb_2025\n> events: Robo_Sumo & Robo_Rumble\n> focus: Mechatronics & Strategic_Battle",
       date: "2025-02-20",
-      popularity: 90,
+      popularity: 100,
       summary: "A two-day robotic warfare event. Robo Sumo featured autonomous/manual ring battles, while Robo Rumble tested bots against complex obstacle courses and navigation tasks."
     },
 

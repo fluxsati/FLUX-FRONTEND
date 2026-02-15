@@ -1,8 +1,10 @@
 // Import local images from your assets folder
 import poster1 from "../assets/banner/1.png";
-import poster2 from "../assets/banner/2.png";
+
 import poster3 from "../assets/banner/3.png";
 import poster4 from "../assets/banner/4.jpeg";
+import poster5 from "../assets/banner/5.jpeg";
+import poster6 from "../assets/banner/6.jpeg";
 
 export const youtubeProjects = [
   { id: "fSaeEhcWA4w", title: "Flying Project: Quadcopter & Glider" },
@@ -27,19 +29,27 @@ export const eventPosters = [
     img: poster1 // Local Asset
   },
   {
-    title: "Tech-Sati Event",
-    date: "Oct 2025",
-    img: poster2 // Local Asset
+    title: "Technovision 2026",
+    date: "Feb 2026",
+    img: poster6 // Local Asset
   },
   {
-    title: "Design Symposium",
-    date: "Dec 2025",
-    img: poster3 // Local Asset
+    title: "Robotics Workshop",
+    date: "Feb 2026",
+    img: poster5 // Local Asset
   },
   {
     title: "Flux Hard Wired",
     date: "Feb 2026",
     img: poster4 // Local Asset
   },
+  {
+    title: "Design Symposium",
+    date: "Dec 2025",
+    img: poster3 // Local Asset
+  },
+  
+  
+
 
 ];
