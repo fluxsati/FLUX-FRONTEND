@@ -105,7 +105,10 @@ const Technovision = () => {
                 "The project must be hardware-based (working model only) or science-based.",
                 "The project must be safe to operate and must demonstrate a valid technical concept.",
                 "The project must be original. Copied or commercially available ready-made projects may lead to disqualification.",
-                "The use of dangerous materials, chemicals, explosives, or high-risk components is strictly prohibited."
+                "The use of dangerous materials, chemicals, explosives, or high-risk components is strictly prohibited.",
+                "Participants are expected to maintain proper decorum and discipline at the venue.",
+                "Any violent behavior or unprofessional conduct towards organizers or other participants will result in immediate disqualification and removal from the venue.",
+                "The organizing committee has the right to modify the schedule, or structure of the event if required."
             ],
             prizes: [
                 "Winner:Goodies & Certificates",
@@ -128,7 +131,7 @@ const Technovision = () => {
                 "The bot must be lightweight (under 1 kilogram).",
                 "The robot must be capable of moving effectively across the ropeway/slackline.",
                 "The bot may be based on a fun or entertaining theme.",
-                "Design must comply with all safety and hardware constraints."
+                "Design must comply with all safety and hardware constraints.",
             ],
             prizes: [
                 // "Winner: Exciting Cash Prizes & Certificates",
@@ -151,7 +154,7 @@ const Technovision = () => {
             registrationLink: 'https://unstop.com/p/roborumble-samrat-ashok-technological-institute-1641998',
             description: "An intensive hardware-focused competition where students create robots to navigate varying terrains and specialized hurdles. The competition track features unique obstacles and technical challenges.",
             rules: [
-                "Weight of the bot should not exceed 1.5 kg. The bot must be able to fit in a maximum dimension of length 20cm x breadth 20cm x height 15cm. 0% error for each dimension will not be tolerated.",
+                "Weight of the bot should not exceed 1.5 kg. The bot must be able to fit in a maximum dimension of length 20cm x breadth 20cm x height 20cm. 0% error for each dimension will not be tolerated.",
                 "Voltage difference between two points in the bot should not be greater than 12 V and (only one 12v battery pack is allowed)."
             ],
             prizes: [
@@ -431,7 +434,7 @@ const Technovision = () => {
                                         >
                                             Register Now <ExternalLink size={18} />
                                         </a>
-                                        
+
 
                                         {currentEvent.pdfLink && (
                                             <a
