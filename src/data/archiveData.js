@@ -75,7 +75,7 @@ export const ARCHIVE_DATA = {
     {
       title: "FLUX HARD-WIRED 1.0",
       tag: "Hardware Ideathon",
-      detailsUrl: "/flux-hard-wired",
+      detailsUrl: "/events/flux-hard-wired",
       images: [flux_hard_wired_poster],
       terminal: "> mode: Online\n> deadline: 09_Feb_2026\n> team_size: 2-3_Members\n> focus: Hardware_Innovation",
       date: "2026-02-09",

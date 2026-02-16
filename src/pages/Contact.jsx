@@ -201,7 +201,7 @@ const FluxContactPage = () => {
 
         {/* HEADER SECTION */}
         <header className="flex flex-col items-center gap-8 md:gap-12 py-6">
-          <div className="flex flex-col md:flex-row items-center gap-8 md:gap-16 relative">
+          <div className="flex flex-row md:flex-row items-center gap-8 md:gap-16 relative">
             <LogoFrame label="SATI_INSTITUTE" imgSrc={satiLogo} color="border-slate-300 dark:border-white/10" />
             <div className="hidden md:block w-32 h-[1px] bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent relative">
               <motion.div animate={{ left: ["0%", "100%"] }} transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
