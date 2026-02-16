@@ -105,7 +105,7 @@ const EventCard = ({ event, index }) => {
         {event.detailsUrl ? (
           <a
             href={event.detailsUrl}
-            target="_blank"
+            // target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-between w-full p-6 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl group transition-all hover:border-cyan-500/40 shadow-sm hover:shadow-cyan-500/10"
           >

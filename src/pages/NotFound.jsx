@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaExclamationTriangle, FaRobot, FaSatelliteDish, FaArrowRight } from 'react-icons/fa';
 
-const SIREN_VOLUME = 0.01; // Volume level (0.0 to 1.0)
+const SIREN_VOLUME = 0.1; // Volume level (0.0 to 1.0)
 
 const NotFound = () => {
     const [text, setText] = useState('');
@@ -147,14 +147,14 @@ const NotFound = () => {
                         initial={{ x: 100, opacity: 0 }}
                         animate={{ x: 0, opacity: 1 }}
                         exit={{ x: 100, opacity: 0 }}
-                        div className="fixed top-4 right-4 z-50 flex items-center gap-4 bg-red-500/10 dark:bg-red-500/20 border-l-4 border-red-500 backdrop-blur-md px-6 py-4 shadow-[0_0_20px_rgba(239,68,68,0.3)] rounded-r-md"
+                        div className="fixed top-4 right-4 z-[200] flex items-center gap-4 bg-red-500/10 dark:bg-red-500/20 border-l-4 border-red-500 backdrop-blur-md px-6 py-4 shadow-[0_0_20px_rgba(239,68,68,0.3)] rounded-r-md"
                     >
                         <div className="relative">
                             <div className="w-3 h-3 bg-red-500 rounded-full animate-ping absolute inset-0"></div>
                             <div className="w-3 h-3 bg-red-500 rounded-full relative z-10"></div>
                         </div>
                         <div className="flex flex-col">
-                            <span className="text-red-600 dark:text-red-400 font-bold uppercase tracking-wider text-xs">System Override</span>
+                            <span className="text-red-600 dark:text-red-400 font-bold uppercase tracking-wider text-xs">System Override</span>  
                             <span className="text-slate-900 dark:text-white font-bold text-sm">
                                 Redirecting to Home in {timeLeft}s
                             </span>

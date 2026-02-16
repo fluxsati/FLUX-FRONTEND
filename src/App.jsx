@@ -96,7 +96,7 @@ export default function App() {
               <Route path="/skills" element={<FluxSkills />} />
               <Route path="/contact" element={<FluxContact />} />
               <Route path="/learninghub" element={<FluxLearningHub />} />
-              <Route path="/flux-hard-wired" element={<Ideathon />} />
+              <Route path="/events/flux-hard-wired" element={<Ideathon />} />
               <Route path="/Old-Site" element={<LegacySite />} />
               <Route path="/technovision-2026" element={<Technovision />} />
 

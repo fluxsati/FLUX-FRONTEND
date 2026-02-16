@@ -13,7 +13,11 @@ import bannerRopeway from '../assets/events/technovision_2026/1.png';
 import bannerRobo from '../assets/events/technovision_2026/2.png';
 import bannerModel from '../assets/events/technovision_2026/3.png';
 import roboIcon from '../assets/events/technovision_2026/robo_rumble_icon.webp';
-// import roboIcon from '../assets/events/technovision_2026/robo_rumble_icon.webp';
+
+// PDFs
+import wholeRulesPdf from '../assets/events/technovision_2026/whole_rules_book.pdf';
+import roboRulesPdf from '../assets/events/technovision_2026/robo_rumble_rules.pdf';
+import ropewayRulesPdf from '../assets/events/technovision_2026/ropeway_racing_rules.pdf';
 import Typewriter from 'typewriter-effect';
 import { useInView } from 'react-intersection-observer';
 
@@ -131,6 +135,7 @@ const Technovision = () => {
                 "Top-3 Teams: Certificates & Goodies",
                 "Participation Certificates for all"
             ],
+            pdfLink: ropewayRulesPdf,
             timeline: [
                 { time: "Registration Deadline", event: "18 Feb 2026" },
                 { time: "Round-Robin Matches", event: "19 Feb 2026" },
@@ -153,6 +158,7 @@ const Technovision = () => {
                 "Winner: Certificates & Special Gifts",
                 "Participation Certificates for all"
             ],
+            pdfLink: roboRulesPdf,
             timeline: [
                 { time: "Registration Deadline", event: "18 Feb 2026" },
                 { time: "Event Day", event: "20 Feb 2026" },
@@ -309,7 +315,7 @@ const Technovision = () => {
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 transition={{ delay: 0.2 }}
-                                className="flex justify-center gap-4"
+                                className="flex justify-center gap-4 grid grid-cols-1 md:grid-cols-2"
                             >
                                 <a
                                     href="https://chat.whatsapp.com/ITmlgvbmiM7Bu8GGWddYxc?mode=gi_t"
@@ -318,6 +324,15 @@ const Technovision = () => {
                                     className="flex items-center gap-2 bg-[#25D366] text-white px-6 py-3 rounded-xl font-bold hover:bg-[#20bd5a] transition-colors shadow-lg shadow-green-500/20"
                                 >
                                     <MessageCircle size={20} /> Join WhatsApp Group
+                                </a>
+
+                                <a
+                                    href={wholeRulesPdf}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="flex items-center gap-2 bg-slate-800 text-white px-6 py-3 rounded-xl font-bold hover:bg-slate-700 transition-colors shadow-lg shadow-slate-900/20 border border-slate-700"
+                                >
+                                    <Download size={20} />  All Events Rules
                                 </a>
                             </motion.div>
                         </div>
@@ -408,14 +423,24 @@ const Technovision = () => {
 
                                     {/* Action Bar */}
                                     <div className="flex flex-wrap gap-4 border-b border-slate-200 dark:border-white/10 pb-8">
-                                        {currentEvent.registrationLink && currentEvent.registrationLink !== '#' && (
+                                        <a
+                                            href={currentEvent.registrationLink}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="flex items-center gap-2 bg-cyan-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-cyan-500 transition-all uppercase tracking-wider"
+                                        >
+                                            Register Now <ExternalLink size={18} />
+                                        </a>
+                                        
+
+                                        {currentEvent.pdfLink && (
                                             <a
-                                                href={currentEvent.registrationLink}
+                                                href={currentEvent.pdfLink}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="flex items-center gap-2 bg-cyan-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-cyan-500 transition-all uppercase tracking-wider"
+                                                className="flex items-center gap-2 bg-slate-800 text-white px-8 py-3 rounded-xl font-bold hover:bg-slate-700 transition-all uppercase tracking-wider border border-slate-700"
                                             >
-                                                Register Now <ExternalLink size={18} />
+                                                <Download size={18} /> Rulebook
                                             </a>
                                         )}
 
@@ -520,9 +545,9 @@ const Technovision = () => {
                     <div className="flex flex-col items-center gap-4">
                         <a href="/contact" className="text-slate-600 dark:text-slate-400 font-medium text-lg hover:text-cyan-600 dark:hover:text-cyan-500 transition-colors">Contact Us</a>
                         <div className="flex flex-col md:flex-row items-center gap-6">
-                            <a href="mailto:vedansh27ai074@satiengg.in" className="flex items-center gap-2 text-slate-500 hover:text-cyan-600 dark:text-slate-400 dark:hover:text-cyan-500 transition-colors">
+                            <a href="mailto:flux.club@satiengg.in" className="flex items-center gap-2 text-slate-500 hover:text-cyan-600 dark:text-slate-400 dark:hover:text-cyan-500 transition-colors">
                                 <Mail size={18} />
-                                <span>vedansh27ai074@satiengg.in</span>
+                                <span>flux.club@satiengg.in</span>
                             </a>
                         </div>
 
@@ -531,13 +556,13 @@ const Technovision = () => {
                             <Phone size={18} />
                             <span>Himanshu Deshmukh - 9179736005</span>
                         </a> */}
-                            <a href="tel:+916266059669" className="flex items-center gap-2 text-slate-500 hover:text-cyan-600 dark:text-slate-400 dark:hover:text-cyan-500 transition-colors">
+                            <a href="tel:+916268459415" className="flex items-center gap-2 text-slate-500 hover:text-cyan-600 dark:text-slate-400 dark:hover:text-cyan-500 transition-colors">
                                 <Phone size={18} />
-                                <span>Riddhi Agrawal - 6266059669</span>
+                                <span>Shreya Chahar - 6268459415</span>
                             </a>
-                            <a href="tel:+919302276804" className="flex items-center gap-2 text-slate-500 hover:text-cyan-600 dark:text-slate-400 dark:hover:text-cyan-500 transition-colors">
+                            <a href="tel:+919691347076" className="flex items-center gap-2 text-slate-500 hover:text-cyan-600 dark:text-slate-400 dark:hover:text-cyan-500 transition-colors">
                                 <Phone size={18} />
-                                <span>Devansh Patel - 9302276804</span>
+                                <span>Nitil Singh - 9691347076</span>
                             </a>
                         </div>
                     </div>
