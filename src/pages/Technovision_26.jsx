@@ -330,7 +330,7 @@ const Technovision = () => {
                                 </a>
 
                                 <a
-                                    href={wholeRulesPdf}
+                                    href="https://drive.google.com/file/d/1GG4vv3eAc_027RN8QOMvtAAymcBxpQWe/view?usp=sharing"
                                     target="_blank"
                                     rel="noreferrer"
                                     className="flex items-center gap-2 bg-slate-800 text-white px-6 py-3 rounded-xl font-bold hover:bg-slate-700 transition-colors shadow-lg shadow-slate-900/20 border border-slate-700"
