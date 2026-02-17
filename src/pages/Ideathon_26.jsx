@@ -124,7 +124,7 @@ const Ideathon = () => {
                         className="flex items-center justify-center gap-2 mb-6"
                     >
                         <span className="w-2 h-2 bg-cyan-500 rounded-full animate-pulse" />
-                        <span className="text-cyan-600 dark:text-cyan-500 font-mono text-sm tracking-[0.2em] uppercase">Registrations Open</span>
+                        <span className="text-cyan-600 dark:text-cyan-500 font-mono text-sm tracking-[0.2em] uppercase">Registrations Closed</span>
                     </motion.div>
 
                     <motion.h1

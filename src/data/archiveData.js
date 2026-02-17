@@ -41,11 +41,7 @@ import rw7 from '../assets/events/Robo_workshop/8.jpeg';
 import rw_poster from '../assets/events/Robo_workshop/robotics_workshop.jpeg';
 import tv26_poster from '../assets/events/technovision_2026/banner.jpeg';
 
-/* ===================== REPORT (PDF) IMPORTS ===================== */
-import report_tv25 from '../assets/reports/Technovision_25.pdf';
-import report_fw25 from '../assets/reports/fluxwave_25.pdf';
-import report_ww from '../assets/reports/web_workshop.pdf';
-import report_intra_club from '../assets/reports/intra_club_activity_reports25-26.pdf';
+
 
 /* ===================== DATA STRUCTURE ===================== */
 
@@ -85,7 +81,7 @@ export const ARCHIVE_DATA = {
     {
       title: "INTRA-CLUB SATURDAYS",
       tag: "Club Activity",
-      reportUrl: report_intra_club,
+      reportUrl: '/reports/intra_club_activity_reports25-26.pdf',
       images: ["https://images.unsplash.com/photo-1522071820081-009f0129c71c"],
       terminal: "> session: Weekly_Sprint\n> status: Active\n> timeline: Dec 2025 - Jan 2026",
       date: "2026-01-15",
@@ -108,7 +104,7 @@ export const ARCHIVE_DATA = {
     {
       title: "WEB DEV WORKSHOP",
       tag: "Training",
-      reportUrl: report_ww,
+      reportUrl: '/reports/web_workshop.pdf',
       images: [ww1, ww2, ww3, ww11, ww12, ww14],
       terminal: "> venue: Embedded_Lab\n> date: 13/09/2025\n> participants: 37_Students\n> focus: Modern_Tools_&_Advanced_Libraries",
       date: "2025-09-13",
@@ -118,7 +114,7 @@ export const ARCHIVE_DATA = {
     {
       title: "FLUXWAVE HACKATHON",
       tag: "Online Hackathon",
-      reportUrl: report_fw25,
+      reportUrl: '/reports/fluxwave_25.pdf',
       images: [fw1, fw2, fw3, fw4, fw5, fw6],
       terminal: "> registered: 51_Teams\n> shortlisted: 13_Teams\n> timeline: June - August 2025\n> winner: Med_Squad",
       date: "2025-08-15",
@@ -138,7 +134,7 @@ export const ARCHIVE_DATA = {
     {
       title: "TECHNOVISION '25",
       tag: "Mega Technical Fest",
-      reportUrl: report_tv25,
+      reportUrl: '/reports/Technovision_25.pdf',
       images: [tv25_1, tv25_2, tv25_3, tv25_4, tv25_5, tv25_6, tv25_7],
       terminal: "> arena: IT_Garden\n> date: 20-21_Feb_2025\n> events: Robo_Sumo & Robo_Rumble\n> focus: Mechatronics & Strategic_Battle",
       date: "2025-02-20",
