@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import Typewriter from 'typewriter-effect';
 import { useInView } from 'react-intersection-observer';
-import { FileText, Table } from 'lucide-react'; // Added icons for terminal links
+import { FileText, Table, ExternalLink } from 'lucide-react'; // Added icons for terminal links
 
 // ===== IMAGE IMPORTS =====
 import ykJainImg from '../assets/faculty/ykjainsir.png';
@@ -157,7 +157,7 @@ const BehindFlux = () => {
                       rel="noopener noreferrer"
                       className="mt-2 flex items-center gap-3 w-fit bg-cyan-500/10 border border-cyan-500/30 px-4 py-2 text-cyan-400 hover:bg-cyan-500 hover:text-white transition-all rounded-sm group"
                     >
-                      <FileText size={16} />
+                      <ExternalLink size={16} />
                       <span className="text-[10px] uppercase font-bold tracking-widest">Flux_Members_Archive.pdf</span>
                     </a>
                   </div>

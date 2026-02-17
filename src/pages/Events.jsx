@@ -142,10 +142,12 @@ const EventCard = ({ event, index }) => {
 
                 {event.reportUrl && (
                   <a
-                    href={event.reportUrl} download
+                    href={event.reportUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="flex items-center justify-center gap-2 w-full py-4 bg-cyan-500/10 text-cyan-500 hover:bg-cyan-500 hover:text-white rounded-xl transition-all text-xs font-bold uppercase tracking-widest border border-cyan-500/20"
                   >
-                    <Download size={14} /> Download_Archive_Brief.pdf
+                    <ExternalLink size={14} /> View_Archive_Brief.pdf
                   </a>
                 )}
               </div>
