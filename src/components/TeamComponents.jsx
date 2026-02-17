@@ -1,6 +1,12 @@
-import React, { memo } from 'react';
-import { motion } from 'framer-motion';
+import React, { memo, useRef, useState } from 'react';
+import { motion, useAnimationFrame, useMotionValue, useTransform } from 'framer-motion';
 import { User } from 'lucide-react';
+
+// Utility for infinite wrapping
+const wrap = (min, max, v) => {
+    const rangeSize = max - min;
+    return ((((v - min) % rangeSize) + rangeSize) % rangeSize) + min;
+};
 
 export const TechFrame = memo(({ children, className = "", scanSpeed = "2s", isMobile, color = "cyan" }) => {
     const glowColor = color === 'purple' ? 'border-purple-500' : 'border-cyan-500';
@@ -73,20 +79,53 @@ export const LeaderCard = memo(({ member, color, isMobile }) => {
     );
 });
 
-export const AdaptiveScrollRow = memo(({ items, renderItem, reverse = false, duration = 30, isMobile }) => {
-    // Logic: We want auto-sliding (marquee) on ALL devices now. 
-    // We remove the conditional return for mobile.
+export const AdaptiveScrollRow = memo(({ items, renderItem, reverse = false, baseVelocity = 2.5, isMobile }) => {
+    // 4 copies for seamless looping
+    const content = [...items, ...items, ...items, ...items];
 
-    // Triple the items to ensure seamless infinity loop
-    const content = [...items, ...items, ...items];
+    // Motion value for the scroll position (in percentage)
+    const baseX = useMotionValue(0);
+
+    // Drive the X transform based on baseX, wrapping between -25% and 0%
+    const x = useTransform(baseX, (v) => `${wrap(-25, 0, v)}%`);
+
+    const directionFactor = useRef(1);
+    const containerRef = useRef(null);
+    const [isDragging, setIsDragging] = useState(false);
+
+    useAnimationFrame((t, delta) => {
+        if (isDragging) return;
+
+        let moveBy = baseVelocity * (delta / 2000); // baseVelocity = % per second
+
+        if (reverse) {
+            baseX.set(baseX.get() + moveBy);
+        } else {
+            baseX.set(baseX.get() - moveBy);
+        }
+    });
+
+    const handlePan = (event, info) => {
+        if (!containerRef.current) return;
+
+        // Calculate delta in percentage relative to total scroll width
+        // The container width is "fit-content", so it spans the entire long strip
+        // info.delta.x is in pixels
+        const totalWidth = containerRef.current.offsetWidth;
+        const deltaPercentage = (info.delta.x / totalWidth) * 100;
+
+        baseX.set(baseX.get() + deltaPercentage);
+    };
 
     return (
-        <div className="flex overflow-hidden py-4 select-none">
+        <div className="flex overflow-hidden py-4 select-none cursor-grab active:cursor-grabbing touch-pan-y">
             <motion.div
+                ref={containerRef}
                 className="flex gap-6 md:gap-10 flex-nowrap"
-                animate={{ x: reverse ? ["-33.33%", "0%"] : ["0%", "-33.33%"] }}
-                transition={{ duration, repeat: Infinity, ease: "linear" }}
-                style={{ width: 'fit-content' }}
+                style={{ x }}
+                onPanStart={() => setIsDragging(true)}
+                onPan={handlePan}
+                onPanEnd={() => setIsDragging(false)}
             >
                 {content.map((item, i) => (
                     <div key={i} className="shrink-0 w-[280px] md:w-[350px]">

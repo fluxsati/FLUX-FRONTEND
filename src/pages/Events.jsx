@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import {
@@ -103,10 +104,8 @@ const EventCard = ({ event, index }) => {
 
         {/* Mission Data Toggle or View Details Button */}
         {event.detailsUrl ? (
-          <a
-            href={event.detailsUrl}
-            // target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            to={event.detailsUrl}
             className="flex items-center justify-between w-full p-6 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl group transition-all hover:border-cyan-500/40 shadow-sm hover:shadow-cyan-500/10"
           >
             <div className="flex items-center gap-3">
@@ -114,7 +113,7 @@ const EventCard = ({ event, index }) => {
               <span className="text-xs font-black uppercase tracking-widest">View Details</span>
             </div>
             <ExternalLink size={18} className="text-cyan-500 transition-transform duration-500 group-hover:-translate-y-1 group-hover:translate-x-1" />
-          </a>
+          </Link>
         ) : (
           <button
             onClick={() => setIsExpanded(!isExpanded)}

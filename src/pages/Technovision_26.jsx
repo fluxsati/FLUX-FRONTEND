@@ -9,9 +9,9 @@ import {
 
 // Assets
 import poster from '../assets/events/technovision_2026/poster.jpeg';
-import bannerRopeway from '../assets/events/technovision_2026/1.png';
-import bannerRobo from '../assets/events/technovision_2026/2.png';
-import bannerModel from '../assets/events/technovision_2026/3.png';
+import bannerRopeway from '../assets/events/technovision_2026/1.jpeg';
+import bannerRobo from '../assets/events/technovision_2026/2.jpeg';
+import bannerModel from '../assets/events/technovision_2026/3.jpeg';
 import roboIcon from '../assets/events/technovision_2026/robo_rumble_icon.webp';
 
 // PDFs
@@ -111,7 +111,7 @@ const Technovision = () => {
                 "The organizing committee has the right to modify the schedule, or structure of the event if required."
             ],
             prizes: [
-                "Winner:Goodies & Certificates",
+                "Winner: Goodies & Certificates",
                 "Participation Certificates for all"
             ],
             timeline: [
