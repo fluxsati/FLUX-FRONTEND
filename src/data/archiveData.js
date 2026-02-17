@@ -38,7 +38,7 @@ import rw4 from '../assets/events/Robo_workshop/5.jpeg';
 import rw5 from '../assets/events/Robo_workshop/6.jpeg';
 import rw6 from '../assets/events/Robo_workshop/7.jpeg';
 import rw7 from '../assets/events/Robo_workshop/8.jpeg';
-import rw_poster from '../assets/events/Robo_workshop/robotics_workshop.png';
+import rw_poster from '../assets/events/Robo_workshop/robotics_workshop.jpeg';
 import tv26_poster from '../assets/events/technovision_2026/banner.jpeg';
 
 /* ===================== REPORT (PDF) IMPORTS ===================== */
