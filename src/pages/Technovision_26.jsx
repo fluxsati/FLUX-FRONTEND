@@ -15,9 +15,7 @@ import bannerModel from '../assets/events/technovision_2026/3.jpeg';
 import roboIcon from '../assets/events/technovision_2026/robo_rumble_icon.webp';
 
 // PDFs
-import wholeRulesPdf from '../assets/events/technovision_2026/whole_rules_book.pdf';
-import roboRulesPdf from '../assets/events/technovision_2026/robo_rumble_rules.pdf';
-import ropewayRulesPdf from '../assets/events/technovision_2026/ropeway_racing_rules.pdf';
+
 import Typewriter from 'typewriter-effect';
 import { useInView } from 'react-intersection-observer';
 
@@ -138,7 +136,7 @@ const Technovision = () => {
                 "Top-3 Teams: Certificates & Goodies",
                 "Participation Certificates for all"
             ],
-            pdfLink: ropewayRulesPdf,
+            pdfLink: '/events/technovision_2026/ropeway_racing_rules.pdf',
             timeline: [
                 { time: "Registration Deadline", event: "18 Feb 2026" },
                 { time: "Round-Robin Matches", event: "19 Feb 2026" },
@@ -161,7 +159,7 @@ const Technovision = () => {
                 "Winner: Certificates & Special Gifts",
                 "Participation Certificates for all"
             ],
-            pdfLink: roboRulesPdf,
+            pdfLink: '/events/technovision_2026/robo_rumble_rules.pdf',
             timeline: [
                 { time: "Registration Deadline", event: "18 Feb 2026" },
                 { time: "Event Day", event: "20 Feb 2026" },
@@ -331,6 +329,7 @@ const Technovision = () => {
 
                                 <a
                                     href="https://drive.google.com/file/d/1GG4vv3eAc_027RN8QOMvtAAymcBxpQWe/view?usp=sharing"
+                                    // href="/events/technovision_2026/whole_rules_book.pdf"
                                     target="_blank"
                                     rel="noreferrer"
                                     className="flex items-center gap-2 bg-slate-800 text-white px-6 py-3 rounded-xl font-bold hover:bg-slate-700 transition-colors shadow-lg shadow-slate-900/20 border border-slate-700"
