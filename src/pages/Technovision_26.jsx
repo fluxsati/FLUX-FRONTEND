@@ -316,8 +316,16 @@ const Technovision = () => {
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 transition={{ delay: 0.2 }}
-                                className="flex justify-center gap-4 grid grid-cols-1 md:grid-cols-2"
+                                className="flex flex-wrap justify-center gap-4"
                             >
+                                <a
+                                    href="https://docs.google.com/forms/u/0/d/1bkCP_Kwp8MZ65hBD22X6VgJUMwr1sEMy03VnluzKnBk/viewform?ts=6994b5b5&edit_requested=true"
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-6 py-3 rounded-xl font-bold hover:from-cyan-400 hover:to-blue-500 transition-all shadow-lg shadow-cyan-500/20"
+                                >
+                                    <ExternalLink size={20} /> Google Form Registration
+                                </a>
                                 <a
                                     href="https://chat.whatsapp.com/ITmlgvbmiM7Bu8GGWddYxc?mode=gi_t"
                                     target="_blank"
@@ -326,6 +334,8 @@ const Technovision = () => {
                                 >
                                     <MessageCircle size={20} /> Join WhatsApp Group
                                 </a>
+
+                               
 
                                 <a
                                     href="https://drive.google.com/file/d/1GG4vv3eAc_027RN8QOMvtAAymcBxpQWe/view?usp=sharing"
