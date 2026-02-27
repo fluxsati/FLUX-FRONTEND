@@ -5,6 +5,7 @@ import poster3 from "../assets/banner/3.png";
 import poster4 from "../assets/banner/4.jpeg";
 import poster5 from "../assets/banner/5.jpeg";
 import poster6 from "../assets/banner/6.jpeg";
+import poster7 from "../assets/banner/7.jpeg";
 
 export const youtubeProjects = [
   { id: "fSaeEhcWA4w", title: "Flying Project: Quadcopter & Glider" },
@@ -24,32 +25,42 @@ export const instaReels = [
 
 export const eventPosters = [
   {
-    title: "Flux Conference",
+    title: "Technical Club Flux",
     date: "Nov 2025",
-    img: poster1 // Local Asset
+    img: poster1, // Local Asset
+    link: "/",
+  },
+  {
+    title: "Blockchain Workshop",
+    date: "Feb 2026",
+    img: poster7, // Local Asset
+    link: "/events",
+    state: { search: "Blockchain Workshop" }
   },
   {
     title: "Technovision 2026",
     date: "Feb 2026",
-    img: poster6 // Local Asset
+    img: poster6, // Local Asset
+    link: "/events/technovision-2026"
   },
   {
     title: "Robotics Workshop",
     date: "Feb 2026",
-    img: poster5 // Local Asset
+    img: poster5, // Local Asset
+    link: "/events",
+    state: { search: "Robotics Workshop" }
   },
   {
     title: "Flux Hard Wired",
     date: "Feb 2026",
-    img: poster4 // Local Asset
+    img: poster4, // Local Asset
+    link: "/events/flux-hard-wired"
   },
   {
     title: "Design Symposium",
     date: "Dec 2025",
-    img: poster3 // Local Asset
+    img: poster3, // Local Asset
+    link: "/login",
   },
-  
-  
-
 
 ];

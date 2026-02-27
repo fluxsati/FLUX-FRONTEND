@@ -98,7 +98,7 @@ export default function App() {
               <Route path="/learninghub" element={<FluxLearningHub />} />
               <Route path="/events/flux-hard-wired" element={<Ideathon />} />
               <Route path="/Old-Site" element={<LegacySite />} />
-              <Route path="/technovision-2026" element={<Technovision />} />
+              <Route path="/events/technovision-2026" element={<Technovision />} />
 
               {/* ---------- AUTH ROUTES ---------- */}
               {/* Note: Auth component itself now handles the "already logged in" redirect */}

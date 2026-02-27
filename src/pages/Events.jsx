@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import {
@@ -64,9 +64,9 @@ const EventCard = ({ event, index }) => {
                     alt={`${event.title} view ${idx + 1}`}
                   />
                   <div className="absolute top-4 right-6 pointer-events-none">
-                    <span className="text-[10px] font-mono text-white/30 tracking-widest uppercase">
+                    {/* <span className="text-[10px] font-mono text-white/30 tracking-widest uppercase">
                       Frame_0{idx + 1}
-                    </span>
+                    </span> */}
                   </div>
                 </SwiperSlide>
               ))}
@@ -162,9 +162,10 @@ const EventCard = ({ event, index }) => {
 /* ===================== MAIN ARCHIVE CONTAINER ===================== */
 
 const FluxArchive = () => {
+  const location = useLocation();
   const years = Object.keys(ARCHIVE_DATA).sort((a, b) => b - a);
   const [activeYear, setActiveYear] = useState(years[0] || "2025");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(location.state?.search || "");
   const [sortOption, setSortOption] = useState("latest");
   const [isSortOpen, setIsSortOpen] = useState(false);
 

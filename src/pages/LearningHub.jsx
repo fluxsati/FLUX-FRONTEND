@@ -97,31 +97,31 @@ const LEARNING_SECTIONS = [
   {
     title: "Visual Design",
     resources: [
-     
+
     ]
   },
   {
     title: "Video Editing",
     resources: [
-   
+
     ]
   },
   {
     title: "IoT & Hardware",
     resources: [
-    
+
     ]
   },
   {
     title: "Blockchain",
     resources: [
-      
+
     ]
   },
   {
     title: "Cybersecurity",
     resources: [
-      
+
     ]
   },
 ];
@@ -184,22 +184,23 @@ const CouponCard = memo(() => {
 });
 
 const ResourceCard = memo(({ item, onClick }) => {
+  const cleanId = item.id.split('&')[0];
   const url = item.isPlaylist
-    ? `https://www.youtube.com/playlist?list=${item.id}`
-    : `https://www.youtube.com/watch?v=${item.id}`;
+    ? `https://www.youtube.com/playlist?list=${cleanId}`
+    : `https://www.youtube.com/watch?v=${cleanId}`;
 
   const handleClick = (e) => {
-    if (!item.isPlaylist && onClick) {
+    if (onClick) {
       e.preventDefault();
-      onClick(item);
+      onClick({ ...item, id: cleanId });
     }
   };
 
   return (
     <motion.a
       href={url}
-      target={item.isPlaylist ? "_blank" : undefined}
-      rel={item.isPlaylist ? "noopener noreferrer" : undefined}
+      target="_blank"
+      rel="noopener noreferrer"
       onClick={handleClick}
       layout
       initial={{ opacity: 0, scale: 0.9 }}
@@ -279,7 +280,11 @@ const LearningHub = () => {
               onClick={(e) => e.stopPropagation()}
             >
               <iframe
-                src={`https://www.youtube.com/embed/${selectedVideo.id}?autoplay=1`}
+                src={
+                  selectedVideo.isPlaylist
+                    ? `https://www.youtube.com/embed/videoseries?list=${selectedVideo.id}&autoplay=1`
+                    : `https://www.youtube.com/embed/${selectedVideo.id}?autoplay=1`
+                }
                 className="w-full h-full"
                 allow="autoplay; encrypted-media; picture-in-picture"
                 allowFullScreen

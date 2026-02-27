@@ -12,6 +12,7 @@ import poster from '../assets/events/technovision_2026/poster.jpeg';
 import bannerRopeway from '../assets/events/technovision_2026/1.jpeg';
 import bannerRobo from '../assets/events/technovision_2026/2.jpeg';
 import bannerModel from '../assets/events/technovision_2026/3.jpeg';
+import groupImg from '../assets/events/technovision_2026/group.jpeg';
 import roboIcon from '../assets/events/technovision_2026/robo_rumble_icon.webp';
 
 // PDFs
@@ -212,6 +213,18 @@ const Technovision = () => {
                             Technovision<span className="text-cyan-500">.</span>
                         </motion.h1>
 
+                        <motion.div
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.3, duration: 0.8 }}
+                            className="w-full max-w-5xl mx-auto mt-12 rounded-3xl overflow-hidden shadow-[0_0_30px_rgba(6,182,212,0.15)] border border-cyan-500/20"
+                        >
+                            <img
+                                src={groupImg}
+                                alt="Technovision 26 Team"
+                                className="w-full h-auto object-cover hover:scale-105 transition-transform duration-700"
+                            />
+                        </motion.div>
 
                     </div>
                 </section>
@@ -318,14 +331,14 @@ const Technovision = () => {
                                 transition={{ delay: 0.2 }}
                                 className="flex flex-wrap justify-center gap-4"
                             >
-                                <a
+                                {/* <a
                                     href="https://docs.google.com/forms/u/0/d/1bkCP_Kwp8MZ65hBD22X6VgJUMwr1sEMy03VnluzKnBk/viewform?ts=6994b5b5&edit_requested=true"
                                     target="_blank"
                                     rel="noreferrer"
                                     className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-6 py-3 rounded-xl font-bold hover:from-cyan-400 hover:to-blue-500 transition-all shadow-lg shadow-cyan-500/20"
                                 >
                                     <ExternalLink size={20} /> Google Form Registration
-                                </a>
+                                </a> */}
                                 <a
                                     href="https://chat.whatsapp.com/ITmlgvbmiM7Bu8GGWddYxc?mode=gi_t"
                                     target="_blank"
@@ -335,7 +348,7 @@ const Technovision = () => {
                                     <MessageCircle size={20} /> Join WhatsApp Group
                                 </a>
 
-                               
+
 
                                 <a
                                     href="https://drive.google.com/file/d/1GG4vv3eAc_027RN8QOMvtAAymcBxpQWe/view?usp=sharing"
@@ -441,7 +454,7 @@ const Technovision = () => {
                                             rel="noopener noreferrer"
                                             className="flex items-center gap-2 bg-cyan-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-cyan-500 transition-all uppercase tracking-wider"
                                         >
-                                            Register Now <ExternalLink size={18} />
+                                            Registration Closed <ExternalLink size={18} />
                                         </a>
 
 
