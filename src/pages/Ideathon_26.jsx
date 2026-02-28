@@ -183,10 +183,10 @@ const Ideathon = () => {
                                 className="group flex flex-col items-center justify-center gap-2 p-6 bg-gradient-to-br from-cyan-600 to-cyan-800 rounded-2xl font-bold text-xl text-white transition-transform hover:scale-[1.02] shadow-lg shadow-cyan-900/20"
                             >
                                 <div className="flex items-center gap-2">
-                                    <span>Register on Unstop</span>
+                                    <span>Registration Closed</span>
                                     <ExternalLink size={20} className="group-hover:translate-x-1 transition-transform" />
                                 </div>
-                                <span className="text-xs font-mono opacity-80 font-normal uppercase tracking-widest">Apply Now</span>
+                                {/* <span className="text-xs font-mono opacity-80 font-normal uppercase tracking-widest">Apply Now</span> */}
                             </a>
 
                             <a

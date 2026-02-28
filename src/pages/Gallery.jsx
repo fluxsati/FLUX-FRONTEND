@@ -5,6 +5,7 @@ import {
   Maximize2, ChevronLeft, Zap, Users, Bot,
   ZapOff
 } from 'lucide-react';
+import { FaEthereum } from 'react-icons/fa';
 
 /* ===================== AUTOMATIC IMAGE IMPORTS ===================== */
 // These lines scan your folders and create objects mapping the file path to the actual image URL
@@ -30,10 +31,10 @@ const EVENTS = [
     id: 'blockchain_workshop',
     label: 'BLOCKCHAIN_WORKSHOP',
     desc: 'Web3 & Blockchain Training',
-    icon: <Layers size={24} />,
+    icon: <FaEthereum size={24} />,
     assets: getImageUrls(blockChainImages)
   },
-  
+
   {
     id: 'technovision26',
     label: 'TECHNOVISION_26',
@@ -93,7 +94,6 @@ const EVENTS = [
     icon: <Cpu size={24} />,
     assets: getImageUrls(tvImages)
   },
-  
 
 ];
 

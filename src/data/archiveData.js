@@ -33,7 +33,7 @@ export const ARCHIVE_DATA = {
       tag: "Mega Technical Fest",
       detailsUrl: "/events/technovision-2026",
       images: [tv26_poster],
-      terminal: "> arena: SU_Ground\n> date: 19-20_Feb_2026\n> events: Model_Presentation, Ropeway, Robo_Rumble\n>   focus: Robotics_&_Innovation",
+      terminal: "> arena: SU_Ground\n> date: 19-20_Feb_2026\n> events: Model_Presentation, Ropeway, Robo_Rumble\n> focus: Robotics_&_Innovation",
       date: "2026-02-19",
       popularity: 100,
       summary: "Technovision 2026 is the premier technical fest of SATI, featuring high-octane robotics and innovation challenges. Witness the clash of metal and code in Ropeway Racing, Robo Rumble, and Model Presentation."
@@ -61,7 +61,8 @@ export const ARCHIVE_DATA = {
     {
       title: "INTRA-CLUB SATURDAYS",
       tag: "Club Activity",
-      reportUrl: '/reports/intra_club_activity_reports25-26.pdf',
+      // reportUrl: '/reports/intra_club_activity_reports25-26.pdf',
+      reportUrl: 'https://drive.google.com/file/d/1aGlCpZGZmqT31cAkuuE9L5Ta7m1h1KhO/view?usp=drive_link',
       images: ["https://images.unsplash.com/photo-1522071820081-009f0129c71c"],
       terminal: "> session: Weekly_Sprint\n> status: Active\n> timeline: Dec 2025 - Jan 2026",
       date: "2026-01-15",
@@ -84,7 +85,8 @@ export const ARCHIVE_DATA = {
     {
       title: "WEB DEV WORKSHOP",
       tag: "Training",
-      reportUrl: '/reports/web_workshop.pdf',
+      // reportUrl: '/reports/web_workshop.pdf',
+      reportUrl: 'https://drive.google.com/file/d/1hEBMCqarDzJlEnvVjUvflHgKVtED3W3c/view?usp=drive_link',
       images: [webdev_poster],
       terminal: "> venue: Embedded_Lab\n> date: 13/09/2025\n> participants: 37_Students\n> focus: Modern_Tools_&_Advanced_Libraries",
       date: "2025-09-13",
@@ -94,7 +96,8 @@ export const ARCHIVE_DATA = {
     {
       title: "FLUXWAVE HACKATHON",
       tag: "Online Hackathon",
-      reportUrl: '/reports/fluxwave_25.pdf',
+      // reportUrl: '/reports/fluxwave_25.pdf',
+      reportUrl: 'https://drive.google.com/file/d/1p40aK4vyMOEsW4K_V-PKl7m-3Ap_Tdc5/view?usp=drive_link',
       images: [fw_poster],
       terminal: "> registered: 51_Teams\n> shortlisted: 13_Teams\n> timeline: June - August 2025\n> winner: Med_Squad",
       date: "2025-08-15",
@@ -114,7 +117,8 @@ export const ARCHIVE_DATA = {
     {
       title: "TECHNOVISION '25",
       tag: "Mega Technical Fest",
-      reportUrl: '/reports/Technovision_25.pdf',
+      // reportUrl: '/reports/Technovision_25.pdf',
+      reportUrl: 'https://drive.google.com/file/d/1WXYGhdrryTSJd8keMrtqBuiQkAHnQ1_5/view?usp=drive_link',
       images: [tv25_poster],
       terminal: "> arena: IT_Garden\n> date: 20-21_Feb_2025\n> events: Robo_Sumo & Robo_Rumble\n> focus: Mechatronics & Strategic_Battle",
       date: "2025-02-20",

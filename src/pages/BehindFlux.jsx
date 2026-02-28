@@ -152,7 +152,8 @@ const BehindFlux = () => {
                     <span className="text-white/20 mr-3">04</span>
                     <span className="text-white">flux_user@system:~$ view --members</span>
                     <a
-                      href="/fluxmembers.pdf"
+                      // href="/fluxmembers.pdf"
+                      href="https://drive.google.com/file/d/1_XSYKnesAdNPkTqNdI-6JkuWOxKk8NWI/view?usp=drive_link"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="mt-2 flex items-center gap-3 w-fit bg-cyan-500/10 border border-cyan-500/30 px-4 py-2 text-cyan-400 hover:bg-cyan-500 hover:text-white transition-all rounded-sm group"
