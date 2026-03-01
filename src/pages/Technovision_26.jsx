@@ -12,6 +12,7 @@ import poster from '../assets/events/technovision_2026/poster.jpeg';
 import bannerRopeway from '../assets/events/technovision_2026/1.jpeg';
 import bannerRobo from '../assets/events/technovision_2026/2.jpeg';
 import bannerModel from '../assets/events/technovision_2026/3.jpeg';
+import groupImg from '../assets/events/technovision_2026/group.jpeg';
 import roboIcon from '../assets/events/technovision_2026/robo_rumble_icon.webp';
 
 // PDFs
@@ -136,7 +137,8 @@ const Technovision = () => {
                 "Top-3 Teams: Certificates & Goodies",
                 "Participation Certificates for all"
             ],
-            pdfLink: '/events/technovision_2026/ropeway_racing_rules.pdf',
+            // pdfLink: '/events/technovision_2026/ropeway_racing_rules.pdf',
+            pdfLink: 'https://drive.google.com/file/d/1r22pR1QgCU6f3B6aAXQnikHjjpfpGrlK/view?usp=drive_link',
             timeline: [
                 { time: "Registration Deadline", event: "18 Feb 2026" },
                 { time: "Round-Robin Matches", event: "19 Feb 2026" },
@@ -159,7 +161,8 @@ const Technovision = () => {
                 "Winner: Certificates & Special Gifts",
                 "Participation Certificates for all"
             ],
-            pdfLink: '/events/technovision_2026/robo_rumble_rules.pdf',
+            // pdfLink: '/events/technovision_2026/robo_rumble_rules.pdf',
+            pdfLink: 'https://drive.google.com/file/d/1Kw831e0SAWjpQ04rpf5QvmC4bO63SlIF/view?usp=drive_link',
             timeline: [
                 { time: "Registration Deadline", event: "18 Feb 2026" },
                 { time: "Event Day", event: "20 Feb 2026" },
@@ -184,6 +187,14 @@ const Technovision = () => {
 
                 {/* Header Section */}
                 <section className="relative pt-32 pb-12 px-6">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="flex items-center justify-center gap-2 mb-6"
+                    >
+                        <span className="w-2 h-2 bg-cyan-500 rounded-full animate-pulse" />
+                        <span className="text-cyan-600 dark:text-cyan-500 font-mono text-sm tracking-[0.2em] uppercase">Registrations Closed</span>
+                    </motion.div>
                     <div className="max-w-7xl mx-auto text-center space-y-8">
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
@@ -212,6 +223,45 @@ const Technovision = () => {
                             Technovision<span className="text-cyan-500">.</span>
                         </motion.h1>
 
+                        <motion.div
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.3, duration: 0.8 }}
+                            className="group relative w-full max-w-5xl mx-auto mt-12 rounded-3xl overflow-hidden shadow-[0_0_30px_rgba(6,182,212,0.15)] border border-cyan-500/20"
+                        >
+                            {/* Cyber Tech Corners */}
+                            <div className="absolute top-0 left-0 w-16 h-16 border-t-4 border-l-4 border-cyan-500 rounded-tl-3xl z-20 pointer-events-none" />
+                            <div className="absolute top-0 right-0 w-16 h-16 border-t-4 border-r-4 border-cyan-500 rounded-tr-3xl z-20 pointer-events-none" />
+                            <div className="absolute bottom-0 left-0 w-16 h-16 border-b-4 border-l-4 border-cyan-500 rounded-bl-3xl z-20 pointer-events-none" />
+                            <div className="absolute bottom-0 right-0 w-16 h-16 border-b-4 border-r-4 border-cyan-500 rounded-br-3xl z-20 pointer-events-none" />
+
+                            {/* Scanning Laser Line */}
+                            <motion.div
+                                animate={{ top: ["0%", "100%", "0%"] }}
+                                transition={{ repeat: Infinity, duration: 4, ease: "linear" }}
+                                className="absolute left-0 right-0 h-[2px] bg-cyan-400 shadow-[0_0_15px_3px_rgba(6,182,212,0.8)] z-20 pointer-events-none"
+                            />
+
+                            {/* Tech HUD Overlay Elements */}
+                            <div className="absolute top-4 right-4 hidden md:flex flex-col gap-1 z-20 pointer-events-none">
+                                <span className="text-[10px] md:text-xs font-mono text-cyan-400 font-bold bg-black/50 px-2 py-0.5 rounded border border-cyan-500/30 backdrop-blur-sm">FLUX-CORE-26</span>
+                                <span className="text-[8px] md:text-[10px] font-mono text-cyan-400/80 text-right">SYSTEM.ONLINE</span>
+                            </div>
+
+                            <div className="absolute bottom-4 left-4 z-20 pointer-events-none hidden md:flex items-center gap-2 bg-black/50 px-3 py-1.5 rounded-lg border border-cyan-500/30 backdrop-blur-sm">
+                                <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+                                <span className="text-[10px] md:text-xs font-mono text-cyan-400 font-bold tracking-widest animate-pulse">SCANNED</span>
+                            </div>
+
+                            {/* Color Filter Overlay */}
+                            <div className="absolute inset-0 bg-cyan-900/20 mix-blend-overlay z-10 pointer-events-none" />
+
+                            <img
+                                src={groupImg}
+                                alt="Technovision 26 Team"
+                                className="w-full h-auto object-cover hover:scale-105 brightness-110 saturate-150 transition-all duration-700 relative z-0"
+                            />
+                        </motion.div>
 
                     </div>
                 </section>
@@ -318,14 +368,14 @@ const Technovision = () => {
                                 transition={{ delay: 0.2 }}
                                 className="flex flex-wrap justify-center gap-4"
                             >
-                                <a
+                                {/* <a
                                     href="https://docs.google.com/forms/u/0/d/1bkCP_Kwp8MZ65hBD22X6VgJUMwr1sEMy03VnluzKnBk/viewform?ts=6994b5b5&edit_requested=true"
                                     target="_blank"
                                     rel="noreferrer"
                                     className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-6 py-3 rounded-xl font-bold hover:from-cyan-400 hover:to-blue-500 transition-all shadow-lg shadow-cyan-500/20"
                                 >
                                     <ExternalLink size={20} /> Google Form Registration
-                                </a>
+                                </a> */}
                                 <a
                                     href="https://chat.whatsapp.com/ITmlgvbmiM7Bu8GGWddYxc?mode=gi_t"
                                     target="_blank"
@@ -335,10 +385,10 @@ const Technovision = () => {
                                     <MessageCircle size={20} /> Join WhatsApp Group
                                 </a>
 
-                               
+
 
                                 <a
-                                    href="https://drive.google.com/file/d/1GG4vv3eAc_027RN8QOMvtAAymcBxpQWe/view?usp=sharing"
+                                    href="https://drive.google.com/file/d/1Ee689teCqFrLVJWEA8Y7S83k3lH9xODN/view?usp=drive_link"
                                     // href="/events/technovision_2026/whole_rules_book.pdf"
                                     target="_blank"
                                     rel="noreferrer"
@@ -441,7 +491,7 @@ const Technovision = () => {
                                             rel="noopener noreferrer"
                                             className="flex items-center gap-2 bg-cyan-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-cyan-500 transition-all uppercase tracking-wider"
                                         >
-                                            Register Now <ExternalLink size={18} />
+                                            Registration Closed <ExternalLink size={18} />
                                         </a>
 
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, memo } from "react";
 import { Play, ChevronLeft, ChevronRight, X, ExternalLink } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay, FreeMode } from "swiper/modules";
 import { motion, AnimatePresence } from "framer-motion";
@@ -22,6 +23,7 @@ const SectionHeader = memo(({ title, subtitle, borderColor, textColor, children 
 ));
 
 const FluxGallery = () => {
+  const navigate = useNavigate();
   const [isDarkMode, setIsDarkMode] = useState(() =>
     document.documentElement.classList.contains("dark")
   );
@@ -129,7 +131,13 @@ const FluxGallery = () => {
               {eventPosters.map((p, i) => (
                 <SwiperSlide key={i}>
                   <div
-                    onClick={() => openLightbox(p, "poster")}
+                    onClick={() => {
+                      if (p.link) {
+                        navigate(p.link, { state: p.state });
+                      } else {
+                        openLightbox(p, "poster");
+                      }
+                    }}
                     className="relative cursor-pointer w-full h-auto"
                   >
                     <img

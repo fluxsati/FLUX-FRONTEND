@@ -2,8 +2,10 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   X, Cpu, Layers, ChevronRight,
-  Maximize2, ChevronLeft, Zap, Users, Bot
+  Maximize2, ChevronLeft, Zap, Users, Bot,
+  ZapOff
 } from 'lucide-react';
+import { FaEthereum } from 'react-icons/fa';
 
 /* ===================== AUTOMATIC IMAGE IMPORTS ===================== */
 // These lines scan your folders and create objects mapping the file path to the actual image URL
@@ -12,12 +14,51 @@ const fwImages = import.meta.glob('../assets/events/FluxWave/*.{png,jpg,jpeg,web
 const webImages = import.meta.glob('../assets/events/Web-Workshop/*.{png,jpg,jpeg,webp}', { eager: true });
 const recruitImages = import.meta.glob('../assets/events/FluxRecruitment/*.{png,jpg,jpeg,webp}', { eager: true });
 const roboImages = import.meta.glob('../assets/events/Robo_workshop/*.{png,jpg,jpeg,webp}', { eager: true });
+const hwImages = import.meta.glob('../assets/events/Hard-wired/*.{png,jpg,jpeg,webp}', { eager: true });
+const blockChainImages = import.meta.glob('../assets/events/Blockchain_workshop/*.{png,jpg,jpeg,webp}', { eager: true });
+
+// Technovision 2026 subcategories
+const tv26Ropeway = import.meta.glob('../assets/events/technovision_2026/ropeway/*.{png,jpg,jpeg,webp}', { eager: true });
+const tv26Model = import.meta.glob('../assets/events/technovision_2026/model/*.{png,jpg,jpeg,webp}', { eager: true });
+const tv26Robo = import.meta.glob('../assets/events/technovision_2026/robo/*.{png,jpg,jpeg,webp}', { eager: true });
 
 // Helper to convert the Glob objects into simple arrays of URLs
 const getImageUrls = (globObj) => Object.values(globObj).map(mod => mod.default);
 
 /* ===================== DATA STRUCTURE ===================== */
 const EVENTS = [
+  {
+    id: 'blockchain_workshop',
+    label: 'BLOCKCHAIN_WORKSHOP',
+    desc: 'Web3 & Blockchain Training',
+    icon: <FaEthereum size={24} />,
+    assets: getImageUrls(blockChainImages)
+  },
+
+  {
+    id: 'technovision26',
+    label: 'TECHNOVISION_26',
+    desc: 'The Mega Tech Fest',
+    icon: <Cpu size={24} />,
+    subCategories: [
+      { id: 'model', label: 'Model Presentation', assets: getImageUrls(tv26Model) },
+      { id: 'ropeway', label: 'Ropeway Racing', assets: getImageUrls(tv26Ropeway) },
+      { id: 'robo', label: 'Robo Rumble', assets: getImageUrls(tv26Robo) },
+    ],
+    assets: [
+      ...getImageUrls(tv26Ropeway),
+      ...getImageUrls(tv26Model),
+      ...getImageUrls(tv26Robo)
+    ]
+  },
+  {
+    id: 'flux_hard_wired',
+    label: 'FLUX_HARD_WIRED',
+    desc: 'Hardware Ideathon Archive',
+    icon: <Bot size={24} />,
+    assets: getImageUrls(hwImages)
+  },
+
   {
     id: 'robo_workshop',
     label: 'ROBOTICS_WORKSHOP',
@@ -53,17 +94,28 @@ const EVENTS = [
     icon: <Cpu size={24} />,
     assets: getImageUrls(tvImages)
   },
-  
+
 ];
 
 // Flat array for the internal gallery logic
 const GALLERY_DATA = EVENTS.flatMap(evt =>
-  evt.assets.map((url, index) => ({
-    id: `${evt.id}-${index}`,
-    type: 'image',
-    event: evt.id,
-    url: url
-  }))
+  evt.subCategories ?
+    evt.subCategories.flatMap(sub =>
+      sub.assets.map((url, index) => ({
+        id: `${evt.id}-${sub.id}-${index}`,
+        type: 'image',
+        event: evt.id,
+        subCategory: sub.id,
+        url: url
+      }))
+    )
+    :
+    evt.assets.map((url, index) => ({
+      id: `${evt.id}-${index}`,
+      type: 'image',
+      event: evt.id,
+      url: url
+    }))
 );
 
 /* ===================== LIGHTBOX COMPONENT ===================== */
@@ -92,15 +144,27 @@ const Lightbox = ({ item, onClose }) => (
 /* ===================== HORIZONTAL GALLERY ===================== */
 const HorizontalStrip = ({ eventId, onClose }) => {
   const event = EVENTS.find(e => e.id === eventId);
-  const items = GALLERY_DATA.filter(item => item.event === eventId);
   const scrollRef = useRef(null);
   const [activeLightbox, setActiveLightbox] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [activeSubCategory, setActiveSubCategory] = useState(event.subCategories ? event.subCategories[0].id : null);
+
+  const items = GALLERY_DATA.filter(item =>
+    item.event === eventId &&
+    (!event.subCategories || item.subCategory === activeSubCategory)
+  );
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => { document.body.style.overflow = 'unset'; };
   }, []);
+
+  useEffect(() => {
+    setCurrentIndex(0);
+    if (scrollRef.current) {
+      scrollRef.current.scrollTo({ left: 0, behavior: 'instant' });
+    }
+  }, [activeSubCategory]);
 
   const handleScrollTo = (index) => {
     if (scrollRef.current) {
@@ -117,15 +181,30 @@ const HorizontalStrip = ({ eventId, onClose }) => {
       className="fixed inset-0 z-[999] bg-slate-50 dark:bg-zinc-950 text-slate-900 dark:text-white flex flex-col"
     >
       {/* Header */}
-      <div className="p-4 md:p-6 flex justify-between items-center border-b border-black/5 dark:border-white/10">
+      <div className="p-4 md:p-6 flex flex-col md:flex-row justify-between items-start md:items-center border-b border-black/5 dark:border-white/10 gap-4 md:gap-0 relative">
         <div className="flex items-center gap-3">
           <div className="p-2 bg-cyan-500 text-white rounded shadow-lg shrink-0">{event.icon}</div>
           <div className="min-w-0">
             <h2 className="text-lg md:text-2xl font-black italic uppercase tracking-tighter truncate">{event.label}</h2>
-            <p className="text-[9px] font-mono text-cyan-500 tracking-[0.2em]">UNIT_{currentIndex + 1}/{items.length}</p>
+            <p className="text-[9px] font-mono text-cyan-500 tracking-[0.2em]">UNIT_{currentIndex + 1}/{items.length || 1}</p>
           </div>
         </div>
-        <button onClick={onClose} className="p-2 rounded-full hover:bg-cyan-500/10 transition-colors">
+
+        {event.subCategories && (
+          <div className="flex flex-wrap items-center gap-2 mt-2 md:mt-0 md:absolute md:left-1/2 md:-translate-x-1/2">
+            {event.subCategories.map(sub => (
+              <button
+                key={sub.id}
+                onClick={() => setActiveSubCategory(sub.id)}
+                className={`px-3 py-1.5 text-xs md:text-sm font-bold uppercase tracking-wider rounded-full transition-all border ${activeSubCategory === sub.id ? 'bg-cyan-500 text-white border-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.4)]' : 'bg-transparent text-slate-500 dark:text-slate-400 border-slate-300 dark:border-white/10 hover:border-cyan-500'}`}
+              >
+                {sub.label}
+              </button>
+            ))}
+          </div>
+        )}
+
+        <button onClick={onClose} className="absolute right-4 top-4 md:relative md:right-0 md:top-0 p-2 rounded-full hover:bg-cyan-500/10 transition-colors">
           <X size={28} />
         </button>
       </div>
@@ -216,11 +295,11 @@ export default function EventGallery() {
               whileHover={{ y: -5 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => setSelectedEvent(event.id)}
-              className="group relative h-[300px] md:h-[400px] cursor-pointer overflow-hidden rounded-2xl md:rounded-3xl border-2 border-black/5 dark:border-white/5 bg-white dark:bg-zinc-900 shadow-xl"
+              className="group relative h-[300px] md:h-[400px] cursor-pointer overflow-hidden rounded-2xl md:rounded-3xl border-2 border-black/5 dark:border-white/5 bg-white dark:bg-zinc-900 shadow-xl "
             >
               {/* Thumbnail Background (Uses first image from folder) */}
-              <div className="absolute inset-0 opacity-30 group-hover:opacity-60 transition-all duration-700 grayscale group-hover:grayscale-0">
-                <img src={event.assets[0]} className="w-full h-full object-cover scale-110 group-hover:scale-100" alt="" />
+              <div className="absolute inset-0 opacity-30 group-hover:opacity-60 transition-all duration-700 grayscale group-hover:grayscale-0 ">
+                <img src={event.assets[0]} className="w-full h-full object-cover scale-100 group-hover:scale-105 " alt="" />
               </div>
 
               <div className="relative h-full p-6 md:p-10 flex flex-col justify-between z-10 bg-gradient-to-br from-black/20 to-transparent">
@@ -228,9 +307,9 @@ export default function EventGallery() {
                   {event.icon}
                 </div>
                 <div>
-                  <h3 className="text-3xl md:text-5xl font-black italic uppercase tracking-tighter mb-2 leading-none">{event.label}</h3>
+                  <h3 className="text-2xl md:text-4xl font-black italic uppercase tracking-tighter mb-2 leading-none wrap-break-word">{event.label}</h3>
                   <div className="flex items-center justify-between">
-                    <p className="font-mono text-[9px] tracking-widest uppercase opacity-70">{event.desc}</p>
+                    <p className="font-mono text-[10px] tracking-widest uppercase opacity-70">{event.desc}</p>
                     <div className="p-2 bg-cyan-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
                       <ChevronRight size={16} />
                     </div>

@@ -1,45 +1,15 @@
 /* ===================== IMAGE IMPORTS ===================== */
 
-// Technovision 2025
-import tv25_1 from '../assets/events/technovision-2025/1.jpg';
-import tv25_2 from '../assets/events/technovision-2025/2.jpg';
-import tv25_3 from '../assets/events/technovision-2025/15.jpg';
-import tv25_4 from '../assets/events/technovision-2025/16.jpg';
-import tv25_5 from '../assets/events/technovision-2025/7.jpg';
-import tv25_6 from '../assets/events/technovision-2025/5.jpg';
-import tv25_7 from '../assets/events/technovision-2025/4.jpg';
-
-// FluxWave
-import fw1 from '../assets/events/FluxWave/12.jpg';
-import fw2 from '../assets/events/FluxWave/10.jpg';
-import fw3 from '../assets/events/FluxWave/11.jpg';
-import fw4 from '../assets/events/FluxWave/6.jpg';
-import fw5 from '../assets/events/FluxWave/3.jpg';
-import fw6 from '../assets/events/FluxWave/1.jpg';
-
-// Web Dev Workshop
-import ww1 from '../assets/events/Web-Workshop/8.jpg';
-import ww2 from '../assets/events/Web-Workshop/4.jpg';
-import ww3 from '../assets/events/Web-Workshop/6.jpg';
-import ww11 from '../assets/events/Web-Workshop/11.jpg';
-import ww14 from '../assets/events/Web-Workshop/14.jpg';
-import ww12 from '../assets/events/Web-Workshop/12.jpg';
-
 // Event Posters
-import rocket_poster from '../assets/events/Events-Posters/rocketcrash.jpeg';
-import color_smash_poster from '../assets/events/Events-Posters/colorsmash.jpeg';
+import fw_poster from '../assets/events/Events-Posters/fluxwave.jpeg';
+import cs_poster from '../assets/events/Events-Posters/colour_smash.jpeg';
 import flux_hard_wired_poster from '../assets/events/Events-Posters/flux_hard_wired.jpeg';
-
-// Robotics Workshop 2026
-import rw1 from '../assets/events/Robo_workshop/2.jpeg';
-import rw2 from '../assets/events/Robo_workshop/3.jpeg';
-import rw3 from '../assets/events/Robo_workshop/4.jpeg';
-import rw4 from '../assets/events/Robo_workshop/5.jpeg';
-import rw5 from '../assets/events/Robo_workshop/6.jpeg';
-import rw6 from '../assets/events/Robo_workshop/7.jpeg';
-import rw7 from '../assets/events/Robo_workshop/8.jpeg';
-import rw_poster from '../assets/events/Robo_workshop/robotics_workshop.jpeg';
-import tv26_poster from '../assets/events/technovision_2026/banner.jpeg';
+import rw_poster from '../assets/events/Events-Posters/robo_workshop.jpeg';
+import tv26_poster from '../assets/events/Events-Posters/technovision_26.jpeg';
+import tv25_poster from '../assets/events/Events-Posters/technovision_25.jpeg';
+import webdev_poster from '../assets/events/Events-Posters/web_dev_workshop.jpeg';
+import bw_poster from '../assets/events/Events-Posters/blockchain_workshop.jpeg';
+import rocket_poster from '../assets/events/Events-Posters/rocket_crash.jpeg';
 
 
 
@@ -49,11 +19,21 @@ export const ARCHIVE_DATA = {
 
   "2026": [
     {
+      title: "BLOCKCHAIN WORKSHOP",
+      tag: "India OnChain Tour",
+      reportUrl: null,
+      images: [bw_poster],
+      terminal: "> venue: COE_Lab_SATI\n> date: 24_Feb_2026\n> focus: Web3_&_Blockchain\n> block_reward: Hot_Pizza_Delivered",
+      date: "2026-02-24",
+      popularity: 90,
+      summary: "An action-packed session with Shardeum breaking down Web3 and smart contracts for everyone. Students got hands-on insights into decentralized tech careers, wrapped up with a massive pizza party!"
+    },
+    {
       title: "TECHNOVISION '26",
       tag: "Mega Technical Fest",
-      detailsUrl: "/technovision-2026",
+      detailsUrl: "/events/technovision-2026",
       images: [tv26_poster],
-      terminal: "> arena: SU_Ground\n> date: 19-20_Feb_2026\n> events: Ropeway, Robo_Rumble, Model_Presentation\n> focus: Robotics_&_Innovation",
+      terminal: "> arena: SU_Ground\n> date: 19-20_Feb_2026\n> events: Model_Presentation, Ropeway, Robo_Rumble\n> focus: Robotics_&_Innovation",
       date: "2026-02-19",
       popularity: 100,
       summary: "Technovision 2026 is the premier technical fest of SATI, featuring high-octane robotics and innovation challenges. Witness the clash of metal and code in Ropeway Racing, Robo Rumble, and Model Presentation."
@@ -62,7 +42,7 @@ export const ARCHIVE_DATA = {
       title: "ROBOTICS WORKSHOP",
       tag: "Technical Workshop",
       reportUrl: null,
-      images: [rw_poster, rw1, rw2, rw3, rw4, rw5, rw6, rw7],
+      images: [rw_poster],
       terminal: "> venue: Embedded_Lab\n> date: 13_Feb_2026\n> guest: Mr._Kapil_Soni\n> focus: 1st_Year_Students",
       date: "2026-02-13",
       popularity: 92,
@@ -81,7 +61,8 @@ export const ARCHIVE_DATA = {
     {
       title: "INTRA-CLUB SATURDAYS",
       tag: "Club Activity",
-      reportUrl: '/reports/intra_club_activity_reports25-26.pdf',
+      // reportUrl: '/reports/intra_club_activity_reports25-26.pdf',
+      reportUrl: 'https://drive.google.com/file/d/1aGlCpZGZmqT31cAkuuE9L5Ta7m1h1KhO/view?usp=drive_link',
       images: ["https://images.unsplash.com/photo-1522071820081-009f0129c71c"],
       terminal: "> session: Weekly_Sprint\n> status: Active\n> timeline: Dec 2025 - Jan 2026",
       date: "2026-01-15",
@@ -96,16 +77,17 @@ export const ARCHIVE_DATA = {
       tag: "Diwali Edition",
       reportUrl: null, // To be added later
       images: [rocket_poster],
-      terminal: "> project: Diwali_Special\n> engine: Python\n> month: October_2025\n> status: Deployed",
+      terminal: "> project: Diwali_Special\n> engine: Python\n> month: October_2025\n> status: Deployed\n> winner: Mrinal Rangare",
       date: "2025-10-20",
       popularity: 88,
-      summary: "The official 2025 Diwali game. A creative physics-based challenge developed for the festival of lights, focusing on projectile logic and festive digital lighting simulations."
+      summary: "The official 2025 Diwali game. A creative physics-based challenge developed for the festival of lights, focusing on projectile logic and festive digital lighting simulations. Huge congratulations to our brilliant 1st-year winner: Mrinal Rangare!"
     },
     {
       title: "WEB DEV WORKSHOP",
       tag: "Training",
-      reportUrl: '/reports/web_workshop.pdf',
-      images: [ww1, ww2, ww3, ww11, ww12, ww14],
+      // reportUrl: '/reports/web_workshop.pdf',
+      reportUrl: 'https://drive.google.com/file/d/1hEBMCqarDzJlEnvVjUvflHgKVtED3W3c/view?usp=drive_link',
+      images: [webdev_poster],
       terminal: "> venue: Embedded_Lab\n> date: 13/09/2025\n> participants: 37_Students\n> focus: Modern_Tools_&_Advanced_Libraries",
       date: "2025-09-13",
       popularity: 92,
@@ -114,8 +96,9 @@ export const ARCHIVE_DATA = {
     {
       title: "FLUXWAVE HACKATHON",
       tag: "Online Hackathon",
-      reportUrl: '/reports/fluxwave_25.pdf',
-      images: [fw1, fw2, fw3, fw4, fw5, fw6],
+      // reportUrl: '/reports/fluxwave_25.pdf',
+      reportUrl: 'https://drive.google.com/file/d/1p40aK4vyMOEsW4K_V-PKl7m-3Ap_Tdc5/view?usp=drive_link',
+      images: [fw_poster],
       terminal: "> registered: 51_Teams\n> shortlisted: 13_Teams\n> timeline: June - August 2025\n> winner: Med_Squad",
       date: "2025-08-15",
       popularity: 98,
@@ -125,17 +108,18 @@ export const ARCHIVE_DATA = {
       title: "COLOR SMASH",
       tag: "Holi Special",
       reportUrl: null, // To be added later
-      images: [color_smash_poster],
-      terminal: "> engine: PyGame\n> month: March_2025\n> release: v1.0.4\n> concept: Digital_Festivities",
+      images: [cs_poster],
+      terminal: "> engine: PyGame\n> month: March_2025\n> release: v1.0.4\n> concept: Digital_Festivities\n> winners: (1st)Safal Tiwari, (2nd)Pranav Dwivedi, (3rd)Sumit Rajpoot",
       date: "2025-03-25",
       popularity: 85,
-      summary: "The official 2025 Holi game. A festive simulation developed in Python to celebrate Holi safely. Combines game physics with cultural elements to promote a chemical-free digital celebration."
+      summary: "The official 2025 Holi game. A festive simulation developed in Python to celebrate Holi safely. Huge congratulations to our brilliant 1st-year winners who smashed the high scores: Safal Tiwari (🥇 1st Prize), Pranav Dwivedi (🥈 2nd Prize), and Sumit Rajpoot (🥉 3rd Prize)!"
     },
     {
       title: "TECHNOVISION '25",
       tag: "Mega Technical Fest",
-      reportUrl: '/reports/Technovision_25.pdf',
-      images: [tv25_1, tv25_2, tv25_3, tv25_4, tv25_5, tv25_6, tv25_7],
+      // reportUrl: '/reports/Technovision_25.pdf',
+      reportUrl: 'https://drive.google.com/file/d/1WXYGhdrryTSJd8keMrtqBuiQkAHnQ1_5/view?usp=drive_link',
+      images: [tv25_poster],
       terminal: "> arena: IT_Garden\n> date: 20-21_Feb_2025\n> events: Robo_Sumo & Robo_Rumble\n> focus: Mechatronics & Strategic_Battle",
       date: "2025-02-20",
       popularity: 100,

@@ -6,7 +6,7 @@ import {
     Award, Zap, CheckCircle, Mail, Phone,
     Trophy, Gift
 } from 'lucide-react';
-import IdeathonPoster from '../assets/events/Events-Posters/IdeathonPoster.jpg';
+import IdeathonPoster from '../assets/events/Events-Posters/IdeathonPoster.jpeg';
 import InsightsLogo from '../assets/events/sponsors/insights.webp';
 
 const TimelineItem = ({ date, title, description, link, linkText, icon: Icon, index, total }) => {
@@ -183,10 +183,10 @@ const Ideathon = () => {
                                 className="group flex flex-col items-center justify-center gap-2 p-6 bg-gradient-to-br from-cyan-600 to-cyan-800 rounded-2xl font-bold text-xl text-white transition-transform hover:scale-[1.02] shadow-lg shadow-cyan-900/20"
                             >
                                 <div className="flex items-center gap-2">
-                                    <span>Register on Unstop</span>
+                                    <span>Registration Closed</span>
                                     <ExternalLink size={20} className="group-hover:translate-x-1 transition-transform" />
                                 </div>
-                                <span className="text-xs font-mono opacity-80 font-normal uppercase tracking-widest">Apply Now</span>
+                                {/* <span className="text-xs font-mono opacity-80 font-normal uppercase tracking-widest">Apply Now</span> */}
                             </a>
 
                             <a
@@ -316,7 +316,7 @@ const Ideathon = () => {
 
                         <motion.a
                             // initial={{ opacity: 0, y: 20 }}
-                            href="https://www.insight.com/en_US/careers/india.html"
+                            href="https://thorenetwork.com/"
                             target="_blank"
                             rel="noopener noreferrer"
                             whileInView={{ opacity: 1, y: 0 }}
@@ -434,6 +434,114 @@ const Ideathon = () => {
                         * <b>Please note:</b><br />1. Accommodation and food facilities will not be provided by the organizing team for this event. Participants are requested to make their own arrangements accordingly.
                         <br />2. If you are selected in top 20 teams after round 2 then you can showcase your prototype in <b>Technovision</b> (annual technical fest of Samrat Ashok Technological Institute).
                     </p>
+                </div>
+
+                {/* WINNERS SHOWCASE SECTION */}
+                <div className="max-w-7xl mx-auto mb-32">
+                    <div className="text-center mb-16">
+                        <h2 className="text-4xl md:text-5xl font-black uppercase italic tracking-tighter mb-4 text-slate-900 dark:text-white">
+                            Hall of <span className="text-cyan-600 dark:text-cyan-500">Fame</span>
+                        </h2>
+                        <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+                            Presenting the brilliant minds and their groundbreaking hardware innovations.
+                        </p>
+                        <div className="h-1 w-20 bg-cyan-500 mx-auto rounded-full mt-6" />
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        {/* 1st Prize */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 0.1 }}
+                            className="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-yellow-400 to-amber-600 p-[1px] hover:shadow-[0_0_30px_rgba(250,204,21,0.3)] transition-shadow duration-500"
+                        >
+                            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay" />
+                            <div className="relative h-full bg-slate-50 dark:bg-[#0a0a0a] p-8 rounded-[23px] flex flex-col justify-start overflow-hidden hover:bg-white dark:hover:bg-[#111] transition-colors">
+                                <div className="absolute top-0 right-0 p-6 opacity-[0.08] dark:opacity-[0.15] transform translate-x-1/4 -translate-y-1/4 transition-transform group-hover:scale-110 duration-500">
+                                    <Trophy size={180} className="text-yellow-500" />
+                                </div>
+
+                                <div className="relative z-10">
+                                    <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 text-sm font-bold mb-6 border border-yellow-500/20 shadow-sm">
+                                        <span className="text-base">🏆</span>
+                                        <span>1st Prize</span>
+                                    </div>
+                                    <h3 className="text-3xl font-black text-slate-900 dark:text-white italic tracking-tighter mb-2">
+                                        Team-silo
+                                    </h3>
+                                    <p className="text-cyan-600 dark:text-cyan-400 text-sm font-bold tracking-wide uppercase mb-4">Adaptive IoT Smart Glove</p>
+
+                                    <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                                        A wearable, low-power smart glove using TinyML and IoT to translate sign language into multilingual text and speech in real-time.
+                                    </p>
+                                </div>
+                            </div>
+                        </motion.div>
+
+                        {/* 2nd Prize */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 0.2 }}
+                            className="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-300 to-slate-500 p-[1px] hover:shadow-[0_0_30px_rgba(148,163,184,0.3)] transition-shadow duration-500"
+                        >
+                            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay" />
+                            <div className="relative h-full bg-slate-50 dark:bg-[#0a0a0a] p-8 rounded-[23px] flex flex-col justify-start overflow-hidden hover:bg-white dark:hover:bg-[#111] transition-colors">
+                                <div className="absolute top-0 right-0 p-6 opacity-[0.08] dark:opacity-[0.15] transform translate-x-1/4 -translate-y-1/4 transition-transform group-hover:scale-110 duration-500">
+                                    <Award size={180} className="text-slate-500" />
+                                </div>
+
+                                <div className="relative z-10">
+                                    <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-500/10 text-slate-600 dark:text-slate-400 text-sm font-bold mb-6 border border-slate-500/20 shadow-sm">
+                                        <span className="text-base">🥈</span>
+                                        <span>2nd Prize</span>
+                                    </div>
+                                    <h3 className="text-3xl font-black text-slate-900 dark:text-white italic tracking-tighter mb-2">
+                                        Tech Raiders
+                                    </h3>
+                                    <p className="text-cyan-600 dark:text-cyan-400 text-sm font-bold tracking-wide uppercase mb-4">Smart Traffic Signal</p>
+
+                                    <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                                        A smart traffic management system designed to dynamically detect and clear paths for emergency vehicles, reducing response times.
+                                    </p>
+                                </div>
+                            </div>
+                        </motion.div>
+
+                        {/* 3rd Prize */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 0.3 }}
+                            className="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-orange-400 to-amber-700 p-[1px] hover:shadow-[0_0_30px_rgba(251,146,60,0.3)] transition-shadow duration-500"
+                        >
+                            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay" />
+                            <div className="relative h-full bg-slate-50 dark:bg-[#0a0a0a] p-8 rounded-[23px] flex flex-col justify-start overflow-hidden hover:bg-white dark:hover:bg-[#111] transition-colors">
+                                <div className="absolute top-0 right-0 p-6 opacity-[0.08] dark:opacity-[0.15] transform translate-x-1/4 -translate-y-1/4 transition-transform group-hover:scale-110 duration-500">
+                                    <Award size={180} className="text-orange-500" />
+                                </div>
+
+                                <div className="relative z-10">
+                                    <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-orange-500/10 text-orange-600 dark:text-orange-400 text-sm font-bold mb-6 border border-orange-500/20 shadow-sm">
+                                        <span className="text-base">🥉</span>
+                                        <span>3rd Prize</span>
+                                    </div>
+                                    <h3 className="text-3xl font-black text-slate-900 dark:text-white italic tracking-tighter mb-2">
+                                        Lunatic Byte
+                                    </h3>
+                                    <p className="text-cyan-600 dark:text-cyan-400 text-sm font-bold tracking-wide uppercase mb-4">Smart LPG Safety Knob</p>
+
+                                    <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                                        An intelligent retrofit device that actively monitors flame status and mechanically turns off gas supply upon flame failure to prevent accidents.
+                                    </p>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </div>
                 </div>
 
                 {/* TIMELINE SECTION */}
