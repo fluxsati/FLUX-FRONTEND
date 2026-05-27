@@ -28,6 +28,12 @@ const getProjectIcon = (title) => {
   return <Layers size={16} />;
 };
 
+const isSoftwareProject = (project) => {
+  const tech = project?.tech || [];
+  const hwKeywords = ['arduino','3d printing','3d','sensors','robotic','robotics','accelerometer','microcontroller','microcontrollers','blcd','motor','motors','flight','drone','servo','rf','hardware','iot'];
+  return !tech.some(t => hwKeywords.some(k => t.toLowerCase().includes(k)));
+};
+
 /* ===================== OPTIMIZED CARD COMPONENT ===================== */
 const ProjectCard = memo(({ project }) => {
   return (
@@ -78,17 +84,64 @@ const ProjectCard = memo(({ project }) => {
         </div>
 
         <div className="flex gap-2 mt-auto">
-          <button className="flex-1 flex items-center justify-center gap-2 bg-slate-900 dark:bg-white text-white dark:text-black py-2.5 md:py-3 rounded-xl font-bold text-[10px] uppercase transition-colors">
-            <Globe size={12} /> <span>Report</span>
-          </button>
-          <a
-            href={project.git || "#"}
-            // target="_blank" 
-            rel="noopener noreferrer"
-            className="p-2.5 md:p-3 bg-slate-100 dark:bg-white/5 rounded-xl border border-slate-200 dark:border-white/10 hover:text-cyan-500 transition-colors"
-          >
-            <Github size={16} />
-          </a>
+          {project.report ? (
+            <a
+              href={project.report}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 flex items-center justify-center gap-2 bg-slate-900 dark:bg-white text-white dark:text-black py-2.5 md:py-3 rounded-xl font-bold text-[10px] uppercase transition-colors"
+            >
+              <Globe size={12} /> <span>Report</span>
+            </a>
+          ) : (
+            <button
+              onClick={() => toast.error("Report not available for this project")}
+              className="flex-1 flex items-center justify-center gap-2 bg-slate-900/60 dark:bg-white/10 text-white/80 dark:text-black/60 py-2.5 md:py-3 rounded-xl font-bold text-[10px] uppercase transition-colors"
+            >
+              <Globe size={12} /> <span>Report</span>
+            </button>
+          )}
+
+          {project.git ? (
+            <a
+              href={project.git}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2.5 md:p-3 bg-slate-100 dark:bg-white/5 rounded-xl border border-slate-200 dark:border-white/10 hover:text-cyan-500 transition-colors"
+              title="View Source"
+            >
+              <Github size={16} />
+            </a>
+          ) : (
+            <button
+              onClick={() => toast("GitHub not available for this project")}
+              className="p-2.5 md:p-3 bg-slate-100/40 dark:bg-white/5 rounded-xl border border-slate-200 dark:border-white/10 text-slate-400 dark:text-slate-500 transition-colors"
+            >
+              <Github size={16} />
+            </button>
+          )}
+
+          {project.live && isSoftwareProject(project) ? (
+            <a
+              href={project.live}
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Live Demo"
+              aria-label="Live Demo"
+              className="p-2.5 md:p-3 bg-emerald-500/10 rounded-xl border border-emerald-500/10 hover:bg-emerald-500/5 transition-colors flex items-center justify-center text-emerald-500 dark:text-emerald-300"
+            >
+              <Globe size={16} />
+            </a>
+          ) : (
+            isSoftwareProject(project) && (
+              <button
+                onClick={() => toast("Live demo not available for this project")}
+                className="p-2.5 md:p-3 bg-emerald-50/10 dark:bg-transparent rounded-xl border border-emerald-500/10 text-emerald-200/40 transition-colors"
+              >
+                <Globe size={16} />
+              </button>
+            )
+          )}
         </div>
       </div>
     </motion.div>
