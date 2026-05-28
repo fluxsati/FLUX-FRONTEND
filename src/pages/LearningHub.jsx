@@ -91,7 +91,7 @@ const LEARNING_SECTIONS = [
       { id: "PLy7NrYWoggjwPggqtFsI_zMAwvG0SqYCb", isPlaylist: true, thumbnail: "https://i.ytimg.com/vi/3c-iBn73dDE/hqdefault.jpg" }, // Docker & K8s (Nana)
       { id: "BSGcQi2WNPg", isPlaylist: false, thumbnail: "https://i.ytimg.com/vi/BSGcQi2WNPg/hqdefault.jpg" }, // AWS (Simplilearn)
       { id: "PLGjZwEtPN7j-Q59JYso3L4_yoCjj2syrM", isPlaylist: true, thumbnail: "https://i.ytimg.com/vi/NPEsD6n9A_I/hqdefault.jpg" }, // AWS (Simplilearn)
-      { id: "PLLrA_pU9-Gz2OnBoICkewd9-Fc9Mi0nm7", isPlaylist: true, thumbnail: "https://i.ytimg.com/pl_c/PLLrA_pU9-Gz2OnBoICkewd9-Fc9Mi0nm7/studio_square_thumbnail.jpg?sqp=COGIhMwG-oaymwEICKoDEPABSFqi85f_AwYIt93LuwY=&rs=AOn4CLAkZVERUrZ1ClzFlk4hyijXZz35zg" }, // AWS (Simplilearn)
+      { id: "IUU6OR8yHCc", isPlaylist: false, thumbnail: "https://i.ytimg.com/vi/IUU6OR8yHCc/hqdefault.jpg?sqp=-oaymwEnCOADEI4CSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&amp;rs=AOn4CLA9XS-C_fpbwVLI07qH06sIVcP2Jw" }, // AWS (Simplilearn)
     ]
   },
   {
@@ -115,7 +115,8 @@ const LEARNING_SECTIONS = [
   {
     title: "Blockchain",
     resources: [
-
+      { id: "-1GB6m39-rM", isPlaylist: false, thumbnail: "https://i.ytimg.com/vi/-1GB6m39-rM/hqdefault.jpg" },
+      { id: "PLndmg9UIKNoku3lbeSKyW-RqHt-HRclEu", isPlaylist: true, thumbnail: "https://i.ytimg.com/vi/FxM0gAZY9Uk/hqdefault.jpg" }
     ]
   },
   {
