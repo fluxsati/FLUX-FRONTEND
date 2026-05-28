@@ -7,6 +7,7 @@ import gamingGlovesImg from '../assets/projects/gaming-glub.png';
 import ctfImg from '../assets/projects/ctf.png';
 import fluxMailImg from '../assets/projects/bulk-mail.png';
 import auctionImg from '../assets/projects/auction.png'; // Add your Auction asset here
+import moodwaveImg from '../assets/projects/moodwave.svg';
 
 const PROJECT_DATA = [
   {
@@ -72,6 +73,17 @@ const PROJECT_DATA = [
     tech: ["MERN Stack", "Socket.io", "Real-time Bidding"],
     date: "2025-02-01",
     popularity: 85
+  }
+  ,
+  {
+    title: "MoodWave - AI-Based Emotion Recognition Playlist Maker",
+    description: "AI-powered music recommendation web application that detects user emotions using text input and facial expressions, then recommends mood-based playlists using local recommendation logic.",
+    img: moodwaveImg,
+    tech: ["Flask", "DeepFace", "text2emotion", "OpenCV", "TensorFlow"],
+    date: "2026-05-28",
+    popularity: 89,
+    report: "/projects/music_recommendation.pdf",
+    live: "https://music-1-8f4y.onrender.com"
   }
 ];
 

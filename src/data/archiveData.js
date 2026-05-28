@@ -10,6 +10,7 @@ import tv25_poster from '../assets/events/Events-Posters/technovision_25.jpeg';
 import webdev_poster from '../assets/events/Events-Posters/web_dev_workshop.jpeg';
 import bw_poster from '../assets/events/Events-Posters/blockchain_workshop.jpeg';
 import rocket_poster from '../assets/events/Events-Posters/rocket_crash.jpeg';
+// import recruit_poster from '../assets/events/Events-Posters/recruitment_26.jpeg';
 
 
 
