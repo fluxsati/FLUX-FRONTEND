@@ -5,6 +5,21 @@ import {
   Copy, Check, Quote, Globe, X,
   ChevronDown
 } from 'lucide-react';
+// Inline quotes array (rotating daily) — kept here per request
+const QUOTES = [
+  { text: "The beautiful thing about learning is that no one can take it away from you.", author: "B.B. King" },
+  { text: "Live as if you were to die tomorrow. Learn as if you were to live forever.", author: "Mahatma Gandhi" },
+  { text: "Tell me and I forget. Teach me and I remember. Involve me and I learn.", author: "Benjamin Franklin" },
+  { text: "An investment in knowledge pays the best interest.", author: "Benjamin Franklin" },
+  { text: "The only person who is educated is the one who has learned how to learn and change.", author: "Carl Rogers" },
+  { text: "Wisdom is not a product of schooling but of the lifelong attempt to acquire it.", author: "Albert Einstein" },
+  { text: "Learning never exhausts the mind.", author: "Leonardo da Vinci" },
+  { text: "The more I read, the more I acquire, the more certain I am that I know nothing.", author: "Voltaire" },
+  { text: "You don't understand anything until you learn it more than one way.", author: "Marvin Minsky" },
+  { text: "Education is the most powerful weapon which you can use to change the world.", author: "Nelson Mandela" },
+  { text: "The capacity to learn is a gift; the ability to learn is a skill; the willingness to learn is a choice.", author: "Brian Herbert" },
+  { text: "Curiosity is the wick in the candle of learning.", author: "William Arthur Ward" }
+];
 
 // --- CONSTANTS ---
 const COUPONS = [
@@ -98,31 +113,54 @@ const LEARNING_SECTIONS = [
     title: "Visual Design",
     resources: [
 
+      { id: "90Zaa8dH4SU", isPlaylist: false, thumbnail: "https://i.ytimg.com/vi/90Zaa8dH4SU/hqdefault.jpg" },
+      { id: "e_dv7GBHka8", isPlaylist: false, thumbnail: "https://i.ytimg.com/vi/e_dv7GBHka8/hqdefault.jpg" },
+      { id: "1vzda4uh7nA", isPlaylist: false, thumbnail: "https://i.ytimg.com/vi/1vzda4uh7nA/hqdefault.jpg" },
+      { id: "3m0TXas0Vjw", isPlaylist: false, thumbnail: "https://i.ytimg.com/vi/3m0TXas0Vjw/hqdefault.jpg" },
+      { id: "nx3ndM5kb7k", isPlaylist: false, thumbnail: "https://i.ytimg.com/vi/nx3ndM5kb7k/hqdefault.jpg" },
+      { id: "ikWmASLeCYU", isPlaylist: false, thumbnail: "https://i.ytimg.com/vi/ikWmASLeCYU/hqdefault.jpg" },
+ 
     ]
   },
   {
     title: "Video Editing",
     resources: [
+      { id: "cD-JVZB5wPA", isPlaylist: false, thumbnail: "https://i.ytimg.com/vi/cD-JVZB5wPA/hqdefault.jpg" },
+      { id: "udOM7O2QnSk", isPlaylist: false, thumbnail: "https://i.ytimg.com/vi/udOM7O2QnSk/hqdefault.jpg" },
+      { id: "W2DAXqS7G4E", isPlaylist: false, thumbnail: "https://i.ytimg.com/vi/W2DAXqS7G4E/hqdefault.jpg" },
+      { id: "VI3SXl5RYfc", isPlaylist: false, thumbnail: "https://i.ytimg.com/vi/VI3SXl5RYfc/hqdefault.jpg" },
+      
 
     ]
   },
   {
     title: "IoT & Hardware",
     resources: [
-
+      { id: "6ptZr9VRxPs", isPlaylist: false, thumbnail: "https://i.ytimg.com/vi/6ptZr9VRxPs/hqdefault.jpg" } ,
+      { id: "DPqiIzK97K0", isPlaylist: false, thumbnail: "https://i.ytimg.com/vi/DPqiIzK97K0/hqdefault.jpg" },
+      { id: "BLrHTHUjPuw", isPlaylist: false, thumbnail: "https://i.ytimg.com/vi/BLrHTHUjPuw/hqdefault.jpg" },
+      { id: "UuxBfKA3U5M", isPlaylist: false, thumbnail: "https://i.ytimg.com/vi/UuxBfKA3U5M/hqdefault.jpg" },
+      { id: "KLGbPgls18k", isPlaylist: false, thumbnail: "https://i.ytimg.com/vi/KLGbPgls18k/hqdefault.jpg" },
+      { id: "WzNNc0UABWE", isPlaylist: false, thumbnail: "https://i.ytimg.com/vi/WzNNc0UABWE/hqdefault.jpg" },
+      { id: "PLLSegLrePWgIDKJTkdLyyQskh2HDdEL3y", isPlaylist: true, thumbnail: "https://i.ytimg.com/vi/6sQQ5_n5raA/hqdefault.jpg" },
     ]
   },
   {
     title: "Blockchain",
     resources: [
+      { id: "6aF6p2VUORE", isPlaylist: false, thumbnail: "https://i.ytimg.com/vi/6aF6p2VUORE/hqdefault.jpg" },
+      { id: "tq-ooflj7R4", isPlaylist: false, thumbnail: "https://i.ytimg.com/vi/tq-ooflj7R4/hqdefault.jpg" },
       { id: "-1GB6m39-rM", isPlaylist: false, thumbnail: "https://i.ytimg.com/vi/-1GB6m39-rM/hqdefault.jpg" },
-      { id: "PLndmg9UIKNoku3lbeSKyW-RqHt-HRclEu", isPlaylist: true, thumbnail: "https://i.ytimg.com/vi/FxM0gAZY9Uk/hqdefault.jpg" }
+      { id: "PLndmg9UIKNoku3lbeSKyW-RqHt-HRclEu", isPlaylist: true, thumbnail: "https://i.ytimg.com/vi/FxM0gAZY9Uk/hqdefault.jpg" },
     ]
   },
   {
     title: "Cybersecurity",
     resources: [
-
+      { id: "hxXbvu9J5Pg", isPlaylist: false, thumbnail: "https://i.ytimg.com/vi/hxXbvu9J5Pg/hqdefault.jpg" },
+      { id: "v3iUx2SNspY", isPlaylist: false, thumbnail: "https://i.ytimg.com/vi/v3iUx2SNspY/hqdefault.jpg" },
+      { id: "4huDEcXFVQc", isPlaylist: false, thumbnail: "https://i.ytimg.com/vi/4huDEcXFVQc/hqdefault.jpg" },
+      { id: "2eLJNBroFrg", isPlaylist: false, thumbnail: "https://i.ytimg.com/vi/2eLJNBroFrg/hqdefault.jpg" },
     ]
   },
 ];
@@ -253,6 +291,14 @@ const LearningHub = () => {
     }
   }, [selectedVideo]);
 
+  // Deterministic daily quote (rotates once per day)
+  const dailyQuote = useMemo(() => {
+    if (!QUOTES || QUOTES.length === 0) return { text: "Keep learning.", author: "" };
+    const days = Math.floor(Date.now() / 86400000);
+    const idx = days % QUOTES.length;
+    return QUOTES[idx];
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#f8fafc] dark:bg-[#050505] text-slate-900 dark:text-white pt-24 md:pt-32 pb-20 px-4 md:px-8 transition-colors duration-500">
 
@@ -316,8 +362,8 @@ const LearningHub = () => {
               <div className="flex gap-3 items-start text-slate-500 dark:text-zinc-400 italic justify-center lg:justify-start">
                 <Quote size={18} className="text-blue-500 shrink-0 mt-1" />
                 <p className="text-base md:text-lg leading-relaxed max-w-md">
-                  "The beautiful thing about learning is that no one can take it away from you."
-                  <span className="block text-xs font-bold mt-2 not-italic uppercase tracking-widest text-slate-400">— B.B. King</span>
+                  {dailyQuote.text}
+                  <span className="block text-xs font-bold mt-2 not-italic uppercase tracking-widest text-slate-400">— {dailyQuote.author || 'Unknown'}</span>
                 </p>
               </div>
             </motion.div>

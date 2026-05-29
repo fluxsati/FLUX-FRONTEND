@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { Send, MessageSquare, Cpu, Wifi, ShieldCheck } from 'lucide-react';
 import io from 'socket.io-client';
-import api from '../api';
+import api, { fetchChatHistory } from '../api';
 
 const GroupChat = () => {
   // 1. Grab user directly from Redux Store
@@ -10,32 +10,112 @@ const GroupChat = () => {
 
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
+  const [isLoadingHistory, setIsLoadingHistory] = useState(true);
   const scrollRef = useRef();
   const socketRef = useRef();
 
   // Dynamic Base URL
   const BASE_URL = api.defaults.baseURL ? api.defaults.baseURL.replace('/api', '') : 'http://localhost:5000';
 
+  const normalizeMessage = (message) => {
+    const senderId = message?.senderId || message?.sender?._id || message?.sender;
+    const senderName = message?.senderName || message?.sender?.name || 'Anonymous';
+    const timestamp = message?.createdAt || message?.time || new Date().toISOString();
+
+    return {
+      ...message,
+      _id: message?._id || message?.messageId,
+      clientMessageId: message?.clientMessageId,
+      senderId,
+      senderName,
+      time: message?.time || new Date(timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      createdAt: timestamp,
+      content: message?.content || '',
+      chatRoom: message?.chatRoom || 'general',
+    };
+  };
+
   useEffect(() => {
+    let isMounted = true;
+
+    const mergeMessages = (incomingMessages) => {
+      setMessages((prev) => {
+        const combined = [...prev];
+
+        incomingMessages.forEach((incoming) => {
+          const normalizedIncoming = normalizeMessage(incoming);
+
+          const existingIndex = combined.findIndex((message) => {
+            if (normalizedIncoming._id && message._id) {
+              return message._id === normalizedIncoming._id;
+            }
+
+            if (normalizedIncoming.clientMessageId && message.clientMessageId) {
+              return message.clientMessageId === normalizedIncoming.clientMessageId;
+            }
+
+            return message.senderId === normalizedIncoming.senderId
+              && message.content === normalizedIncoming.content
+              && message.createdAt === normalizedIncoming.createdAt;
+          });
+
+          if (existingIndex === -1) {
+            combined.push(normalizedIncoming);
+          } else {
+            combined[existingIndex] = {
+              ...combined[existingIndex],
+              ...normalizedIncoming,
+            };
+          }
+        });
+
+        combined.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+        return combined;
+      });
+    };
+
+    const loadHistory = async () => {
+      try {
+        const response = await fetchChatHistory();
+        if (!isMounted) return;
+
+        const history = Array.isArray(response.data) ? response.data : [];
+        mergeMessages(history);
+      } catch (error) {
+        console.error('Chat history sync error', error);
+      } finally {
+        if (isMounted) setIsLoadingHistory(false);
+      }
+    };
+
+    loadHistory();
+
     // Initialize socket connection
-    socketRef.current = io(BASE_URL);
-    socketRef.current.emit("join_room", "general");
+    socketRef.current = io(BASE_URL, {
+      transports: ['polling', 'websocket'],
+      reconnectionAttempts: 5,
+    });
+
+    socketRef.current.on('connect', () => {
+      socketRef.current.emit('join_room', 'general');
+    });
 
     const handleMessage = (msg) => {
-      setMessages(prev => {
-        const isDuplicate = prev.some(m =>
-          m.time === msg.time &&
-          m.content === msg.content &&
-          m.senderId === msg.senderId
-        );
-        if (isDuplicate) return prev;
-        return [...prev, msg];
-      });
+      mergeMessages([msg]);
     };
 
     socketRef.current.on("receive_message", handleMessage);
 
+    const poller = window.setInterval(() => {
+      loadHistory();
+    }, 2500);
+
     return () => {
+      isMounted = false;
+      window.clearInterval(poller);
+      if (socketRef.current) {
+        socketRef.current.off("receive_message", handleMessage);
+      }
       if (socketRef.current) socketRef.current.disconnect();
     };
   }, [BASE_URL]);
@@ -50,19 +130,22 @@ const GroupChat = () => {
     e.preventDefault();
     e.stopPropagation();
 
-    if (input.trim()) {
+    const trimmedInput = input.trim();
+
+    if (trimmedInput) {
+      const clientMessageId = crypto?.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
       const msgData = {
         senderName: userInfo?.name || "Anonymous",
         senderId: userInfo?._id || userInfo?.id,
-        content: input.trim(),
+        content: trimmedInput,
+        room: "general",
+        clientMessageId,
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
 
-      if (socketRef.current) socketRef.current.emit("send_message", msgData);
-
-      // OPTIONAL: If your backend "broadcasts" to everyone INCLUDING the sender,
-      // remove this setMessages to avoid seeing your own message twice.
-      setMessages(prev => [...prev, msgData]);
+      if (socketRef.current) {
+        socketRef.current.emit("send_message", msgData);
+      }
 
       setInput("");
     }
@@ -93,6 +176,11 @@ const GroupChat = () => {
 
       {/* MESSAGES FLOW */}
       <div className="flex-1 overflow-y-auto p-6 space-y-6 scrollbar-hide bg-transparent">
+        {isLoadingHistory && messages.length === 0 && (
+          <div className="flex items-center justify-center py-10 text-[10px] font-mono uppercase tracking-[0.35em] text-gray-400 dark:text-gray-500">
+            Syncing live channel...
+          </div>
+        )}
         {messages.map((msg, i) => {
           // Compare with Redux userInfo
           const isMe = msg.senderId === (userInfo?._id || userInfo?.id);
