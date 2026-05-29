@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   X, Cpu, Layers, ChevronRight,
   Maximize2, ChevronLeft, Zap, Users, Bot,
-  ZapOff
+  ZapOff, PartyPopper
 } from 'lucide-react';
 import { FaEthereum } from 'react-icons/fa';
 
@@ -11,6 +11,7 @@ import { FaEthereum } from 'react-icons/fa';
 // These lines scan your folders and create objects mapping the file path to the actual image URL
 const tvImages = import.meta.glob('../assets/events/technovision-2025/*.{png,jpg,jpeg,webp}', { eager: true });
 const fwImages = import.meta.glob('../assets/events/FluxWave/*.{png,jpg,jpeg,webp}', { eager: true });
+const farewellImages = import.meta.glob('../assets/farewell/*.{png,jpg,jpeg,webp,JPG,JPEG}', { eager: true });
 const webImages = import.meta.glob('../assets/events/Web-Workshop/*.{png,jpg,jpeg,webp}', { eager: true });
 const recruitImages = import.meta.glob('../assets/events/FluxRecruitment/*.{png,jpg,jpeg,webp}', { eager: true });
 const roboImages = import.meta.glob('../assets/events/Robo_workshop/*.{png,jpg,jpeg,webp}', { eager: true });
@@ -27,6 +28,13 @@ const getImageUrls = (globObj) => Object.values(globObj).map(mod => mod.default)
 
 /* ===================== DATA STRUCTURE ===================== */
 const EVENTS = [
+  {
+    id: 'farewell_memories',
+    label: 'FAREWELL_MEMORIES_26',
+    desc: 'Goodbye Moments, Forever Frames',
+    icon: <PartyPopper size={24} />,
+    assets: getImageUrls(farewellImages)
+  },
   {
     id: 'blockchain_workshop',
     label: 'BLOCKCHAIN_WORKSHOP',
