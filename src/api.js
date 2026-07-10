@@ -34,6 +34,10 @@ export const logout = () => API.post('/auth/logout');
 export const fetchProjects = () => API.get('/projects');
 export const uploadProject = (projectData) => API.post('/projects', projectData);
 
+// --- FLUXWAVE REGISTRATION ---
+export const registerFluxWave = (formData) =>
+  API.post("/fluxwave/register", formData);
+
 // --- USER ENDPOINTS ---
 export const fetchActiveUsers = () => API.get('/users/active');
 export const fetchAllUsers = () => API.get('/users');
