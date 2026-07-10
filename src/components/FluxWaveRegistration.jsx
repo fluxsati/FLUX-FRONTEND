@@ -29,7 +29,7 @@ const FluxWaveRegistration = () => {
     };
 
     return (
-        <section className="relative w-full px-6 md:px-12 lg:px-24 py-16 z-10 font-sans">
+        <section id="registration" className="relative w-full px-6 md:px-12 lg:px-24 py-16 z-10 font-sans">
             <div className="max-w-5xl mx-auto">
                 <div className="text-center mb-16">
                     <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white uppercase tracking-widest mb-4" style={{ fontFamily: '"Russo One", sans-serif' }}>

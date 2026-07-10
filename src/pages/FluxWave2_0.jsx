@@ -211,17 +211,20 @@ const FluxWave2_0 = () => {
               <div className="flex flex-wrap gap-4 items-center">
                 <button
                   onClick={() => document.getElementById('registration')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="px-8 py-3 rounded-full bg-slate-900 dark:bg-white text-white dark:text-black hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors shadow-lg text-1xl"
+                  className="px-6 py-2 rounded-full bg-slate-900 dark:bg-white text-white dark:text-black hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors shadow-lg text-2xl"
                   style={{ fontFamily: '"Mars", system-ui' }}
                 >
                   REGISTER NOW
                 </button>
-                <button
-                  className="px-8 py-3 rounded-full bg-[#25D366] text-white hover:bg-[#1ebd5a] transition-colors shadow-[0_0_15px_rgba(37,211,102,0.4)] flex items-center gap-2 font-bold tracking-wider"
+                <a
+                  href="https://chat.whatsapp.com/L8cxv50mB7BIv4PgHmM179"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-8 py-3 rounded-full bg-[#25D366] text-white hover:bg-[#1ebd5a] transition-colors shadow-[0_0_5px_rgba(37,211,102,0.2)] flex items-center gap-2 font-medium tracking-wider"
                   style={{ fontFamily: '"Russo One", sans-serif' }}
                 >
                   <MessageCircle size={18} /> Join WhatsApp
-                </button>
+                </a>
               </div>
 
               {/* Countdown Timer */}
@@ -557,9 +560,14 @@ const FluxWave2_0 = () => {
               <Send size={18} /> Contact Support
 
             </a>
-            <button className="px-8 py-3 rounded-full bg-[#25D366] text-white font-bold tracking-wide flex items-center gap-2 hover:bg-[#1ebd5a] transition-colors shadow-lg">
+            <a 
+              href="https://chat.whatsapp.com/L8cxv50mB7BIv4PgHmM179"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-8 py-3 rounded-full bg-[#25D366] text-white font-bold tracking-wide flex items-center gap-2 hover:bg-[#1ebd5a] transition-colors shadow-lg"
+            >
               <MessageCircle size={18} /> Help Desk Group
-            </button>
+            </a>
           </div>
         </div>
       </section>
