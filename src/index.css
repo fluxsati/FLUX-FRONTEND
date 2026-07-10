@@ -78,3 +78,54 @@ body {
 html {
   scroll-behavior: smooth;
 }
+
+/* ─── Custom Fonts via CDNfonts (direct woff file URLs) ─── */
+
+@font-face {
+  font-family: 'Liger';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Liger'), url('https://fonts.cdnfonts.com/s/101243/liger.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Technology';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Technology'), url('https://fonts.cdnfonts.com/s/18708/Technology.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Technology';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Technology'), url('https://fonts.cdnfonts.com/s/18708/Technology Bold.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Mars';
+  font-style: normal;
+  font-weight: 400;
+  src: local('New Mars'), url('https://fonts.cdnfonts.com/s/38322/NewMars-ydBq.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Mars';
+  font-style: normal;
+  font-weight: 700;
+  src: local('New Mars Bold'), url('https://fonts.cdnfonts.com/s/38322/NewMarsBold-nBxJ.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Mars3D';
+  font-style: normal;
+  font-weight: 400;
+  src: local('New Mars 3D'), url('https://fonts.cdnfonts.com/s/38322/NewMars3D-9OE7.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'AudiowideReal';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Audiowide'), url('https://fonts.cdnfonts.com/s/15406/Audiowide-Regular.woff') format('woff');
+}

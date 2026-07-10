@@ -2,8 +2,8 @@ import React, { Suspense, memo, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 // import Spline from '@splinetool/react-spline'; // Removed static import
 import Typewriter from 'typewriter-effect';
-
 const Spline = React.lazy(() => import('@splinetool/react-spline'));
+import FluxWavePopup from '../components/FluxWavePopup';
 
 // Memoized Ticker for performance
 const MarqueeTicker = memo(() => (
@@ -33,6 +33,9 @@ const Home = () => {
   }, []);
   return (
     <div className="relative min-h-dvh w-full bg-slate-50 dark:bg-[#030303] transition-colors duration-500 overflow-x-hidden font-sans selection:bg-cyan-500 selection:text-black flex flex-col pt-20 md:pt-28">
+      
+      {/* FluxWave 2.0 Poster Popup */}
+      <FluxWavePopup />
 
       {/* ===== INJECTED ANIMATIONS ===== */}
       <style dangerouslySetInnerHTML={{

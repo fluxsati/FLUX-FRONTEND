@@ -1,19 +1,23 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, useScroll, useTransform, AnimatePresence, useSpring } from 'framer-motion';
+import { motion, useScroll, useTransform, AnimatePresence, useSpring, useVelocity, useAnimationFrame } from 'framer-motion';
 import { ChevronDown, Send, Code, Target, Zap, Layout, Mic, MessageCircle, HelpCircle } from 'lucide-react';
+import Typewriter from 'typewriter-effect';
+import FluxWaveRegistration from '../components/FluxWaveRegistration';
+import FluxWaveArchive from '../components/FluxWaveArchive';
 
-import iotBg from '../assets/events/FluxWave_2.0/domains/IOT_BG.png';
-import iotAvatar from '../assets/events/FluxWave_2.0/domains/IOT_charater.png';
-import aiBg from '../assets/events/FluxWave_2.0/domains/AI.png';
+import iotBg from '../assets/events/FluxWave_2.0/domains/iot.jpeg';
+import iotAvatar from '../assets/events/FluxWave_2.0/domains/iot_char.png';
+import aiBg from '../assets/events/FluxWave_2.0/domains/ai.png';
 import aiAvatar from '../assets/events/FluxWave_2.0/domains/ai_char.png';
-import cyberBg from '../assets/events/FluxWave_2.0/domains/cyber.png';
+import cyberBg from '../assets/events/FluxWave_2.0/domains/cyber.jpeg';
 import cyberAvatar from '../assets/events/FluxWave_2.0/domains/cyber_char.png';
-import web3Bg from '../assets/events/FluxWave_2.0/domains/blockchain.png';
+import web3Bg from '../assets/events/FluxWave_2.0/domains/blockchain.jpeg';
 import web3Avatar from '../assets/events/FluxWave_2.0/domains/blockchain_char.png';
-import openBg from '../assets/events/FluxWave_2.0/domains/open.png';
-import openAvatar from '../assets/events/FluxWave_2.0/domains/open_chars.png';
-import gameBg from '../assets/events/FluxWave_2.0/domains/game.png';
-import gameAvatar from '../assets/events/FluxWave_2.0/domains/game_cha.png';
+import openBg from '../assets/events/FluxWave_2.0/domains/open.jpeg';
+import openAvatar from '../assets/events/FluxWave_2.0/domains/open_char.png';
+import gameBg from '../assets/events/FluxWave_2.0/domains/game.jpeg';
+import gameAvatar from '../assets/events/FluxWave_2.0/domains/game_char.png';
+import posterImage from '../assets/events/FluxWave_2.0/poster.jpeg';
 
 
 const timelineData = [
@@ -49,98 +53,45 @@ const faqs = [
   { q: "Is there any registration fee?", a: "Registration fees (if any) will be announced on the portal launch day." }
 ];
 
-const MarqueeRibbon = ({ text, bg = "bg-purple-600", rotate = "-rotate-2" }) => (
-  <div className={`w-[110vw] -ml-[5vw] py-4 ${bg} text-white font-bold tracking-widest uppercase overflow-hidden transform ${rotate} my-24 shadow-2xl z-20 relative`}>
-    <div className="animate-marquee whitespace-nowrap text-2xl lg:text-3xl flex" style={{ fontFamily: '"Russo One", sans-serif' }}>
-      {Array(15).fill(text).map((t, i) => (
-        <span key={i} className="mx-4">{t}</span>
-      ))}
-    </div>
-  </div>
-);
+const MarqueeRibbon = ({ text, bg = "bg-purple-600", rotate = "-rotate-2" }) => {
+  const baseX = useSpring(0, { stiffness: 400, damping: 90 });
+  const { scrollY } = useScroll();
+  const scrollVelocity = useVelocity(scrollY);
+  const smoothVelocity = useSpring(scrollVelocity, { damping: 50, stiffness: 400 });
+  const velocityFactor = useTransform(smoothVelocity, [0, 1000], [0, 5], { clamp: false });
 
-const HolographicScroll = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const x = useTransform(baseX, (v) => {
+    const min = -50;
+    const max = 0;
+    const rangeSize = max - min;
+    const wrapped = ((((v - min) % rangeSize) + rangeSize) % rangeSize) + min;
+    return `${wrapped}%`;
+  });
+
+  const directionFactor = useRef(1);
+  useAnimationFrame((t, delta) => {
+    let moveBy = directionFactor.current * -20 * (delta / 1000);
+    if (velocityFactor.get() < 0) {
+      directionFactor.current = 1;
+    } else if (velocityFactor.get() > 0) {
+      directionFactor.current = -1;
+    }
+    moveBy += directionFactor.current * 40 * Math.abs(velocityFactor.get()) * (delta / 1000);
+    baseX.set(baseX.get() + moveBy);
+  });
+
   return (
-    <div 
-      className="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-50 flex flex-col items-end"
-    >
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0, scaleY: 0 }}
-            animate={{ height: "auto", opacity: 1, scaleY: 1 }}
-            exit={{ height: 0, opacity: 0, scaleY: 0 }}
-            transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
-            className="w-72 md:w-80 mb-4 origin-bottom relative perspective-[1000px]"
-          >
-            {/* Scroll Container */}
-            <div className="relative bg-[#0a0a10]/95 backdrop-blur-md border border-cyan-500/50 rounded-lg shadow-[0_0_30px_rgba(6,182,212,0.3)] overflow-hidden">
-              
-              {/* Blueprint Grid Background */}
-              <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: 'linear-gradient(rgba(6, 182, 212, 0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(6, 182, 212, 0.5) 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
-              
-              {/* Scanline Animation */}
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-400/20 to-transparent h-[20%] w-full animate-[scan_3s_ease-in-out_infinite] pointer-events-none z-10"></div>
-
-              {/* Top Roller */}
-              <div className="h-4 w-full bg-gradient-to-r from-cyan-900 via-cyan-500 to-cyan-900 shadow-[0_2px_10px_rgba(6,182,212,0.5)] z-20 relative border-b border-cyan-300"></div>
-              
-              <div className="p-6 relative z-10">
-                <h3 className="text-xl font-bold mb-4 text-cyan-400 border-b border-cyan-500/30 pb-2 uppercase tracking-widest flex items-center justify-between" style={{ fontFamily: '"AudiowideReal", sans-serif' }}>
-                   <span>FluxWave 1.0</span>
-                   <span className="text-[9px] bg-cyan-500/20 px-2 py-1 rounded text-cyan-200 tracking-wider">ARCHIVE</span>
-                </h3>
-                
-                <ul className="space-y-4 text-sm font-medium">
-                  <li className="flex justify-between items-center border-b border-white/5 pb-2">
-                     <span className="text-slate-400 uppercase text-xs tracking-wider">Organized</span>
-                     <span className="text-white">August 02, 2025</span>
-                  </li>
-                  <li className="flex justify-between items-center border-b border-white/5 pb-2">
-                     <span className="text-slate-400 uppercase text-xs tracking-wider">Hackers</span>
-                     <span className="text-white text-right">250+ Participants</span>
-                  </li>
-                  <li className="flex justify-between items-center border-b border-white/5 pb-2">
-                     <span className="text-slate-400 uppercase text-xs tracking-wider">Output</span>
-                     <span className="text-white text-right">51+ Projects Built</span>
-                  </li>
-                  <li className="flex justify-between items-center border-b border-white/5 pb-2">
-                     <span className="text-slate-400 uppercase text-xs tracking-wider">Champions</span>
-                     <span className="text-white text-right">3 Winning Teams</span>
-                  </li>
-                  <li className="flex justify-between items-center pt-1">
-                     <span className="text-slate-400 uppercase text-xs tracking-wider">Prize Pool</span>
-                     <span className="text-purple-400 font-bold" style={{ fontFamily: '"Technology", monospace', fontSize: '1.2rem' }}>Trophies And Certificates</span>
-                  </li>
-                </ul>
-              </div>
-              
-              {/* Bottom Roller */}
-              <div className="h-4 w-full bg-gradient-to-r from-purple-900 via-purple-500 to-purple-900 shadow-[0_-2px_10px_rgba(168,85,247,0.5)] z-20 relative border-t border-purple-300"></div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* The closed capsule / trigger */}
-      <div 
-        className="cursor-pointer group relative flex items-center justify-center w-14 h-14 md:w-16 md:h-16 rounded-full bg-[#0a0a10] border-2 border-cyan-500 shadow-[0_0_20px_rgba(6,182,212,0.4)] hover:shadow-[0_0_30px_rgba(168,85,247,0.6)] hover:border-purple-500 transition-all duration-300 z-50"
-        onClick={() => setIsOpen(!isOpen)}
-      >
-         <div className="absolute inset-2 rounded-full bg-gradient-to-br from-cyan-500/20 to-purple-500/20 group-hover:from-purple-500/40 group-hover:to-cyan-500/40 transition-colors duration-300 flex items-center justify-center">
-            <ChevronDown className={`w-6 h-6 text-cyan-400 group-hover:text-purple-400 transition-all duration-500 ${isOpen ? '' : 'rotate-180'}`} />
-         </div>
-         {/* Capsule ridges */}
-         <div className="absolute -inset-1 rounded-full border border-cyan-500/30 group-hover:border-purple-500/50 animate-[spin_4s_linear_infinite] border-dashed"></div>
-         
-         <div className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity bg-black/90 px-3 py-1.5 rounded-md text-[10px] text-cyan-300 uppercase tracking-widest font-bold pointer-events-none border border-cyan-500/30">
-            {isOpen ? 'Close Archive' : 'V1.0 Archive'}
-         </div>
-      </div>
+    <div className={`w-[110vw] -ml-[5vw] py-4 ${bg} text-white font-bold tracking-widest uppercase overflow-hidden transform ${rotate} my-24 shadow-2xl z-20 relative flex`}>
+      <motion.div className="whitespace-nowrap text-2xl lg:text-3xl flex w-max" style={{ x, fontFamily: '"Russo One", sans-serif' }}>
+        {Array(20).fill(text).map((t, i) => (
+          <span key={i} className="mx-4">{t}</span>
+        ))}
+      </motion.div>
     </div>
   );
 };
+
+
 
 const FluxWave2_0 = () => {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
@@ -169,41 +120,54 @@ const FluxWave2_0 = () => {
 
   // Desktop Timeline Scroll logic
   const containerRef = useRef(null);
-  const { scrollYProgress } = useScroll({ 
+  const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start start", "end end"] 
+    offset: ["start start", "end end"]
   });
   const smoothProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
   const xTransform = useTransform(smoothProgress, [0, 1], ["0%", "-66.66%"]);
 
   return (
     <div className="bg-slate-50 dark:bg-[#0f0f13] text-slate-900 dark:text-slate-50 min-h-screen font-sans selection:bg-purple-500/30 pt-24 overflow-x-clip transition-colors duration-300" style={{ fontFamily: '"Raleway", sans-serif' }}>
-      
-      <style dangerouslySetInnerHTML={{__html: `
-        @font-face {
-          font-family: 'Liger';
-          src: url('https://hackatank.shadowctrl.me/fonts/liger.ttf') format('truetype');
-        }
-        @font-face {
-          font-family: 'Technology';
-          src: url('https://hackatank.shadowctrl.me/fonts/technology/Technology.ttf') format('truetype');
-        }
-        @font-face {
-          font-family: 'Mars';
-          src: url('https://hackatank.shadowctrl.me/fonts/mars/Mars%20Bold.ttf') format('truetype');
-        }
-        @font-face {
-          font-family: 'AudiowideReal';
-          src: url('https://fonts.gstatic.com/s/audiowide/v22/l7gdbjpo0cum0ckerWCdmA_OIxo.woff2') format('woff2');
-        }
-        @keyframes marquee {
-          0% { transform: translateX(0%); }
-          100% { transform: translateX(-50%); }
-        }
+
+      <style dangerouslySetInnerHTML={{
+        __html: `
         @keyframes scan {
           0% { transform: translateY(-100%); opacity: 0; }
           50% { opacity: 1; }
           100% { transform: translateY(500%); opacity: 0; }
+        }
+        @keyframes glitch-anim-1 {
+          0% { clip-path: inset(20% 0 80% 0); transform: translate(-2px, 1px); }
+          20% { clip-path: inset(60% 0 10% 0); transform: translate(2px, -1px); }
+          40% { clip-path: inset(40% 0 50% 0); transform: translate(-2px, 2px); }
+          60% { clip-path: inset(80% 0 5% 0); transform: translate(2px, -2px); }
+          80% { clip-path: inset(10% 0 70% 0); transform: translate(-1px, 1px); }
+          100% { clip-path: inset(30% 0 50% 0); transform: translate(1px, -1px); }
+        }
+        @keyframes glitch-anim-2 {
+          0% { clip-path: inset(10% 0 60% 0); transform: translate(2px, -1px); }
+          20% { clip-path: inset(30% 0 20% 0); transform: translate(-2px, 2px); }
+          40% { clip-path: inset(70% 0 10% 0); transform: translate(2px, 1px); }
+          60% { clip-path: inset(20% 0 50% 0); transform: translate(-1px, -2px); }
+          80% { clip-path: inset(50% 0 30% 0); transform: translate(2px, 2px); }
+          100% { clip-path: inset(5% 0 80% 0); transform: translate(-2px, -1px); }
+        }
+        @keyframes scanline {
+          0% { transform: translateY(-100%); }
+          100% { transform: translateY(1000%); }
+        }
+        @keyframes noise {
+          0%, 100% { background-position: 0 0; }
+          10% { background-position: -5% -10%; }
+          20% { background-position: -15% 5%; }
+          30% { background-position: 7% -25%; }
+          40% { background-position: 20% 25%; }
+          50% { background-position: -25% 10%; }
+          60% { background-position: 15% 5%; }
+          70% { background-position: 0% 15%; }
+          80% { background-position: 25% 35%; }
+          90% { background-position: -10% 10%; }
         }
       `}} />
 
@@ -212,63 +176,120 @@ const FluxWave2_0 = () => {
       <div className="fixed top-0 w-full h-[50vh] bg-gradient-to-b from-purple-500/10 via-transparent to-transparent pointer-events-none z-0"></div>
 
       {/* HERO SECTION (100vw Width) */}
-      <section className="relative z-10 w-full min-h-[90vh] flex flex-col justify-between px-6 md:px-12 lg:px-24 pb-16">
-        
-        {/* Center Title Area */}
-        <div className="flex-grow flex flex-col justify-center items-start pt-10">
-          <div className="flex items-center gap-2 sm:gap-4 mb-4 bg-white/50 dark:bg-white/5 p-2 pr-4 sm:p-3 sm:pr-5 rounded-full border border-slate-200 dark:border-white/10 backdrop-blur-sm shadow-sm w-fit max-w-full">
-            <img src="/fluxlogo.png" alt="Flux Logo" className="w-6 h-6 sm:w-8 sm:h-8 rounded-full flex-shrink-0" onError={(e) => e.target.style.display='none'} />
-            <span className="text-[10px] sm:text-sm font-bold tracking-wide uppercase text-slate-800 dark:text-slate-200 truncate">Celebrating Innovation at SATI</span>
-          </div>
+      <section className="relative z-10 w-full min-h-[90vh] flex flex-col justify-center px-6 md:px-12 lg:px-24 pb-16 pt-20">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-12 w-full max-w-[1400px] mx-auto">
           
-          <h1 
-            className="text-[11.5vw] sm:text-6xl md:text-8xl lg:text-[10rem] uppercase leading-none drop-shadow-2xl tracking-tighter"
-            style={{ fontFamily: '"Liger", system-ui', WebkitTextStroke: '1px rgba(128,128,128,0.2)' }}
-          >
-            <span className="text-slate-900 dark:text-white">FLUXWAVE</span><br/><span className="text-purple-600 dark:text-purple-500">2.0</span>
-          </h1>
-          
-          <p className="mt-8 text-lg md:text-xl text-slate-600 dark:text-slate-300 max-w-2xl leading-relaxed border-l-4 border-purple-500 pl-6">
-            The ultimate innovation sandbox where code, hardware, and design crash together. Forge solutions to real-world problems and push boundaries.
-          </p>
-        </div>
+          {/* Left Column (Text & CTAs) */}
+          <div className="flex flex-col justify-center items-start w-full lg:w-1/2">
+            <div className="flex items-center gap-2 sm:gap-4 mb-4 bg-white/50 dark:bg-white/5 p-2 pr-4 sm:p-3 sm:pr-5 rounded-full border border-slate-200 dark:border-white/10 backdrop-blur-sm shadow-sm w-fit max-w-full">
+              <img src="/fluxlogo.png" alt="Flux Logo" className="w-6 h-6 sm:w-8 sm:h-8 rounded-full flex-shrink-0" onError={(e) => e.target.style.display = 'none'} />
+              <span className="text-[10px] sm:text-sm font-bold tracking-wide uppercase text-slate-800 dark:text-slate-200 truncate">Celebrating Innovation at SATI</span>
+            </div>
 
-        {/* Bottom Left Timer & CTAs */}
-        <div className="mt-12 flex flex-col items-start gap-6">
-          
-          {/* Action Buttons directly above the timer */}
-          <div className="flex flex-wrap gap-4 items-center">
-            <button 
-              className="px-8 py-3 rounded-full bg-slate-900 dark:bg-white text-white dark:text-black hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors shadow-lg"
-              style={{ fontFamily: '"Mars", system-ui' }}
+            <h1
+              className="text-[11.5vw] sm:text-6xl md:text-8xl xl:text-[9rem] uppercase leading-none drop-shadow-2xl tracking-tighter"
+              style={{ fontFamily: '"Liger", system-ui', WebkitTextStroke: '1px rgba(128,128,128,0.2)' }}
             >
-              REGISTER NOW
-            </button>
-            <button 
-              className="px-8 py-3 rounded-full bg-[#25D366] text-white hover:bg-[#1ebd5a] transition-colors shadow-[0_0_15px_rgba(37,211,102,0.4)] flex items-center gap-2 font-bold tracking-wider"
-              style={{ fontFamily: '"Russo One", sans-serif' }}
-            >
-              <MessageCircle size={18} /> Join WhatsApp
-            </button>
-          </div>
+              <span className="text-slate-900 dark:text-white">FLUXWAVE</span><br /><span className="text-purple-600 dark:text-purple-500">2.0</span>
+            </h1>
 
-          {/* Countdown Timer */}
-          <div className="bg-gradient-to-r from-purple-500 to-cyan-500 p-[2px] rounded-2xl w-full sm:w-fit shadow-[0_0_40px_rgba(168,85,247,0.3)]">
-            <div className="bg-white dark:bg-[#050505] rounded-2xl px-4 py-4 sm:px-8 sm:py-6 flex justify-between sm:justify-start gap-2 sm:gap-6 md:gap-12 backdrop-blur-xl relative overflow-hidden">
-              <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop')] bg-cover opacity-5 dark:opacity-10 mix-blend-screen"></div>
-              {Object.entries(timeLeft).map(([unit, value], i) => (
-                <div key={unit} className="flex flex-col items-center relative z-10 w-1/4 sm:w-auto">
-                  <span 
-                    className="text-3xl sm:text-4xl md:text-6xl font-bold text-slate-900 dark:text-white drop-shadow-sm dark:drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]"
-                    style={{ fontFamily: '"Technology", monospace' }}
-                  >
-                    {String(value).padStart(2, '0')}
-                  </span>
-                  <span className="text-[9px] sm:text-xs md:text-sm text-slate-500 dark:text-slate-400 uppercase tracking-widest mt-1 sm:mt-2 font-bold">{unit}</span>
+            <div className="mt-8 text-lg md:text-xl text-slate-600 dark:text-slate-300 max-w-2xl leading-relaxed border-l-4 border-purple-500 pl-6 min-h-[80px]">
+              <Typewriter
+                  options={{
+                      delay: 20
+                  }}
+                  onInit={(typewriter) => {
+                      typewriter
+                          .typeString("The ultimate innovation sandbox where code, hardware, and design crash together. Forge solutions to real-world problems and push boundaries.")
+                          .start();
+                  }}
+              />
+            </div>
+
+            {/* CTAs & Timer */}
+            <div className="mt-12 flex flex-col items-start gap-6 w-full">
+              <div className="flex flex-wrap gap-4 items-center">
+                <button
+                  onClick={() => document.getElementById('registration')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="px-8 py-3 rounded-full bg-slate-900 dark:bg-white text-white dark:text-black hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors shadow-lg text-1xl"
+                  style={{ fontFamily: '"Mars", system-ui' }}
+                >
+                  REGISTER NOW
+                </button>
+                <button
+                  className="px-8 py-3 rounded-full bg-[#25D366] text-white hover:bg-[#1ebd5a] transition-colors shadow-[0_0_15px_rgba(37,211,102,0.4)] flex items-center gap-2 font-bold tracking-wider"
+                  style={{ fontFamily: '"Russo One", sans-serif' }}
+                >
+                  <MessageCircle size={18} /> Join WhatsApp
+                </button>
+              </div>
+
+              {/* Countdown Timer */}
+              <div className="bg-gradient-to-r from-purple-500 to-cyan-500 p-[2px] rounded-2xl w-full sm:w-fit shadow-[0_0_40px_rgba(168,85,247,0.3)]">
+                <div className="bg-white dark:bg-[#050505] rounded-2xl px-4 py-4 sm:px-8 sm:py-6 flex justify-between sm:justify-start gap-2 sm:gap-6 md:gap-12 backdrop-blur-xl relative overflow-hidden">
+                  <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop')] bg-cover opacity-5 dark:opacity-10 mix-blend-screen"></div>
+                  {Object.entries(timeLeft).map(([unit, value], i) => (
+                    <div key={unit} className="flex flex-col items-center relative z-10 w-1/4 sm:w-auto">
+                      <span
+                        className="text-3xl sm:text-4xl md:text-6xl font-bold text-slate-900 dark:text-white drop-shadow-sm dark:drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]"
+                        style={{ fontFamily: '"Technology", monospace' }}
+                      >
+                        {String(value).padStart(2, '0')}
+                      </span>
+                      <span className="text-[9px] sm:text-xs md:text-sm text-slate-500 dark:text-slate-400 uppercase tracking-widest mt-1 sm:mt-2 font-bold">{unit}</span>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
             </div>
           </div>
+
+          {/* Right Column (Poster) */}
+          <div className="w-full lg:w-1/3 flex justify-center lg:justify-end relative perspective-[1200px] mt-8 lg:mt-80 z-20">
+             <div className="relative group w-full max-w-sm xl:max-w-md aspect-[3/4] rounded-2xl overflow-hidden shadow-[0_0_40px_rgba(168,85,247,0.3)] border border-cyan-500/30 [transform-style:preserve-3d] transition-all duration-700 hover:rotate-y-6 hover:scale-[1.02] bg-black">
+                
+                {/* Base Image */}
+                <img 
+                  src={posterImage} 
+                  alt="FluxWave 2.0 Poster" 
+                  className="w-full h-full object-cover relative z-0 transition-all duration-700 group-hover:brightness-110 group-hover:contrast-125 group-hover:saturate-150"
+                />
+
+                {/* Glitch Layer 1 (Red offset) */}
+                <div 
+                  className="absolute inset-0 w-full h-full bg-cover bg-center opacity-0 opacity-70 mix-blend-screen pointer-events-none z-10"
+                  style={{ 
+                    backgroundImage: `url(${posterImage})`,
+                    animation: 'glitch-anim-1 2.5s infinite linear alternate-reverse',
+                    filter: 'drop-shadow(4px 0 0 rgba(255,0,0,0.8))' 
+                  }}
+                ></div>
+
+                {/* Glitch Layer 2 (Cyan offset) */}
+                <div 
+                  className="absolute inset-0 w-full h-full bg-cover bg-center opacity-0 group-hover:opacity-70 mix-blend-screen pointer-events-none z-10"
+                  style={{ 
+                    backgroundImage: `url(${posterImage})`,
+                    animation: 'glitch-anim-2 3s infinite linear alternate-reverse',
+                    filter: 'drop-shadow(-4px 0 0 rgba(0,255,255,0.8))' 
+                  }}
+                ></div>
+
+                {/* Repeating Scanlines Overlay */}
+                <div className="absolute inset-0 pointer-events-none z-20 opacity-20 group-hover:opacity-40 transition-opacity duration-500" style={{ backgroundImage: 'repeating-linear-gradient(transparent, transparent 2px, rgba(0, 0, 0, 0.8) 2px, rgba(0, 0, 0, 0.8) 4px)' }}></div>
+
+                {/* Moving Glowing Scanline */}
+                <div className="absolute top-0 left-0 right-0 h-[10%] bg-gradient-to-b from-transparent via-cyan-400/40 to-transparent pointer-events-none z-30 opacity-0 group-hover:opacity-100 animate-[scanline_3s_linear_infinite]"></div>
+
+                {/* Static Noise Overlay */}
+                <div className="absolute inset-0 opacity-20 pointer-events-none mix-blend-overlay z-40 animate-[noise_0.2s_infinite]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")' }}></div>
+
+                {/* Glowing Vignette */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 bg-[radial-gradient(circle_at_center,transparent_40%,rgba(168,85,247,0.4)_100%)] pointer-events-none z-50 mix-blend-screen"></div>
+
+             </div>
+          </div>
+          
         </div>
       </section>
 
@@ -286,27 +307,27 @@ const FluxWave2_0 = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16 mt-8">
           {domainsData.map((domain) => (
             <div key={domain.id} className="group relative flex flex-col items-center cursor-pointer w-full perspective-[1200px]">
-              
+
               {/* 16:9 Container */}
               <div className="relative w-full aspect-video rounded-3xl overflow-visible [transform-style:preserve-3d]">
-                
+
                 {/* Background Card that tilts back */}
                 <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-xl transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:[transform:rotateX(40deg)] group-hover:shadow-purple-500/40 origin-bottom border border-slate-200 dark:border-white/10 z-10 bg-slate-100 dark:bg-[#12121a]">
                   {/* Background Image */}
-                  <img 
-                    src={domain.img} 
-                    alt={domain.title} 
+                  <img
+                    src={domain.img}
+                    alt={domain.title}
                     className="absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-110 group-hover:brightness-[0.25]"
                   />
                 </div>
 
                 {/* Pop-out Avatar - Original size/position to match background, translates UP on hover */}
                 <div className="absolute inset-0 z-20 transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] transform group-hover:-translate-y-6 group-hover:scale-105 pointer-events-none drop-shadow-2xl">
-                   <img 
-                     src={domain.avatar} 
-                     alt={`${domain.title} Avatar`}
-                     className="w-full h-full object-cover"
-                   />
+                  <img
+                    src={domain.avatar}
+                    alt={`${domain.title} Avatar`}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
 
                 {/* Text Content - visible on hover, NOT tilted, top z-index */}
@@ -325,27 +346,27 @@ const FluxWave2_0 = () => {
         </div>
       </section>
 
-     {/* <MarqueeRibbon text="REGISTER NOW ✦ AI ✦ IoT & HARDWARE ✦ CYBER SECURITY ✦ WEB3 ✦ OPEN INNOVATION ✦ GAME DEVELOPMENT ✦ REGISTER NOW" bg="bg-cyan-600" rotate="rotate-2" />*/}
+      {/* <MarqueeRibbon text="REGISTER NOW ✦ AI ✦ IoT & HARDWARE ✦ CYBER SECURITY ✦ WEB3 ✦ OPEN INNOVATION ✦ GAME DEVELOPMENT ✦ REGISTER NOW" bg="bg-cyan-600" rotate="rotate-2" />*/}
 
       {/* WAVY TIMELINE - DESKTOP */}
       <div className="hidden lg:block">
         <div ref={containerRef} className="h-[400vh] relative z-10 w-full">
           {/* Sticking container needs to cover screen, removed overflow-x-hidden from parent body/root */}
           <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col">
-            
+
             <div className="absolute top-20 left-24 z-20">
               <h2 className="text-5xl font-bold text-slate-900 dark:text-white uppercase tracking-widest" style={{ fontFamily: '"Russo One", sans-serif' }}>The Journey</h2>
               <p className="text-cyan-600 dark:text-cyan-400 mt-2 font-bold uppercase tracking-widest text-sm">Scroll to advance</p>
             </div>
-            
+
             <motion.div style={{ x: xTransform }} className="flex w-[300vw] h-full items-center relative">
-              
+
               <svg className="absolute top-1/2 -translate-y-1/4 w-full h-[400px] pointer-events-none drop-shadow-[0_0_15px_rgba(6,182,212,0.3)]" viewBox="0 0 3000 400" preserveAspectRatio="none">
-                <path 
-                  d="M 0 200 C 300 50, 600 350, 900 200 C 1200 50, 1500 350, 1800 200 C 2100 50, 2400 350, 2700 200 C 2900 50, 3000 200, 3000 200" 
-                  fill="none" 
-                  stroke="url(#purple-cyan-grad)" 
-                  strokeWidth="8" 
+                <path
+                  d="M 0 200 C 300 50, 600 350, 900 200 C 1200 50, 1500 350, 1800 200 C 2100 50, 2400 350, 2700 200 C 2900 50, 3000 200, 3000 200"
+                  fill="none"
+                  stroke="url(#purple-cyan-grad)"
+                  strokeWidth="8"
                 />
                 <defs>
                   <linearGradient id="purple-cyan-grad" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -358,8 +379,8 @@ const FluxWave2_0 = () => {
 
               {timelineData.map((item, idx) => {
                 const isTop = idx % 2 === 0;
-                const leftPercent = 15 + (idx * 16); 
-                
+                const leftPercent = 15 + (idx * 16);
+
                 return (
                   <div key={item.id} className="absolute flex flex-col items-center" style={{ left: `${leftPercent}%`, top: '50%', transform: 'translate(-50%, 200%)' }}>
                     <div className="w-10 h-10 rounded-full bg-white dark:bg-[#050505] border-4 border-cyan-500 shadow-[0_0_20px_#06b6d4] z-10 flex items-center justify-center">
@@ -367,10 +388,10 @@ const FluxWave2_0 = () => {
                     </div>
                     <div className={`absolute flex flex-col items-center ${isTop ? 'bottom-full mb-6' : 'top-full mt-6'}`}>
                       <div className={`w-1 h-20 bg-gradient-to-b ${isTop ? 'from-cyan-700 to-cyan-400' : 'from-cyan-400 to-cyan-700'} ${isTop ? 'order-2' : 'order-1'}`}></div>
-                      <div className={`w-80 p-6 rounded-2xl bg-white/80 dark:bg-white/5 backdrop-blur-xl border border-slate-200 dark:border-white/10 shadow-2xl ${isTop ? 'order-1' : 'order-2'}`}>
+                      <div className={`w-[25rem] p-6 rounded-2xl bg-white/80 dark:bg-white/5 backdrop-blur-xl border border-slate-200 dark:border-white/10 shadow-2xl ${isTop ? 'order-1' : 'order-2'}`}>
                         <div className="inline-block px-3 py-1 bg-purple-100 dark:bg-purple-500/20 text-purple-700 dark:text-purple-300 text-xs font-bold rounded-full mb-3 uppercase tracking-wider">{item.date}</div>
-                        <h4 className="text-slate-900 dark:text-white font-bold text-2xl mb-2" style={{ fontFamily: '"AudiowideReal", sans-serif' }}>{item.title}</h4>
-                        <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed font-medium">{item.desc}</p>
+                        <h4 className="text-slate-800 dark:text-slate-200 font-bold text-2xl mb-1" style={{ fontFamily: '"AudiowideReal", sans-serif' }}>{item.title}</h4>
+                        <p className="text-slate-700 dark:text-slate-300 text-sm leading-relaxed font-medium">{item.desc}</p>
                       </div>
                     </div>
                   </div>
@@ -384,26 +405,26 @@ const FluxWave2_0 = () => {
       {/* WAVY TIMELINE - MOBILE */}
       <section className="lg:hidden w-full px-6 py-24 relative z-10 overflow-hidden">
         <div className="text-center mb-24">
-           <h2 className="text-4xl font-bold text-slate-900 dark:text-white uppercase tracking-widest mb-2" style={{ fontFamily: '"Russo One", sans-serif' }}>The Journey</h2>
+          <h2 className="text-4xl font-bold text-slate-900 dark:text-white uppercase tracking-widest mb-2" style={{ fontFamily: '"Russo One", sans-serif' }}>The Journey</h2>
         </div>
-        
+
         <div className="relative w-full max-w-lg mx-auto py-10">
           <svg className="absolute left-1/2 -translate-x-1/2 top-0 w-64 h-full z-0 pointer-events-none drop-shadow-[0_0_15px_rgba(6,182,212,0.4)]" viewBox="0 0 100 1000" preserveAspectRatio="none">
-             <path d="M 50 0 C 150 125, -50 250, 50 375 C 150 500, -50 625, 50 750 C 150 875, -50 1000, 50 1000" fill="none" stroke="url(#mobile-grad)" strokeWidth="3" />
-             <defs>
-                <linearGradient id="mobile-grad" x1="0%" y1="0%" x2="0%" y2="100%">
-                   <stop offset="0%" stopColor="#9333ea" />
-                   <stop offset="50%" stopColor="#06b6d4" />
-                   <stop offset="100%" stopColor="#10b981" />
-                </linearGradient>
-             </defs>
+            <path d="M 50 0 C 150 125, -50 250, 50 375 C 150 500, -50 625, 50 750 C 150 875, -50 1000, 50 1000" fill="none" stroke="url(#mobile-grad)" strokeWidth="3" />
+            <defs>
+              <linearGradient id="mobile-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#9333ea" />
+                <stop offset="50%" stopColor="#06b6d4" />
+                <stop offset="100%" stopColor="#10b981" />
+              </linearGradient>
+            </defs>
           </svg>
 
           <div className="space-y-64 flex flex-col relative z-10">
             {timelineData.map((item, idx) => {
               const isLeft = idx % 2 === 0;
               return (
-                <motion.div 
+                <motion.div
                   key={item.id}
                   initial={{ opacity: 0, scale: 0.8 }}
                   whileInView={{ opacity: 1, scale: 1 }}
@@ -415,9 +436,9 @@ const FluxWave2_0 = () => {
                     <h4 className="text-slate-900 dark:text-white font-bold text-sm md:text-lg mb-1" style={{ fontFamily: '"AudiowideReal", sans-serif' }}>{item.title}</h4>
                     <p className="text-slate-600 dark:text-slate-400 text-xs md:text-sm">{item.desc}</p>
                   </div>
-                  
+
                   <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-white dark:bg-[#050505] border-4 border-cyan-500 shadow-[0_0_15px_#06b6d4] z-10 flex items-center justify-center">
-                     <div className="w-2 h-2 rounded-full bg-purple-500"></div>
+                    <div className="w-2 h-2 rounded-full bg-purple-500"></div>
                   </div>
                 </motion.div>
               )
@@ -428,8 +449,8 @@ const FluxWave2_0 = () => {
 
       {/* JUDGING METRICS - VISUALIZATION */}
       <section className="relative w-full px-6 md:px-12 lg:px-24 py-24 z-10">
-        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-16 items-center">
-          
+        <div className="max-w-1xl mx-auto flex flex-col lg:flex-row gap-16 items-center">
+
           <div className="w-full lg:w-1/3">
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white uppercase tracking-widest mb-6" style={{ fontFamily: '"Russo One", sans-serif' }}>
               Judging Metrics
@@ -438,17 +459,17 @@ const FluxWave2_0 = () => {
               Projects are evaluated across multiple dimensions. Hover over the parameters to see how we weigh innovation versus execution.
             </p>
             <div className="p-6 rounded-2xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 backdrop-blur-sm shadow-md">
-               <h4 className="text-slate-700 dark:text-white font-bold mb-2 uppercase tracking-wide">Total Score</h4>
-               <div className="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500" style={{ fontFamily: '"Technology", monospace' }}>
-                  100<span className="text-2xl text-slate-400">pts</span>
-               </div>
+              <h4 className="text-slate-700 dark:text-white font-bold mb-2 uppercase tracking-wide">Total Score</h4>
+              <div className="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500" style={{ fontFamily: '"Technology", monospace' }}>
+                100<span className="text-2xl text-slate-400">pts</span>
+              </div>
             </div>
           </div>
-          
+
           <div className="w-full lg:w-2/3 space-y-6">
             {metrics.map((metric, idx) => (
-              <div 
-                key={idx} 
+              <div
+                key={idx}
                 className="relative"
                 onMouseEnter={() => setHoveredMetric(idx)}
                 onMouseLeave={() => setHoveredMetric(null)}
@@ -461,7 +482,7 @@ const FluxWave2_0 = () => {
                   <span className="text-slate-500 dark:text-slate-400">{metric.weight}%</span>
                 </div>
                 <div className="h-4 w-full bg-slate-200 dark:bg-white/5 rounded-full overflow-hidden">
-                  <motion.div 
+                  <motion.div
                     initial={{ width: 0 }}
                     whileInView={{ width: `${metric.weight}%` }}
                     viewport={{ once: true }}
@@ -481,6 +502,9 @@ const FluxWave2_0 = () => {
 
       <MarqueeRibbon text="REGISTER NOW ✦ AI ✦ IoT & HARDWARE ✦ CYBER SECURITY ✦ WEB3 ✦ OPEN INNOVATION ✦ GAME DEVELOPMENT ✦ REGISTER NOW" bg="bg-emerald-600" rotate='rotate-2' />
 
+      {/* REGISTRATION FORM */}
+      <FluxWaveRegistration />
+
       {/* FAQS */}
       <section className="relative w-full px-6 md:px-12 lg:px-24 py-16 z-10">
         <div className="max-w-4xl mx-auto">
@@ -488,7 +512,7 @@ const FluxWave2_0 = () => {
           <div className="space-y-4">
             {faqs.map((faq, idx) => (
               <div key={idx} className="border border-slate-200 dark:border-white/10 rounded-xl overflow-hidden bg-white dark:bg-white/5 backdrop-blur-sm shadow-sm">
-                <button 
+                <button
                   onClick={() => setActiveFaq(activeFaq === idx ? null : idx)}
                   className="w-full text-left p-6 flex justify-between items-center hover:bg-slate-50 dark:hover:bg-white/10 transition-colors"
                 >
@@ -515,6 +539,9 @@ const FluxWave2_0 = () => {
         </div>
       </section>
 
+      {/* FLUXWAVE 1.0 ARCHIVE */}
+      <FluxWaveArchive />
+
       {/* NEED HELP SECTION */}
       <section className="relative w-full px-6 md:px-12 lg:px-24 py-16 z-10">
         <div className="max-w-4xl mx-auto flex flex-col items-center text-center">
@@ -526,19 +553,16 @@ const FluxWave2_0 = () => {
             Got questions about registration, domains, or rules? Our support team is ready to assist you. Drop us a message!
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
-             <a href="/contact" className="px-8 py-3 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold tracking-wide flex items-center gap-2 hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors">
-               <Send size={18} /> Contact Support
-               
-             </a>
-             <button className="px-8 py-3 rounded-full bg-[#25D366] text-white font-bold tracking-wide flex items-center gap-2 hover:bg-[#1ebd5a] transition-colors shadow-lg">
-               <MessageCircle size={18} /> Help Desk Group
-             </button>
+            <a href="/contact" className="px-8 py-3 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold tracking-wide flex items-center gap-2 hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors">
+              <Send size={18} /> Contact Support
+
+            </a>
+            <button className="px-8 py-3 rounded-full bg-[#25D366] text-white font-bold tracking-wide flex items-center gap-2 hover:bg-[#1ebd5a] transition-colors shadow-lg">
+              <MessageCircle size={18} /> Help Desk Group
+            </button>
           </div>
         </div>
       </section>
-      {/* FluxWave 1.0 Holographic Scroll */}
-      <HolographicScroll />
-
     </div>
   );
 };
