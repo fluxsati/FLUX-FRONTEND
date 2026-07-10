@@ -20,6 +20,16 @@ export const ARCHIVE_DATA = {
 
   "2026": [
     {
+      title: "FLUXWAVE 2.0 HACKATHON",
+      tag: "Mega Hackathon",
+      detailsUrl: "/events/fluxwave-2.0",
+      images: ["https://placehold.co/800x450/0f0f13/0ea5e9?text=FluxWave+2.0+Poster+Coming+Soon"],
+      terminal: "> registered: 0_Teams\n> timeline: June - August 2026\n> focus: Code, Hardware, Design\n> prize_pool: TBA",
+      date: "2026-08-01",
+      popularity: 100,
+      summary: "The ultimate innovation sandbox where code, hardware, and design crash together. Forge solutions to real-world problems and push boundaries."
+    },
+    {
       title: "BLOCKCHAIN WORKSHOP",
       tag: "India OnChain Tour",
       reportUrl: null,

@@ -72,7 +72,7 @@ const WEBSITE_MANAGERS = [
     name: "Safal Tiwari",
     role: "Member",
     branch: "IOT",
-    year: "2nd Year",
+    year: "Pre-Final Year",
     img: safalImg,
     linkedin: "https://www.linkedin.com/in/safal-tiwari-a4727139a/",
     instagram: "https://www.instagram.com/itz_safal_/",
@@ -83,7 +83,7 @@ const WEBSITE_MANAGERS = [
     name: "Devansh Patel",
     role: "Member",
     branch: "CSE(BLOCKCHAIN)",
-    year: "2nd Year",
+    year: "Pre-Final Year",
     img: devanshImg,
     linkedin: "https://www.linkedin.com/in/devansh-patel-50ba3732a/",
     instagram: "https://www.instagram.com/the_devansh_patel/",
@@ -94,7 +94,7 @@ const WEBSITE_MANAGERS = [
     name: "Somil Jain",
     role: "Member",
     branch: "Electrical",
-    year: "2nd Year",
+    year: "Pre-Final Year",
     img: somilImg,
     linkedin: "https://www.linkedin.com/in/somil-jain-611561361",
     instagram: "https://www.instagram.com/somilchandouria/",
@@ -105,7 +105,7 @@ const WEBSITE_MANAGERS = [
     name: "Nisha Singh",
     role: "Member",
     branch: "Computer Science & Engeering",
-    year: "2nd Year",
+    year: "Pre-Final Year",
     img: nishaImg,
     linkedin: "https://www.linkedin.com/in/nisha-singh-61499b325/",
     instagram: "https://www.instagram.com/nisha_singh143_/",
@@ -116,7 +116,7 @@ const WEBSITE_MANAGERS = [
     name: "Som Singh Thakur",
     role: "Member",
     branch: "Computer Science & Engeering",
-    year: "2nd Year",
+    year: "Pre-Final Year",
     img: somImg,
     linkedin: "https://www.linkedin.com/in/som-thakur-43b020355",
     instagram: "https://www.instagram.com/somthakur132/",
@@ -127,7 +127,7 @@ const WEBSITE_MANAGERS = [
     name: "Prathamesh Mohankar",
     role: "Member",
     branch: "AIADS",
-    year: "2nd Year",
+    year: "Pre-Final Year",
     img: prathameshImg,
     linkedin: "https://in.linkedin.com/in/prathamesh-m-487167385",
     instagram: "https://www.instagram.com/pratham.relates/",
@@ -332,7 +332,7 @@ const FluxContactPage = () => {
                 <div className="hidden md:block w-px h-8 bg-slate-200 dark:bg-white/10" />
                 <div className="space-y-1">
                   <p className="text-[10px] font-mono text-cyan-500 uppercase tracking-widest">Year</p>
-                  <p className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-tight">[Pre-Final Year]</p>
+                  <p className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-tight">[Final Year]</p>
                 </div>
 
                 <div className="hidden md:block w-px h-8 bg-slate-200 dark:bg-white/10" />
@@ -393,7 +393,7 @@ const FluxContactPage = () => {
                 <div className="hidden md:block w-px h-8 bg-slate-200 dark:bg-white/10" />
                 <div className="space-y-1">
                   <p className="text-[10px] font-mono text-cyan-500 uppercase tracking-widest">Year</p>
-                  <p className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-tight">2nd Year</p>
+                  <p className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-tight">[Pre-Final Year]</p>
                 </div>
 
                 <div className="hidden md:block w-px h-8 bg-slate-200 dark:bg-white/10" />
