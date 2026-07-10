@@ -24,7 +24,7 @@ const FluxWavePopup = () => {
     if (isOpen) {
       const closeTimer = setTimeout(() => {
         setIsOpen(false);
-      }, 4000);
+      }, 5000);
       return () => clearTimeout(closeTimer);
     }
   }, [isOpen]);

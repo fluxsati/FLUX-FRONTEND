@@ -11,9 +11,14 @@ import img3 from '../assets/events/FluxWave/3.jpg';
 import img4 from '../assets/events/FluxWave/4.jpg';
 import img5 from '../assets/events/FluxWave/5.jpg';
 import img6 from '../assets/events/FluxWave/6.jpg';
+import img7 from '../assets/events/FluxWave/7.jpg';
+import img8 from '../assets/events/FluxWave/8.jpg';
+import img9 from '../assets/events/FluxWave/9.jpg';
+import img10 from '../assets/events/FluxWave/10.jpg';
+import img11 from '../assets/events/FluxWave/11.jpg';
 
 const FluxWaveArchive = () => {
-    const carouselImages = [img1, img2, img3, img4, img5, img6];
+    const carouselImages = [img1, img2, img3, img4, img5, img6, img7, img8, img9, img10, img11];
 
     return (
         <section className="relative w-full px-4 sm:px-6 md:px-12 lg:px-24 py-20 z-10 font-sans overflow-hidden">
