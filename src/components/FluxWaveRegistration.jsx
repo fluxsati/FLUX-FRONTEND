@@ -48,9 +48,10 @@ const FluxWaveRegistration = () => {
         console.log(response.data);
 
     } catch (error) {
-        console.error(error);
-        alert("Registration Failed");
-    }
+    console.error(error);
+    console.error("Response:", error.response?.data);
+    alert(error.response?.data?.error || error.response?.data?.message || error.message);
+}
 };
 
     return (
