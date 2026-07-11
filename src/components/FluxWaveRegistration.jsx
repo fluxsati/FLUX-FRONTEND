@@ -1,20 +1,12 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Send, User, Users, FileText, Globe, Code, Video, LayoutTemplate } from 'lucide-react';
-import { registerFluxWave } from "../api";
 
 const FluxWaveRegistration = () => {
     const [activeRound, setActiveRound] = useState(0);
     const [numMembers, setNumMembers] = useState(2);
     const [selectedDomain, setSelectedDomain] = useState('Internet of Things (IoT) & Hardware');
-    const [formData, setFormData] = useState({
-    teamName: "",
-    leaderName: "",
-    contactNumber: "",
-    email: "",
-    enrollment: ""
-});
-    
+
     const rounds = [
         { id: 0, title: 'Zeroth', num: '0' },
         { id: 1, title: 'First', num: '1' },
@@ -29,30 +21,12 @@ const FluxWaveRegistration = () => {
         'Open Innovation',
         'Game Development'
     ];
-    const handleChange = (e) => {
-    setFormData({
-        ...formData,
-        [e.target.name]: e.target.value,
-    });
-};
-    const handleFormSubmit = async (e, round) => {
-    e.preventDefault();
 
-    try {
-        const response = await registerFluxWave({
-            ...formData,
-            round,
-        });
-
-        alert("Registration Successful!");
-        console.log(response.data);
-
-    } catch (error) {
-    console.error(error);
-    console.error("Response:", error.response?.data);
-    alert(error.response?.data?.error || error.response?.data?.message || error.message);
-}
-};
+    const handleFormSubmit = (e, round) => {
+        e.preventDefault();
+        // Console log for UI purposes (backend not connected)
+        console.log(`Submitted Round ${round}`);
+    };
 
     return (
         <section id="registration" className="relative w-full px-6 md:px-12 lg:px-24 py-16 z-10 font-sans">
@@ -117,24 +91,8 @@ const FluxWaveRegistration = () => {
                                 className="space-y-8"
                             >
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                   <InputField
-                                        label="Team Name"
-                                        icon={<Users className="w-5 h-5" />}
-                                        placeholder="Enter Team Name"
-                                        name="teamName"
-                                        value={formData.teamName}
-                                        onChange={handleChange}
-                                        required
-/>
-                                   <InputField
-                                        label="Leader Name"
-                                        icon={<User className="w-5 h-5" />}
-                                        placeholder="Enter Leader Name"
-                                        name="leaderName"
-                                        value={formData.leaderName}
-                                        onChange={handleChange}
-                                        required
-                                    />
+                                    <InputField label="Team Name" icon={<Users className="w-5 h-5" />} placeholder="Enter Team Name" required />
+                                    <InputField label="Leader Name" icon={<User className="w-5 h-5" />} placeholder="Enter Leader Name" required />
                                 </div>
                                 
                                 <div className="bg-slate-50 dark:bg-white/5 p-3 rounded-2xl border border-slate-100 dark:border-white/5 space-y-6">
@@ -142,31 +100,9 @@ const FluxWaveRegistration = () => {
                                         <User className="text-cyan-500" /> Leader Details
                                     </h3>
                                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                       <InputField
-                                            label="Contact Number"
-                                            placeholder="+91 1234567890"
-                                            name="contactNumber"
-                                            value={formData.contactNumber}
-                                            onChange={handleChange}
-                                            required
-                                        />
-                                        <InputField
-                                            label="Email Address"
-                                            type="email"
-                                            placeholder="College Email"
-                                            name="email"
-                                            value={formData.email}
-                                            onChange={handleChange}
-                                            required
-                                        />
-                                        <InputField
-                                            label="Enrollment No."
-                                            placeholder="0108CS..."
-                                            name="enrollment"
-                                            value={formData.enrollment}
-                                            onChange={handleChange}
-                                            required
-                                        />
+                                        <InputField label="Contact Number" placeholder="+91 1234567890" required />
+                                        <InputField label="Email Address" type="email" placeholder="College Email" required />
+                                        <InputField label="Enrollment No." placeholder="0108CS..." required />
                                     </div>
                                 </div>
 
@@ -347,16 +283,7 @@ const CustomSelect = ({ value, onChange, options, label }) => {
     );
 };
 
-const InputField = ({
-    label,
-    icon,
-    type = "text",
-    placeholder,
-    required,
-    name,
-    value,
-    onChange
-}) => (
+const InputField = ({ label, icon, type = "text", placeholder, required }) => (
     <div className="space-y-2">
         <label className="text-slate-700 dark:text-slate-300 font-bold block flex items-center gap-2">
             {icon && <span className="text-cyan-500">{icon}</span>}
@@ -366,9 +293,6 @@ const InputField = ({
             type={type}
             placeholder={placeholder}
             required={required}
-            name={name}
-            value={value}
-            onChange={onChange}
             className="w-full bg-slate-50 dark:bg-[#1a1a1a] border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-colors"
         />
     </div>
