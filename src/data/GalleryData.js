@@ -32,6 +32,12 @@ export const eventPosters = [
     link: "/",
   },
   {
+    title: "FluxWave 2.0",
+    date: "Aug 2026",
+    img: poster8, // Local Asset
+    link: "/events/fluxwave-2.0",
+  },
+  {
     title: "Blockchain Workshop",
     date: "Feb 2026",
     img: poster7, // Local Asset
