@@ -10,6 +10,8 @@ import tv25_poster from '../assets/events/Events-Posters/technovision_25.jpeg';
 import webdev_poster from '../assets/events/Events-Posters/web_dev_workshop.jpeg';
 import bw_poster from '../assets/events/Events-Posters/blockchain_workshop.jpeg';
 import rocket_poster from '../assets/events/Events-Posters/rocket_crash.jpeg';
+import fluxwave2_0_poster from '../assets/events/Events-Posters/fluxwave_2.0.jpeg';
+
 // import recruit_poster from '../assets/events/Events-Posters/recruitment_26.jpeg';
 
 
@@ -19,6 +21,16 @@ import rocket_poster from '../assets/events/Events-Posters/rocket_crash.jpeg';
 export const ARCHIVE_DATA = {
 
   "2026": [
+    {
+      title: "FLUXWAVE 2.0 HACKATHON",
+      tag: "Mega Hackathon",
+      detailsUrl: "/events/fluxwave-2.0",
+      images: [fluxwave2_0_poster],
+      terminal: "> registered: 0_Teams\n> timeline: June - August 2026\n> focus: Code, Hardware, Design\n> prize_pool: TBA",
+      date: "2026-08-01",
+      popularity: 100,
+      summary: "The ultimate innovation sandbox where code, hardware, and design crash together. Forge solutions to real-world problems and push boundaries."
+    },
     {
       title: "BLOCKCHAIN WORKSHOP",
       tag: "India OnChain Tour",

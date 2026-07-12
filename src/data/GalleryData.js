@@ -6,6 +6,7 @@ import poster4 from "../assets/banner/4.jpeg";
 import poster5 from "../assets/banner/5.jpeg";
 import poster6 from "../assets/banner/6.jpeg";
 import poster7 from "../assets/banner/7.jpeg";
+import poster8 from "../assets/banner/8.jpeg";
 
 export const youtubeProjects = [
   { id: "fSaeEhcWA4w", title: "Flying Project: Quadcopter & Glider" },
@@ -29,6 +30,12 @@ export const eventPosters = [
     date: "Nov 2025",
     img: poster1, // Local Asset
     link: "/",
+  },
+  {
+    title: "FluxWave 2.0",
+    date: "Aug 2026",
+    img: poster8, // Local Asset
+    link: "/events/fluxwave-2.0",
   },
   {
     title: "Blockchain Workshop",
