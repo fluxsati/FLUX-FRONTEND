@@ -1,11 +1,83 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, User, Users, FileText, Globe, Code, Video, LayoutTemplate } from 'lucide-react';
+import toast from 'react-hot-toast';
+import {
+    Send, User, Users, FileText, Globe, Code, Video, LayoutTemplate,
+    Mail, Phone, Hash, GraduationCap, Loader2
+} from 'lucide-react';
+import {
+    registerFluxWave,
+    submitFluxWaveIdea,
+    submitFluxWaveFinal,
+} from '../api';
+
+// Keep this in sync with backend/models/FluxWaveRegistration.js -> DOMAINS
+const DOMAINS = [
+    'IoT & Hardware',
+    'Artificial Intelligence',
+    'Cyber Security',
+    'Web3 & Blockchain',
+    'Open Innovation',
+    'Game Development',
+];
+
+const YEARS = ['1st Year', '2nd Year', '3rd Year', '4th Year'];
+
+const emptyMember = () => ({ name: '', email: '', enrollment: '' });
+
+const emptyRound0 = () => ({
+    teamName: '',
+    leaderName: '',
+    leaderEmail: '',
+    contactNumber: '',
+    enrollment: '',
+    college: 'Samrat Ashok Technological Institute (SATI), Vidisha',
+    branch: '',
+    year: '1st Year',
+    domain: DOMAINS[0],
+});
+
+const emptyRound1 = () => ({
+    teamName: '',
+    leaderEmail: '',
+    ideaTitle: '',
+    problemStatement: '',
+    pptLink: '',
+});
+
+const emptyRound2 = () => ({
+    teamName: '',
+    leaderEmail: '',
+    deployLink: '',
+    githubLink: '',
+    screenRecordingLink: '',
+});
+
+// Pulls the friendliest message out of an axios error / API response
+const getErrorMessage = (err, fallback) => {
+    const data = err?.response?.data;
+    if (data?.errors && Array.isArray(data.errors) && data.errors.length) {
+        return data.errors.join(' ');
+    }
+    return data?.message || err?.message || fallback;
+};
 
 const FluxWaveRegistration = () => {
     const [activeRound, setActiveRound] = useState(0);
+
+    // ---------- Round 0: Registration ----------
     const [numMembers, setNumMembers] = useState(2);
-    const [selectedDomain, setSelectedDomain] = useState('Internet of Things (IoT) & Hardware');
+    const [round0, setRound0] = useState(emptyRound0());
+    const [teamMembers, setTeamMembers] = useState([emptyMember()]); // additional members (1-3)
+    const [submitting0, setSubmitting0] = useState(false);
+
+    // ---------- Round 1: Idea / PPT submission ----------
+    const [round1, setRound1] = useState(emptyRound1());
+    const [submitting1, setSubmitting1] = useState(false);
+
+    // ---------- Round 2: Final project submission ----------
+    const [round2, setRound2] = useState(emptyRound2());
+    const [submitting2, setSubmitting2] = useState(false);
 
     const rounds = [
         { id: 0, title: 'Zeroth', num: '0' },
@@ -13,19 +85,88 @@ const FluxWaveRegistration = () => {
         { id: 2, title: 'Second', num: '2' },
     ];
 
-    const domains = [
-        'Internet of Things (IoT) & Hardware',
-        'Artificial Intelligence (AI)',
-        'Cyber Security',
-        'Web3 & Blockchain',
-        'Open Innovation',
-        'Game Development'
-    ];
+    // Keep teamMembers array length in sync with the selected team size
+    useEffect(() => {
+        const additionalNeeded = numMembers - 1;
+        setTeamMembers((prev) => {
+            const next = [...prev];
+            while (next.length < additionalNeeded) next.push(emptyMember());
+            while (next.length > additionalNeeded) next.pop();
+            return next;
+        });
+    }, [numMembers]);
 
-    const handleFormSubmit = (e, round) => {
+    const updateRound0 = (field, value) => setRound0((prev) => ({ ...prev, [field]: value }));
+    const updateRound1 = (field, value) => setRound1((prev) => ({ ...prev, [field]: value }));
+    const updateRound2 = (field, value) => setRound2((prev) => ({ ...prev, [field]: value }));
+    const updateMember = (idx, field, value) =>
+        setTeamMembers((prev) => prev.map((m, i) => (i === idx ? { ...m, [field]: value } : m)));
+
+    // ---------- Round 0 submit ----------
+    const handleRound0Submit = async (e) => {
         e.preventDefault();
-        // Console log for UI purposes (backend not connected)
-        console.log(`Submitted Round ${round}`);
+        if (submitting0) return;
+
+        const payload = {
+            ...round0,
+            teamMembers,
+        };
+
+        setSubmitting0(true);
+        const toastId = toast.loading('Submitting your registration...');
+        try {
+            const { data } = await registerFluxWave(payload);
+            toast.success(data?.message || 'Registration successful!', { id: toastId });
+            setRound0(emptyRound0());
+            setTeamMembers([emptyMember()]);
+            setNumMembers(2);
+        } catch (err) {
+            toast.error(getErrorMessage(err, 'Could not complete registration. Please try again.'), {
+                id: toastId,
+            });
+        } finally {
+            setSubmitting0(false);
+        }
+    };
+
+    // ---------- Round 1 submit ----------
+    const handleRound1Submit = async (e) => {
+        e.preventDefault();
+        if (submitting1) return;
+
+        setSubmitting1(true);
+        const toastId = toast.loading('Submitting your idea...');
+        try {
+            const { data } = await submitFluxWaveIdea(round1);
+            toast.success(data?.message || 'Idea submitted successfully!', { id: toastId });
+            setRound1(emptyRound1());
+        } catch (err) {
+            toast.error(getErrorMessage(err, 'Could not submit your idea. Please try again.'), {
+                id: toastId,
+            });
+        } finally {
+            setSubmitting1(false);
+        }
+    };
+
+    // ---------- Round 2 submit ----------
+    const handleRound2Submit = async (e) => {
+        e.preventDefault();
+        if (submitting2) return;
+
+        setSubmitting2(true);
+        const toastId = toast.loading('Submitting your final project...');
+        try {
+            const { data } = await submitFluxWaveFinal(round2);
+            toast.success(data?.message || 'Final submission received!', { id: toastId });
+            setRound2(emptyRound2());
+        } catch (err) {
+            toast.error(getErrorMessage(err, 'Could not submit your project. Please try again.'), {
+                id: toastId,
+            });
+        } finally {
+            setSubmitting2(false);
+        }
     };
 
     return (
@@ -42,13 +183,14 @@ const FluxWaveRegistration = () => {
 
                 {/* Round Toggles */}
                 <div className="flex flex-row justify-center items-end gap-8 md:gap-24 mb-12 relative">
-                    {rounds.map((round, index) => (
+                    {rounds.map((round) => (
                         <div key={round.id} className="relative flex flex-col items-center">
                             <span className={`text-sm md:text-lg font-bold uppercase tracking-widest mb-4 transition-colors duration-300 ${activeRound === round.id ? 'text-cyan-500' : 'text-slate-500'}`}>
                                 {round.title}
                             </span>
-                            
+
                             <button
+                                type="button"
                                 onClick={() => setActiveRound(round.id)}
                                 className={`
                                     relative z-10 w-20 h-20 md:w-24 md:h-24 rounded-full flex items-center justify-center transition-all duration-300 border-2
@@ -63,7 +205,6 @@ const FluxWaveRegistration = () => {
                                 </span>
                             </button>
 
-                            {/* Connecting line to the form container */}
                             {activeRound === round.id && (
                                 <motion.div
                                     layoutId="formConnector"
@@ -72,9 +213,6 @@ const FluxWaveRegistration = () => {
                             )}
                         </div>
                     ))}
-                    
-                    {/* Horizontal Connector Line between bubbles (background) */}
-                    {/* <div className="absolute top-[100%] left-[1%] right-[1%] h-0.5 bg-slate-300 dark:bg-white/10 -z-10 hidden md:block"></div> */}
                 </div>
 
                 {/* Form Container */}
@@ -87,23 +225,95 @@ const FluxWaveRegistration = () => {
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: -20 }}
                                 transition={{ duration: 0.3 }}
-                                onSubmit={(e) => handleFormSubmit(e, 0)}
+                                onSubmit={handleRound0Submit}
                                 className="space-y-8"
                             >
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <InputField label="Team Name" icon={<Users className="w-5 h-5" />} placeholder="Enter Team Name" required />
-                                    <InputField label="Leader Name" icon={<User className="w-5 h-5" />} placeholder="Enter Leader Name" required />
+                                    <InputField
+                                        label="Team Name"
+                                        icon={<Users className="w-5 h-5" />}
+                                        placeholder="Enter Team Name"
+                                        required
+                                        value={round0.teamName}
+                                        onChange={(v) => updateRound0('teamName', v)}
+                                    />
+                                    <div className="space-y-2">
+                                        <label className="text-slate-700 dark:text-slate-300 font-bold block flex items-center gap-2">
+                                            <LayoutTemplate className="w-4 h-4 text-cyan-500" /> Domain <span className="text-red-500">*</span>
+                                        </label>
+                                        <CustomSelect
+                                            value={round0.domain}
+                                            onChange={(v) => updateRound0('domain', v)}
+                                            options={DOMAINS.map((d) => ({ value: d, label: d }))}
+                                        />
+                                    </div>
                                 </div>
-                                
-                                <div className="bg-slate-50 dark:bg-white/5 p-3 rounded-2xl border border-slate-100 dark:border-white/5 space-y-6">
+
+                                <div className="bg-slate-50 dark:bg-white/5 p-3 sm:p-6 rounded-2xl border border-slate-100 dark:border-white/5 space-y-6">
                                     <h3 className="text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">
                                         <User className="text-cyan-500" /> Leader Details
                                     </h3>
-                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                        <InputField label="Contact Number" placeholder="+91 1234567890" required />
-                                        <InputField label="Email Address" type="email" placeholder="College Email" required />
-                                        <InputField label="Enrollment No." placeholder="0108CS..." required />
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <InputField
+                                            label="Leader Name"
+                                            icon={<User className="w-4 h-4" />}
+                                            placeholder="Enter Leader Name"
+                                            required
+                                            value={round0.leaderName}
+                                            onChange={(v) => updateRound0('leaderName', v)}
+                                        />
+                                        <InputField
+                                            label="Email Address"
+                                            icon={<Mail className="w-4 h-4" />}
+                                            type="email"
+                                            placeholder="you@satiengg.in"
+                                            required
+                                            value={round0.leaderEmail}
+                                            onChange={(v) => updateRound0('leaderEmail', v)}
+                                        />
+                                        <InputField
+                                            label="Contact Number"
+                                            icon={<Phone className="w-4 h-4" />}
+                                            placeholder="10-digit mobile number"
+                                            required
+                                            pattern="[6-9][0-9]{9}"
+                                            maxLength={10}
+                                            value={round0.contactNumber}
+                                            onChange={(v) => updateRound0('contactNumber', v.replace(/\D/g, ''))}
+                                        />
+                                        <InputField
+                                            label="Enrollment No."
+                                            icon={<Hash className="w-4 h-4" />}
+                                            placeholder="0108CS221023"
+                                            required
+                                            value={round0.enrollment}
+                                            onChange={(v) => updateRound0('enrollment', v)}
+                                        />
+                                        <InputField
+                                            label="Branch"
+                                            icon={<GraduationCap className="w-4 h-4" />}
+                                            placeholder="CS / IT / EC / AI / BC / EE / ME"
+                                            value={round0.branch}
+                                            onChange={(v) => updateRound0('branch', v)}
+                                        />
+                                        <div className="space-y-2">
+                                            <label className="text-slate-700 dark:text-slate-300 font-bold block">Year</label>
+                                            <CustomSelect
+                                                value={round0.year}
+                                                onChange={(v) => updateRound0('year', v)}
+                                                options={YEARS.map((y) => ({ value: y, label: y }))}
+                                            />
+                                        </div>
                                     </div>
+                                    <InputField
+                                        label="College"
+                                        placeholder="College Name"
+                                        value={round0.college}
+                                        onChange={(v) => updateRound0('college', v)}
+                                    />
+                                    <p className="text-xs text-slate-500 dark:text-slate-400">
+                                        Only  college emails are accepted for the leader and every team member.
+                                    </p>
                                 </div>
 
                                 <div className="space-y-6">
@@ -116,30 +326,50 @@ const FluxWaveRegistration = () => {
                                                 options={[
                                                     { value: 2, label: '2 Members' },
                                                     { value: 3, label: '3 Members' },
-                                                    { value: 4, label: '4 Members' }
+                                                    { value: 4, label: '4 Members' },
                                                 ]}
                                             />
                                         </div>
                                     </div>
-                                    
+
                                     <div className="grid grid-cols-1 gap-6">
-                                        {Array.from({ length: numMembers }).map((_, idx) => (
-                                            <motion.div 
+                                        {teamMembers.map((member, idx) => (
+                                            <motion.div
                                                 initial={{ opacity: 0, height: 0 }}
                                                 animate={{ opacity: 1, height: 'auto' }}
-                                                key={idx} 
-                                                className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50/50 dark:bg-white/5 p-6 rounded-2xl border border-slate-100 dark:border-white/5"
+                                                key={idx}
+                                                className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-slate-50/50 dark:bg-white/5 p-6 rounded-2xl border border-slate-100 dark:border-white/5"
                                             >
-                                                <div className="md:col-span-2">
-                                                    <h4 className="text-sm font-bold text-cyan-600 dark:text-cyan-400 uppercase tracking-wider">Member {idx + 1}</h4>
+                                                <div className="md:col-span-3">
+                                                    <h4 className="text-sm font-bold text-cyan-600 dark:text-cyan-400 uppercase tracking-wider">Member {idx + 2}</h4>
                                                 </div>
-                                                <InputField label="Name" placeholder={`Member ${idx + 1} Name`} required />
-                                                <InputField label="Enrollment No." placeholder="Enrollment Number" required />
+                                                <InputField
+                                                    label="Name"
+                                                    placeholder={`Member ${idx + 2} Name`}
+                                                    required
+                                                    value={member.name}
+                                                    onChange={(v) => updateMember(idx, 'name', v)}
+                                                />
+                                                <InputField
+                                                    label="Email"
+                                                    type="email"
+                                                    placeholder="member@satiengg.in"
+                                                    required
+                                                    value={member.email}
+                                                    onChange={(v) => updateMember(idx, 'email', v)}
+                                                />
+                                                <InputField
+                                                    label="Enrollment No."
+                                                    placeholder="Enrollment Number"
+                                                    required
+                                                    value={member.enrollment}
+                                                    onChange={(v) => updateMember(idx, 'enrollment', v)}
+                                                />
                                             </motion.div>
                                         ))}
                                     </div>
                                 </div>
-                                <SubmitButton label="Submit Zeroth Round" />
+                                <SubmitButton label="Submit Zeroth Round" loading={submitting0} />
                             </motion.form>
                         )}
 
@@ -150,37 +380,63 @@ const FluxWaveRegistration = () => {
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: -20 }}
                                 transition={{ duration: 0.3 }}
-                                onSubmit={(e) => handleFormSubmit(e, 1)}
+                                onSubmit={handleRound1Submit}
                                 className="space-y-8"
                             >
+                                <p className="text-sm text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/5 rounded-xl px-4 py-3">
+                                    We identify your team using the <span className="font-bold">Team Name</span> and <span className="font-bold">Leader Email</span> you used during registration (Round 0).
+                                </p>
+
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <InputField label="Team Name" icon={<Users className="w-5 h-5" />} placeholder="Enter Team Name" required />
-                                    <InputField label="Leader Name" icon={<User className="w-5 h-5" />} placeholder="Enter Leader Name" required />
+                                    <InputField
+                                        label="Team Name"
+                                        icon={<Users className="w-5 h-5" />}
+                                        placeholder="Enter Team Name"
+                                        required
+                                        value={round1.teamName}
+                                        onChange={(v) => updateRound1('teamName', v)}
+                                    />
+                                    <InputField
+                                        label="Leader Email"
+                                        icon={<Mail className="w-5 h-5" />}
+                                        type="email"
+                                        placeholder="you@satiengg.in"
+                                        required
+                                        value={round1.leaderEmail}
+                                        onChange={(v) => updateRound1('leaderEmail', v)}
+                                    />
                                 </div>
 
+                                <InputField
+                                    label="Idea Title"
+                                    icon={<LayoutTemplate className="w-5 h-5" />}
+                                    placeholder="A short, catchy title for your idea"
+                                    required
+                                    value={round1.ideaTitle}
+                                    onChange={(v) => updateRound1('ideaTitle', v)}
+                                />
+
                                 <div className="space-y-2">
-                                    <label className="text-slate-700 dark:text-slate-300 font-bold block">Idea Abstract</label>
-                                    <textarea 
+                                    <label className="text-slate-700 dark:text-slate-300 font-bold block">Problem Statement / Idea Abstract</label>
+                                    <textarea
                                         className="w-full bg-slate-50 dark:bg-[#1a1a1a] border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-slate-900 dark:text-white focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-colors resize-none min-h-[120px]"
                                         placeholder="Brief Description of Idea..."
                                         required
+                                        maxLength={1000}
+                                        value={round1.problemStatement}
+                                        onChange={(e) => updateRound1('problemStatement', e.target.value)}
                                     ></textarea>
                                 </div>
 
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div className="space-y-2">
-                                        <label className="text-slate-700 dark:text-slate-300 font-bold block flex items-center gap-2">
-                                            <LayoutTemplate className="w-4 h-4" /> Domain
-                                        </label>
-                                        <CustomSelect 
-                                            value={selectedDomain}
-                                            onChange={setSelectedDomain}
-                                            options={domains.map(d => ({ value: d, label: d }))}
-                                        />
-                                    </div>
-                                    <InputField label="PPT Link" icon={<FileText className="w-5 h-5" />} placeholder="Drive link with viewer access" required />
-                                </div>
-                                <SubmitButton label="Submit First Round" />
+                                <InputField
+                                    label="PPT Link"
+                                    icon={<FileText className="w-5 h-5" />}
+                                    placeholder="Drive link with viewer access"
+                                    required
+                                    value={round1.pptLink}
+                                    onChange={(v) => updateRound1('pptLink', v)}
+                                />
+                                <SubmitButton label="Submit First Round" loading={submitting1} />
                             </motion.form>
                         )}
 
@@ -191,22 +447,62 @@ const FluxWaveRegistration = () => {
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: -20 }}
                                 transition={{ duration: 0.3 }}
-                                onSubmit={(e) => handleFormSubmit(e, 2)}
+                                onSubmit={handleRound2Submit}
                                 className="space-y-8"
                             >
+                                <p className="text-sm text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/5 rounded-xl px-4 py-3">
+                                    Only teams marked as <span className="font-bold">Finalist</span> can submit here. We identify your team using the <span className="font-bold">Team Name</span> and <span className="font-bold">Leader Email</span>.
+                                </p>
+
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <InputField label="Team Name" icon={<Users className="w-5 h-5" />} placeholder="Enter Team Name" required />
-                                    <InputField label="Leader Name" icon={<User className="w-5 h-5" />} placeholder="Enter Leader Name" required />
+                                    <InputField
+                                        label="Team Name"
+                                        icon={<Users className="w-5 h-5" />}
+                                        placeholder="Enter Team Name"
+                                        required
+                                        value={round2.teamName}
+                                        onChange={(v) => updateRound2('teamName', v)}
+                                    />
+                                    <InputField
+                                        label="Leader Email"
+                                        icon={<Mail className="w-5 h-5" />}
+                                        type="email"
+                                        placeholder="you@satiengg.in"
+                                        required
+                                        value={round2.leaderEmail}
+                                        onChange={(v) => updateRound2('leaderEmail', v)}
+                                    />
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <InputField label="Deploy Project Link" icon={<Globe className="w-5 h-5" />} placeholder="Live URL of Project" required />
-                                    <InputField label="GitHub Repo URL" icon={<Code className="w-5 h-5" />} placeholder="https://github.com/..." required />
+                                    <InputField
+                                        label="Deploy Project Link"
+                                        icon={<Globe className="w-5 h-5" />}
+                                        placeholder="Live URL of Project"
+                                        required
+                                        value={round2.deployLink}
+                                        onChange={(v) => updateRound2('deployLink', v)}
+                                    />
+                                    <InputField
+                                        label="GitHub Repo URL"
+                                        icon={<Code className="w-5 h-5" />}
+                                        placeholder="https://github.com/..."
+                                        required
+                                        value={round2.githubLink}
+                                        onChange={(v) => updateRound2('githubLink', v)}
+                                    />
                                 </div>
 
-                                <InputField label="Screen Recording" icon={<Video className="w-5 h-5" />} placeholder="Drive link with viewer access" required />
-                                
-                                <SubmitButton label="Submit Second Round" />
+                                <InputField
+                                    label="Screen Recording"
+                                    icon={<Video className="w-5 h-5" />}
+                                    placeholder="Drive link with viewer access"
+                                    required
+                                    value={round2.screenRecordingLink}
+                                    onChange={(v) => updateRound2('screenRecordingLink', v)}
+                                />
+
+                                <SubmitButton label="Submit Second Round" loading={submitting2} />
                             </motion.form>
                         )}
                     </AnimatePresence>
@@ -216,7 +512,7 @@ const FluxWaveRegistration = () => {
     );
 };
 
-const CustomSelect = ({ value, onChange, options, label }) => {
+const CustomSelect = ({ value, onChange, options }) => {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = React.useRef(null);
 
@@ -230,7 +526,7 @@ const CustomSelect = ({ value, onChange, options, label }) => {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-    const selectedOption = options.find(opt => opt.value === value) || options[0];
+    const selectedOption = options.find((opt) => opt.value === value) || options[0];
 
     return (
         <div className="relative w-full" ref={dropdownRef}>
@@ -264,8 +560,8 @@ const CustomSelect = ({ value, onChange, options, label }) => {
                                         setIsOpen(false);
                                     }}
                                     className={`w-full text-left px-4 py-3 text-sm font-medium rounded-lg transition-colors flex items-center justify-between group
-                                        ${value === opt.value 
-                                            ? 'bg-cyan-500/10 text-cyan-600 dark:text-cyan-400' 
+                                        ${value === opt.value
+                                            ? 'bg-cyan-500/10 text-cyan-600 dark:text-cyan-400'
                                             : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5'
                                         }`}
                                 >
@@ -283,32 +579,46 @@ const CustomSelect = ({ value, onChange, options, label }) => {
     );
 };
 
-const InputField = ({ label, icon, type = "text", placeholder, required }) => (
+const InputField = ({ label, icon, type = 'text', placeholder, required, value, onChange, pattern, maxLength }) => (
     <div className="space-y-2">
         <label className="text-slate-700 dark:text-slate-300 font-bold block flex items-center gap-2">
             {icon && <span className="text-cyan-500">{icon}</span>}
             {label} {required && <span className="text-red-500">*</span>}
         </label>
-        <input 
+        <input
             type={type}
             placeholder={placeholder}
             required={required}
+            pattern={pattern}
+            maxLength={maxLength}
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
             className="w-full bg-slate-50 dark:bg-[#1a1a1a] border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-colors"
         />
     </div>
 );
 
-const SubmitButton = ({ label }) => (
+const SubmitButton = ({ label, loading }) => (
     <div className="pt-4 flex justify-end">
-        <button 
+        <button
             type="submit"
-            className="group relative inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-cyan-600 to-emerald-600 hover:from-cyan-500 hover:to-emerald-500 text-white font-bold rounded-xl overflow-hidden transition-all duration-300 transform hover:scale-[1.02] shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:shadow-[0_0_30px_rgba(6,182,212,0.5)] focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 focus:ring-offset-[#0f1115]"
+            disabled={loading}
+            className="group relative inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-cyan-600 to-emerald-600 hover:from-cyan-500 hover:to-emerald-500 text-white font-bold rounded-xl overflow-hidden transition-all duration-300 transform hover:scale-[1.02] shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:shadow-[0_0_30px_rgba(6,182,212,0.5)] focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 focus:ring-offset-[#0f1115] disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
         >
             <span className="relative z-10 flex items-center gap-2">
-                {label} <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                {loading ? (
+                    <>
+                        Submitting... <Loader2 className="w-4 h-4 animate-spin" />
+                    </>
+                ) : (
+                    <>
+                        {label} <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </>
+                )}
             </span>
-            {/* Shimmer effect */}
-            <div className="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/20 to-transparent z-0"></div>
+            {!loading && (
+                <div className="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/20 to-transparent z-0"></div>
+            )}
         </button>
     </div>
 );
