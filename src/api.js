@@ -41,6 +41,10 @@ export const fetchAllUsers = () => API.get('/users');
 // --- CHAT ENDPOINTS ---
 export const fetchChatHistory = () => API.get('/chat');
 
+// --- FLUXWAVE 2.0 ENDPOINTS ---
+export const registerFluxWave = (payload) => API.post('/fluxwave/register', payload);
+export const fetchFluxWaveStatus = (email) => API.get('/fluxwave/status', { params: { email } });
+
 // --- SYSTEM HELPERS ---
 export const logoutUser = () => {
   localStorage.removeItem('userInfo');

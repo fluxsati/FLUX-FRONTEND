@@ -5,7 +5,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { 
   ShieldAlert, Package, CheckCircle, 
   Trash2, Briefcase, MessageSquare, 
-  User, Users, Globe, Github, RefreshCw, AlertTriangle
+  User, Users, Globe, Github, RefreshCw, AlertTriangle, Database
 } from 'lucide-react';
 
 const AdminDashboard = () => {
@@ -27,7 +27,8 @@ const AdminDashboard = () => {
         orders: '/orders',
         projects: '/projects',
         contacts: '/contact',
-        users: '/users'
+        users: '/users',
+        registrations: '/fluxwave/registrations'
       };
       
       const res = await API.get(endpoints[activeTab]);
@@ -83,7 +84,8 @@ const AdminDashboard = () => {
         orders: `/orders/${id}`,
         projects: `/projects/${id}`,
         contacts: `/contact/${id}`,
-        users: `/users/${id}`
+        users: `/users/${id}`,
+        registrations: `/fluxwave/registrations/${id}`
       };
       await API.delete(endpointMap[activeTab]);
       setData(prev => prev.filter(item => item._id !== id));
@@ -261,6 +263,101 @@ const AdminDashboard = () => {
     </div>
   );
 
+  const RegistrationTable = ({ data }) => (
+    <div className="overflow-x-auto">
+      <table className="w-full text-left border-collapse">
+        <thead className="bg-white/5 text-cyan-500 uppercase text-[10px] tracking-widest">
+          <tr>
+            <th className="p-4 border-b border-white/10">Team & Leader</th>
+            <th className="p-4 border-b border-white/10">Round</th>
+            <th className="p-4 border-b border-white/10">Round Details</th>
+            <th className="p-4 border-b border-white/10 text-center">Purge</th>
+          </tr>
+        </thead>
+        <tbody className="text-xs">
+          {data.map((reg) => (
+            <tr key={reg._id} className="border-b border-white/5 hover:bg-white/[0.02] align-top">
+              <td className="p-4">
+                <p className="text-white font-bold">{reg.teamName}</p>
+                <div className="text-[10px] opacity-60 mt-1">
+                  <p>Leader: {reg.leaderName}</p>
+                  <p>Contact: {reg.contactNumber}</p>
+                  <p className="lowercase">{reg.email}</p>
+                </div>
+              </td>
+              <td className="p-4">
+                <span className={`px-2 py-0.5 rounded text-[9px] font-black uppercase border ${
+                  reg.round === 0 ? 'text-amber-500 border-amber-500/20 bg-amber-500/5' :
+                  reg.round === 1 ? 'text-indigo-400 border-indigo-400/20 bg-indigo-400/5' :
+                  'text-purple-500 border-purple-500/20 bg-purple-500/5'
+                }`}>
+                  ROUND {reg.round}
+                </span>
+                <p className="text-[8px] opacity-40 mt-1 uppercase">
+                  {reg.round === 0 ? 'Zeroth' : reg.round === 1 ? 'First' : 'Second'}
+                </p>
+              </td>
+              <td className="p-4 max-w-sm">
+                {reg.round === 0 && (
+                  <div className="space-y-1">
+                    <p className="text-[10px] font-bold text-gray-400">Enrollment: {reg.enrollment}</p>
+                    <p className="text-[9px] text-cyan-500 font-mono">Members ({reg.numMembers}):</p>
+                    <ul className="list-disc pl-4 text-[9px] text-gray-500">
+                      {reg.members?.map((m, idx) => (
+                        <li key={idx}>{m.name} ({m.enrollment})</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                {reg.round === 1 && (
+                  <div className="space-y-1.5">
+                    <p className="text-[9.5px] uppercase font-bold text-indigo-400">{reg.domain}</p>
+                    <p className="text-[10px] text-gray-400 italic line-clamp-3">"{reg.ideaAbstract}"</p>
+                    {reg.pptLink && (
+                      <a href={reg.pptLink} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-[9px] text-cyan-400 hover:underline">
+                        <Globe size={10} /> PPT Presentation
+                      </a>
+                    )}
+                  </div>
+                )}
+                {reg.round === 2 && (
+                  <div className="space-y-1">
+                    {reg.deployLink && (
+                      <p>
+                        <a href={reg.deployLink} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-[9px] text-emerald-400 hover:underline">
+                          <Globe size={11} /> Deployment Link
+                        </a>
+                      </p>
+                    )}
+                    {reg.githubRepo && (
+                      <p>
+                        <a href={reg.githubRepo} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-[9px] text-white/70 hover:text-white hover:underline">
+                          <Github size={11} /> GitHub Repo
+                        </a>
+                      </p>
+                    )}
+                    {reg.screenRecording && (
+                      <p>
+                        <a href={reg.screenRecording} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-[9px] text-purple-400 hover:underline">
+                          <Globe size={11} /> Screen Recording
+                        </a>
+                      </p>
+                    )}
+                  </div>
+                )}
+              </td>
+              <td className="p-4 text-center">
+                <button onClick={() => handleDeleteEntry(reg._id)} className="text-red-500/50 hover:text-red-500 transition-colors">
+                  <Trash2 size={16}/>
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+
   if (error) {
     return (
       <div className="min-h-screen bg-black flex flex-col items-center justify-center text-red-500 font-mono p-6 text-center">
@@ -287,6 +384,7 @@ const AdminDashboard = () => {
           { id: 'projects', label: 'Projects_Net', icon: <Briefcase size={16}/> },
           { id: 'contacts', label: 'Message_Queue', icon: <MessageSquare size={16}/> },
           { id: 'users', label: 'Operator_DB', icon: <Users size={16}/> },
+          { id: 'registrations', label: 'FluxWave_2.0', icon: <Database size={16}/> },
         ].map((btn) => (
           <button 
             key={btn.id}
@@ -334,11 +432,11 @@ const AdminDashboard = () => {
           </div>
         ) : (
           <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl overflow-hidden shadow-2xl animate-in fade-in slide-in-from-bottom-4 duration-500">
-             {activeTab === 'orders' && <OrderTable data={data} />}
-             {activeTab === 'projects' && <ProjectTable data={data} />}
-             {activeTab === 'contacts' && <ContactTable data={data} />}
-             {activeTab === 'users' && <UserTable data={data} />} 
-             
+              {activeTab === 'orders' && <OrderTable data={data} />}
+              {activeTab === 'projects' && <ProjectTable data={data} />}
+              {activeTab === 'contacts' && <ContactTable data={data} />}
+              {activeTab === 'users' && <UserTable data={data} />} 
+              {activeTab === 'registrations' && <RegistrationTable data={data} />}
              {data.length === 0 && (
                <div className="p-20 text-center opacity-20">
                  <Package size={48} className="mx-auto mb-4" />
