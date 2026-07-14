@@ -6,7 +6,7 @@ import axios from 'axios';
  * This keeps your backend location hidden from the source code.
  */
 // Ensure the name matches your .env file exactly!
-const BASE_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000/api';
+const BASE_URL = import.meta.env.VITE_BACKEND_URL  || 'http://localhost:5000/api';
 const API = axios.create({
   baseURL: BASE_URL,
 });
@@ -42,8 +42,32 @@ export const fetchAllUsers = () => API.get('/users');
 export const fetchChatHistory = () => API.get('/chat');
 
 // --- FLUXWAVE 2.0 ENDPOINTS ---
-export const registerFluxWave = (payload) => API.post('/fluxwave/register', payload);
-export const fetchFluxWaveStatus = (email) => API.get('/fluxwave/status', { params: { email } });
+export const registerFluxWave = (formData) => API.post('/fluxwave/register', formData);
+export const fetchFluxWaveDomains = () => API.get('/fluxwave/domains');
+export const fetchFluxWaveCount = () => API.get('/fluxwave/count');
+export const submitFluxWaveIdea = (formData) => API.put('/fluxwave/submit-idea', formData);
+export const submitFluxWaveFinal = (formData) => API.put('/fluxwave/submit-final', formData);
+
+// --- FLUXWAVE 2.0 ADMIN ENDPOINTS (require an admin-role token) ---
+export const fetchFluxWaveRegistrations = () => API.get('/fluxwave/registrations');
+export const updateFluxWaveStatus = (id, status) =>
+  API.patch(`/fluxwave/${id}/status`, { status });
+export const checkInFluxWaveTeam = (id) => API.patch(`/fluxwave/${id}/checkin`);
+
+// --- FLUXWAVE 2.0 TEMPORARY EVENT-ADMIN ENDPOINTS (key-gated, no login required) ---
+// Delete this block + the backend routes once FluxWave 2.0 wraps up.
+const eventKeyHeader = () => ({
+  headers: { 'x-fluxwave-key': sessionStorage.getItem('fluxwaveAdminKey') || '' },
+});
+
+export const fetchFluxWavePublicAdmin = () =>
+  API.get('/fluxwave/public-admin/registrations', eventKeyHeader());
+
+export const updateFluxWavePublicStatus = (id, status) =>
+  API.patch(`/fluxwave/public-admin/${id}/status`, { status }, eventKeyHeader());
+
+export const checkInFluxWavePublicTeam = (id) =>
+  API.patch(`/fluxwave/public-admin/${id}/checkin`, {}, eventKeyHeader());
 
 // --- SYSTEM HELPERS ---
 export const logoutUser = () => {
