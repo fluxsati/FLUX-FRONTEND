@@ -44,7 +44,7 @@ Ensure you have the following installed:
 
 1.  **Clone the repository**
     ```bash
-    git clone https://github.com/SAFAL-TIWARI/FLUX-FRONTEND.git
+    git clone https://github.com/fluxsati/FLUX-FRONTEND.git
     cd FLUX-FRONTEND
     ```
 
