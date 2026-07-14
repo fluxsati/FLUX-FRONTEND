@@ -95,34 +95,25 @@ const MarqueeRibbon = ({ text, bg = "bg-purple-600", rotate = "-rotate-2" }) => 
 
 const FluxWave2_0 = () => {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-  const [countdownExpired, setCountdownExpired] = useState(false);
   const [activeFaq, setActiveFaq] = useState(null);
   const [hoveredMetric, setHoveredMetric] = useState(null);
 
-  // Countdown timer logic - counts down to the Registration Deadline (July 20, 2026),
-  // since the Registration Launch date (July 11, 2026) has already passed.
+  // Countdown timer logic
   useEffect(() => {
-    const targetDate = new Date("July 20, 2026 23:59:59").getTime();
-    const tick = () => {
+    const targetDate = new Date("July 11, 2026 00:00:00").getTime();
+    const interval = setInterval(() => {
       const now = new Date().getTime();
       const distance = targetDate - now;
       if (distance < 0) {
-        setCountdownExpired(true);
-        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-        return false;
+        clearInterval(interval);
+      } else {
+        setTimeLeft({
+          days: Math.floor(distance / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+          minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+          seconds: Math.floor((distance % (1000 * 60)) / 1000)
+        });
       }
-      setTimeLeft({
-        days: Math.floor(distance / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-        minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
-        seconds: Math.floor((distance % (1000 * 60)) / 1000)
-      });
-      return true;
-    };
-
-    if (!tick()) return;
-    const interval = setInterval(() => {
-      if (!tick()) clearInterval(interval);
     }, 1000);
     return () => clearInterval(interval);
   }, []);
@@ -240,26 +231,17 @@ const FluxWave2_0 = () => {
               <div className="bg-gradient-to-r from-purple-500 to-cyan-500 p-[2px] rounded-2xl w-full sm:w-fit shadow-[0_0_40px_rgba(168,85,247,0.3)]">
                 <div className="bg-white dark:bg-[#050505] rounded-2xl px-4 py-4 sm:px-8 sm:py-6 flex justify-between sm:justify-start gap-2 sm:gap-6 md:gap-12 backdrop-blur-xl relative overflow-hidden">
                   <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop')] bg-cover opacity-5 dark:opacity-10 mix-blend-screen"></div>
-                  {countdownExpired ? (
-                    <span
-                      className="text-lg sm:text-2xl md:text-3xl font-bold text-purple-600 dark:text-purple-400 uppercase tracking-widest relative z-10"
-                      style={{ fontFamily: '"Russo One", sans-serif' }}
-                    >
-                      Registrations Closed
-                    </span>
-                  ) : (
-                    Object.entries(timeLeft).map(([unit, value]) => (
-                      <div key={unit} className="flex flex-col items-center relative z-10 w-1/4 sm:w-auto">
-                        <span
-                          className="text-3xl sm:text-4xl md:text-6xl font-bold text-slate-900 dark:text-white drop-shadow-sm dark:drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]"
-                          style={{ fontFamily: '"Technology", monospace' }}
-                        >
-                          {String(value).padStart(2, '0')}
-                        </span>
-                        <span className="text-[9px] sm:text-xs md:text-sm text-slate-500 dark:text-slate-400 uppercase tracking-widest mt-1 sm:mt-2 font-bold">{unit}</span>
-                      </div>
-                    ))
-                  )}
+                  {Object.entries(timeLeft).map(([unit, value], i) => (
+                    <div key={unit} className="flex flex-col items-center relative z-10 w-1/4 sm:w-auto">
+                      <span
+                        className="text-3xl sm:text-4xl md:text-6xl font-bold text-slate-900 dark:text-white drop-shadow-sm dark:drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]"
+                        style={{ fontFamily: '"Technology", monospace' }}
+                      >
+                        {String(value).padStart(2, '0')}
+                      </span>
+                      <span className="text-[9px] sm:text-xs md:text-sm text-slate-500 dark:text-slate-400 uppercase tracking-widest mt-1 sm:mt-2 font-bold">{unit}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -535,8 +517,6 @@ const FluxWave2_0 = () => {
               <div key={idx} className="border border-slate-200 dark:border-white/10 rounded-xl overflow-hidden bg-white dark:bg-white/5 backdrop-blur-sm shadow-sm">
                 <button
                   onClick={() => setActiveFaq(activeFaq === idx ? null : idx)}
-                  aria-expanded={activeFaq === idx}
-                  aria-controls={`faq-panel-${idx}`}
                   className="w-full text-left p-6 flex justify-between items-center hover:bg-slate-50 dark:hover:bg-white/10 transition-colors"
                 >
                   <span className="font-bold text-slate-800 dark:text-white text-lg tracking-wide">{faq.q}</span>
@@ -549,8 +529,6 @@ const FluxWave2_0 = () => {
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
                       className="overflow-hidden"
-                      id={`faq-panel-${idx}`}
-                      role="region"
                     >
                       <div className="p-6 pt-0 text-slate-600 dark:text-slate-400 border-t border-slate-100 dark:border-white/5 mt-2 leading-relaxed font-medium">
                         {faq.a}

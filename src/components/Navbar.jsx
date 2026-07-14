@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout as logoutAction } from '../slices/authSlices';
 import { logout as logoutApi } from '../api';
-import { Sun, Moon, LogOut, User as UserIcon, LayoutDashboard, ChevronDown, Menu, X, MessageSquare, History, ShieldCheck } from 'lucide-react';
+import { Sun, Moon, LogOut, User as UserIcon, LayoutDashboard, ChevronDown, Menu, X, MessageSquare, History } from 'lucide-react';
 import fluxLogo from '/fluxlogo.png';
 
 const Navbar = () => {
@@ -263,12 +263,6 @@ const Navbar = () => {
                     {showDropdown && (
                       <div className="absolute right-0 mt-3 w-56 bg-white dark:bg-[#0a0a0a] border border-gray-200 dark:border-cyan-500/30 rounded-2xl shadow-2xl overflow-hidden backdrop-blur-3xl animate-in fade-in zoom-in duration-200">
                         <div className="p-2 space-y-1">
-                          {userInfo.role === 'admin' && (
-                            <Link to="/admin" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-purple-500/10 dark:text-gray-300 hover:text-purple-500 transition-all">
-                              <ShieldCheck size={16} className="text-purple-500" />
-                              <span className="text-xs font-bold uppercase text-purple-500">Admin Control</span>
-                            </Link>
-                          )}
                           <Link to="/dashboard" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-cyan-500/10 dark:text-gray-300 hover:text-cyan-500 transition-all">
                             <LayoutDashboard size={16} />
                             <span className="text-xs font-bold uppercase">Dashboard</span>
@@ -427,19 +421,11 @@ const Navbar = () => {
           <div className="mt-auto space-y-3">
             <div className="flex justify-center w-full">
               {userInfo ? (
-                <>
-                  {userInfo.role === 'admin' && (
-                    <Link to="/admin" onClick={() => setIsOpen(false)} className="flex items-center justify-center gap-2 w-full h-12 bg-purple-500/10 text-purple-500 rounded-xl text-[10px] font-bold uppercase mb-2">
-                      <ShieldCheck size={14} /> Admin Access
-                    </Link>
-                  )}
-                  <Link to="/dashboard" onClick={() => setIsOpen(false)} className="flex items-center justify-center gap-2 w-full h-12 bg-cyan-500/10 text-cyan-500 rounded-xl text-[10px] font-bold uppercase">
-                    <LayoutDashboard size={14} /> Dashboard
-                  </Link>
-                  <Link to="/chat" onClick={() => setIsOpen(false)} className="flex items-center justify-center gap-2 w-full h-12 bg-cyan-500/10 text-cyan-500 rounded-xl text-[10px] font-bold uppercase mt-2">
+                <><Link to="/dashboard" onClick={() => setIsOpen(false)} className="flex items-center justify-center gap-2 w-full h-12 bg-cyan-500/10 text-cyan-500 rounded-xl text-[10px] font-bold uppercase">
+                  <LayoutDashboard size={14} /> Dashboard
+                </Link><Link to="/chat" onClick={() => setIsOpen(false)} className="flex items-center justify-center gap-2 w-full h-12 bg-cyan-500/10 text-cyan-500 rounded-xl text-[10px] font-bold uppercase mt-2">
                     <MessageSquare size={14} /> Group Chat
-                  </Link>
-                </>
+                  </Link></>
               ) : (
                 <Link to="/login" onClick={() => setIsOpen(false)} className="flex items-center justify-center w-full h-12 bg-cyan-500 text-white dark:text-black rounded-xl text-[10px] font-bold uppercase">
                   Login
