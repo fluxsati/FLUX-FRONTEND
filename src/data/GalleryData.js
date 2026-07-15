@@ -19,9 +19,9 @@ export const youtubeProjects = [
 
 export const instaReels = [
   "DGlgzOGsApC",
-  "DAIxj89osXC",
   "DGOYbnHo1Zv",
-  "DP_-sDYk4Nc"
+  "DP_-sDYk4Nc",
+  "DAIxj89osXC",
 ];
 
 export const eventPosters = [

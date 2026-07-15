@@ -14,13 +14,13 @@ const FluxWavePopup = () => {
     // Show popup every time the user visits
     const openTimer = setTimeout(() => {
       setIsOpen(true);
-    }, 500);
+    }, 6000);
     
     return () => clearTimeout(openTimer);
   }, []);
 
   useEffect(() => {
-    // Auto-close after 2 seconds when opened
+    // Auto-close after 5 seconds when opened
     if (isOpen) {
       const closeTimer = setTimeout(() => {
         setIsOpen(false);
