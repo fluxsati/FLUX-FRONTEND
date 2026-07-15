@@ -277,11 +277,12 @@ const FluxWaveAdminPanel = ({ useEventKey = false, onAuthError }) => {
                     <div>{team.leaderName}</div>
                     <div className="text-xs text-slate-400">{team.leaderEmail}</div>
                     <div className="text-xs text-slate-400">{team.contactNumber}</div>
+                    <div className="text-xs text-slate-400">{team.enrollment}</div>
                   </td>
                   <td className="px-4 py-4">
                     <ul className="space-y-1 text-xs text-slate-500 dark:text-slate-400">
                       {(team.teamMembers || []).map((m, i) => (
-                        <li key={i}>{m.name} — {m.enrollment}</li>
+                        <li key={i}>{m.name} — {m.email} — {m.enrollment}</li>
                       ))}
                     </ul>
                   </td>
