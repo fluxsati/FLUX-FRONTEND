@@ -1,19 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
+const AUTO_SCROLL_INTERVAL = 3000; // 3 seconds
+
 const Carousel3D = ({ images }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const intervalRef = useRef(null);
 
   if (!images || images.length === 0) return null;
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-  };
+  }, [images.length]);
 
-  const handlePrev = () => {
+  const handlePrev = useCallback(() => {
     setCurrentIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
-  };
+  }, [images.length]);
+
+  // Auto-scroll effect
+  useEffect(() => {
+    if (isPaused || images.length <= 1) return;
+
+    intervalRef.current = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, AUTO_SCROLL_INTERVAL);
+
+    return () => clearInterval(intervalRef.current);
+  }, [isPaused, images.length, currentIndex]);
 
   const getStyles = (index) => {
     // Determine relative position
@@ -40,7 +55,11 @@ const Carousel3D = ({ images }) => {
   };
 
   return (
-    <div className="relative w-full h-[250px] md:h-[350px] flex items-center justify-center overflow-hidden perspective-[1000px] py-8">
+    <div
+      className="relative w-full h-[250px] md:h-[350px] flex items-center justify-center overflow-hidden perspective-[1000px] py-8"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+    >
       <button 
         onClick={handlePrev}
         className="absolute left-2 md:left-8 z-20 p-2 md:p-3 bg-white/5 hover:bg-cyan-500 backdrop-blur-md rounded-full text-white border border-white/10 transition-all duration-300"

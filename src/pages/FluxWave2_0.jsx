@@ -58,7 +58,7 @@ const MarqueeRibbon = ({ text, bg = "bg-purple-600", rotate = "-rotate-2" }) => 
   const { scrollY } = useScroll();
   const scrollVelocity = useVelocity(scrollY);
   const smoothVelocity = useSpring(scrollVelocity, { damping: 50, stiffness: 400 });
-  const velocityFactor = useTransform(smoothVelocity, [0, 1000], [0, 5], { clamp: false });
+  const velocityFactor = useTransform(smoothVelocity, [0, 3000], [0, 5], { clamp: false });
 
   const x = useTransform(baseX, (v) => {
     const min = -50;
@@ -70,7 +70,7 @@ const MarqueeRibbon = ({ text, bg = "bg-purple-600", rotate = "-rotate-2" }) => 
 
   const directionFactor = useRef(1);
   useAnimationFrame((t, delta) => {
-    let moveBy = directionFactor.current * -20 * (delta / 1000);
+    let moveBy = directionFactor.current * -20 * (delta / 2000);
     if (velocityFactor.get() < 0) {
       directionFactor.current = 1;
     } else if (velocityFactor.get() > 0) {
@@ -100,7 +100,7 @@ const FluxWave2_0 = () => {
 
   // Countdown timer logic
   useEffect(() => {
-    const targetDate = new Date("July 11, 2026 00:00:00").getTime();
+    const targetDate = new Date("July 20, 2026 23:59:59").getTime();
     const interval = setInterval(() => {
       const now = new Date().getTime();
       const distance = targetDate - now;

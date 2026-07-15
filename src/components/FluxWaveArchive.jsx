@@ -43,11 +43,11 @@ const FluxWaveArchive = () => {
                                 </li>
                                 <li className="flex flex-wrap justify-between items-center border-b border-slate-100 dark:border-white/10 pb-4 gap-2">
                                     <span className="text-slate-500 dark:text-slate-400 uppercase text-xs sm:text-sm font-bold tracking-widest">Hackers</span>
-                                    <span className="text-slate-900 dark:text-white font-medium text-base sm:text-lg text-right">250+ Participants</span>
+                                    <span className="text-slate-900 dark:text-white font-medium text-base sm:text-lg text-right">140+ Participants</span>
                                 </li>
                                 <li className="flex flex-wrap justify-between items-center border-b border-slate-100 dark:border-white/10 pb-4 gap-2">
                                     <span className="text-slate-500 dark:text-slate-400 uppercase text-xs sm:text-sm font-bold tracking-widest">Output</span>
-                                    <span className="text-slate-900 dark:text-white font-medium text-base sm:text-lg text-right">51+ Projects Built</span>
+                                    <span className="text-slate-900 dark:text-white font-medium text-base sm:text-lg text-right">20+ Projects Built</span>
                                 </li>
                                 <li className="flex flex-wrap justify-between items-center border-b border-slate-100 dark:border-white/10 pb-4 gap-2">
                                     <span className="text-slate-500 dark:text-slate-400 uppercase text-xs sm:text-sm font-bold tracking-widest">Champions</span>

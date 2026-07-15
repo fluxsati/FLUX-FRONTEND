@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
 import {
     Send, User, Users, FileText, Globe, Code, Video, LayoutTemplate,
-    Mail, Phone, Hash, GraduationCap, Loader2
+    Mail, Phone, Hash, GraduationCap, Loader2, Lock
 } from 'lucide-react';
 import {
     registerFluxWave,
@@ -31,14 +31,14 @@ const emptyRound0 = () => ({
     leaderEmail: '',
     contactNumber: '',
     enrollment: '',
-    college: 'Samrat Ashok Technological Institute (SATI), Vidisha',
-    branch: '',
-    year: '1st Year',
-    domain: DOMAINS[0],
+    // college: 'Samrat Ashok Technological Institute (SATI), Vidisha',
+    // branch: '',
+    // year: '1st Year',
 });
 
 const emptyRound1 = () => ({
     teamName: '',
+    domain: DOMAINS[0],
     leaderEmail: '',
     ideaTitle: '',
     problemStatement: '',
@@ -53,6 +53,35 @@ const emptyRound2 = () => ({
     screenRecordingLink: '',
 });
 
+// ---- localStorage helpers ----
+const STORAGE_KEYS = {
+    activeRound: 'fluxwave_activeRound',
+    round0: 'fluxwave_round0',
+    round1: 'fluxwave_round1',
+    round2: 'fluxwave_round2',
+    teamMembers: 'fluxwave_teamMembers',
+    numMembers: 'fluxwave_numMembers',
+};
+
+const loadFromStorage = (key, fallback) => {
+    try {
+        const raw = localStorage.getItem(key);
+        return raw !== null ? JSON.parse(raw) : fallback;
+    } catch {
+        return fallback;
+    }
+};
+
+const saveToStorage = (key, value) => {
+    try {
+        localStorage.setItem(key, JSON.stringify(value));
+    } catch { /* quota exceeded – silently ignore */ }
+};
+
+const removeFromStorage = (key) => {
+    try { localStorage.removeItem(key); } catch { /* ignore */ }
+};
+
 // Pulls the friendliest message out of an axios error / API response
 const getErrorMessage = (err, fallback) => {
     const data = err?.response?.data;
@@ -63,21 +92,63 @@ const getErrorMessage = (err, fallback) => {
 };
 
 const FluxWaveRegistration = () => {
-    const [activeRound, setActiveRound] = useState(0);
+    const [activeRound, setActiveRound] = useState(() => loadFromStorage(STORAGE_KEYS.activeRound, 0));
 
     // ---------- Round 0: Registration ----------
-    const [numMembers, setNumMembers] = useState(2);
-    const [round0, setRound0] = useState(emptyRound0());
-    const [teamMembers, setTeamMembers] = useState([emptyMember()]); // additional members (1-3)
+    const [numMembers, setNumMembers] = useState(() => loadFromStorage(STORAGE_KEYS.numMembers, 2));
+    const [round0, setRound0] = useState(() => loadFromStorage(STORAGE_KEYS.round0, emptyRound0()));
+    const [teamMembers, setTeamMembers] = useState(() => loadFromStorage(STORAGE_KEYS.teamMembers, [emptyMember()]));
     const [submitting0, setSubmitting0] = useState(false);
 
     // ---------- Round 1: Idea / PPT submission ----------
-    const [round1, setRound1] = useState(emptyRound1());
+    const [round1, setRound1] = useState(() => loadFromStorage(STORAGE_KEYS.round1, emptyRound1()));
     const [submitting1, setSubmitting1] = useState(false);
 
     // ---------- Round 2: Final project submission ----------
-    const [round2, setRound2] = useState(emptyRound2());
+    const [round2, setRound2] = useState(() => loadFromStorage(STORAGE_KEYS.round2, emptyRound2()));
     const [submitting2, setSubmitting2] = useState(false);
+
+    // ---- Persist every state change to localStorage ----
+    useEffect(() => saveToStorage(STORAGE_KEYS.activeRound, activeRound), [activeRound]);
+    useEffect(() => saveToStorage(STORAGE_KEYS.round0, round0), [round0]);
+    useEffect(() => saveToStorage(STORAGE_KEYS.round1, round1), [round1]);
+    useEffect(() => saveToStorage(STORAGE_KEYS.round2, round2), [round2]);
+    useEffect(() => saveToStorage(STORAGE_KEYS.teamMembers, teamMembers), [teamMembers]);
+    useEffect(() => saveToStorage(STORAGE_KEYS.numMembers, numMembers), [numMembers]);
+
+    // ---- Round locking: dates taken from the event timeline ----
+    // Round 0 is always open; Round 1 & 2 unlock on their start dates.
+    const ROUND_OPEN_DATES = {
+        0: null,                              // always open
+        1: new Date('2026-07-20T00:00:00'),   // "Idea & PPT" starts July 20
+        2: new Date('2026-08-01T00:00:00'),   // "Grand Finale" starts August 1
+    };
+
+    const isRoundLocked = (roundId) => {
+        const openDate = ROUND_OPEN_DATES[roundId];
+        if (!openDate) return false;
+        return new Date() < openDate;
+    };
+
+    const handleRoundClick = (roundId) => {
+        if (isRoundLocked(roundId)) {
+            const openDate = ROUND_OPEN_DATES[roundId];
+            const formatted = openDate.toLocaleDateString('en-IN', {
+                day: 'numeric', month: 'long', year: 'numeric',
+            });
+            toast(`🔒 Submissions for this round will open on ${formatted}`, {
+                icon: '🗓️',
+                style: {
+                    borderRadius: '12px',
+                    background: '#1a1a2e',
+                    color: '#e2e8f0',
+                    border: '1px solid rgba(6,182,212,0.3)',
+                },
+            });
+            return;
+        }
+        setActiveRound(roundId);
+    };
 
     const rounds = [
         { id: 0, title: 'Zeroth', num: '0' },
@@ -120,6 +191,9 @@ const FluxWaveRegistration = () => {
             setRound0(emptyRound0());
             setTeamMembers([emptyMember()]);
             setNumMembers(2);
+            removeFromStorage(STORAGE_KEYS.round0);
+            removeFromStorage(STORAGE_KEYS.teamMembers);
+            removeFromStorage(STORAGE_KEYS.numMembers);
         } catch (err) {
             toast.error(getErrorMessage(err, 'Could not complete registration. Please try again.'), {
                 id: toastId,
@@ -140,6 +214,7 @@ const FluxWaveRegistration = () => {
             const { data } = await submitFluxWaveIdea(round1);
             toast.success(data?.message || 'Idea submitted successfully!', { id: toastId });
             setRound1(emptyRound1());
+            removeFromStorage(STORAGE_KEYS.round1);
         } catch (err) {
             toast.error(getErrorMessage(err, 'Could not submit your idea. Please try again.'), {
                 id: toastId,
@@ -160,6 +235,7 @@ const FluxWaveRegistration = () => {
             const { data } = await submitFluxWaveFinal(round2);
             toast.success(data?.message || 'Final submission received!', { id: toastId });
             setRound2(emptyRound2());
+            removeFromStorage(STORAGE_KEYS.round2);
         } catch (err) {
             toast.error(getErrorMessage(err, 'Could not submit your project. Please try again.'), {
                 id: toastId,
@@ -191,18 +267,26 @@ const FluxWaveRegistration = () => {
 
                             <button
                                 type="button"
-                                onClick={() => setActiveRound(round.id)}
+                                onClick={() => handleRoundClick(round.id)}
                                 className={`
                                     relative z-10 w-20 h-20 md:w-24 md:h-24 rounded-full flex items-center justify-center transition-all duration-300 border-2
-                                    ${activeRound === round.id
-                                        ? 'bg-slate-800 dark:bg-white/10 border-cyan-500 text-cyan-500 scale-110 shadow-[0_0_30px_rgba(6,182,212,0.4)]'
-                                        : 'bg-slate-300 dark:bg-[#1a1a1a] border-transparent text-slate-500 hover:border-cyan-500/50 hover:text-cyan-400'
+                                    ${isRoundLocked(round.id)
+                                        ? 'bg-slate-200 dark:bg-[#111] border-slate-400/50 dark:border-white/10 text-slate-400 dark:text-slate-600 cursor-not-allowed opacity-70'
+                                        : activeRound === round.id
+                                            ? 'bg-slate-800 dark:bg-white/10 border-cyan-500 text-cyan-500 scale-110 shadow-[0_0_30px_rgba(6,182,212,0.4)]'
+                                            : 'bg-slate-300 dark:bg-[#1a1a1a] border-transparent text-slate-500 hover:border-cyan-500/50 hover:text-cyan-400'
                                     }
                                 `}
                             >
                                 <span className="font-bold text-4xl md:text-5xl" style={{ fontFamily: '"Russo One", sans-serif' }}>
                                     {round.num}
                                 </span>
+
+                                {isRoundLocked(round.id) && (
+                                    <span className="absolute -top-1 -right-1 w-7 h-7 md:w-8 md:h-8 rounded-full bg-red-500 border-2 border-white dark:border-[#0f1115] flex items-center justify-center shadow-lg">
+                                        <Lock className="w-3.5 h-3.5 md:w-4 md:h-4 text-white" />
+                                    </span>
+                                )}
                             </button>
 
                             {activeRound === round.id && (
@@ -228,26 +312,14 @@ const FluxWaveRegistration = () => {
                                 onSubmit={handleRound0Submit}
                                 className="space-y-8"
                             >
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <InputField
-                                        label="Team Name"
-                                        icon={<Users className="w-5 h-5" />}
-                                        placeholder="Enter Team Name"
-                                        required
-                                        value={round0.teamName}
-                                        onChange={(v) => updateRound0('teamName', v)}
-                                    />
-                                    <div className="space-y-2">
-                                        <label className="text-slate-700 dark:text-slate-300 font-bold block flex items-center gap-2">
-                                            <LayoutTemplate className="w-4 h-4 text-cyan-500" /> Domain <span className="text-red-500">*</span>
-                                        </label>
-                                        <CustomSelect
-                                            value={round0.domain}
-                                            onChange={(v) => updateRound0('domain', v)}
-                                            options={DOMAINS.map((d) => ({ value: d, label: d }))}
-                                        />
-                                    </div>
-                                </div>
+                                <InputField
+                                    label="Team Name"
+                                    icon={<Users className="w-5 h-5" />}
+                                    placeholder="Enter Team Name"
+                                    required
+                                    value={round0.teamName}
+                                    onChange={(v) => updateRound0('teamName', v)}
+                                />
 
                                 <div className="bg-slate-50 dark:bg-white/5 p-3 sm:p-6 rounded-2xl border border-slate-100 dark:border-white/5 space-y-6">
                                     <h3 className="text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">
@@ -284,12 +356,12 @@ const FluxWaveRegistration = () => {
                                         <InputField
                                             label="Enrollment No."
                                             icon={<Hash className="w-4 h-4" />}
-                                            placeholder="0108CS221023"
+                                            placeholder="0108CS123456"
                                             required
                                             value={round0.enrollment}
                                             onChange={(v) => updateRound0('enrollment', v)}
                                         />
-                                        <InputField
+                                        {/* <InputField
                                             label="Branch"
                                             icon={<GraduationCap className="w-4 h-4" />}
                                             placeholder="CS / IT / EC / AI / BC / EE / ME"
@@ -303,14 +375,14 @@ const FluxWaveRegistration = () => {
                                                 onChange={(v) => updateRound0('year', v)}
                                                 options={YEARS.map((y) => ({ value: y, label: y }))}
                                             />
-                                        </div>
+                                        </div> */}
                                     </div>
-                                    <InputField
+                                    {/* <InputField
                                         label="College"
                                         placeholder="College Name"
                                         value={round0.college}
                                         onChange={(v) => updateRound0('college', v)}
-                                    />
+                                    /> */}
                                     <p className="text-xs text-slate-500 dark:text-slate-400">
                                         Only  college emails are accepted for the leader and every team member.
                                     </p>
@@ -396,6 +468,19 @@ const FluxWaveRegistration = () => {
                                         value={round1.teamName}
                                         onChange={(v) => updateRound1('teamName', v)}
                                     />
+                                    <div className="space-y-2">
+                                        <label className="text-slate-700 dark:text-slate-300 font-bold block flex items-center gap-2">
+                                            <LayoutTemplate className="w-4 h-4 text-cyan-500" /> Domain <span className="text-red-500">*</span>
+                                        </label>
+                                        <CustomSelect
+                                            value={round1.domain}
+                                            onChange={(v) => updateRound1('domain', v)}
+                                            options={DOMAINS.map((d) => ({ value: d, label: d }))}
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <InputField
                                         label="Leader Email"
                                         icon={<Mail className="w-5 h-5" />}
