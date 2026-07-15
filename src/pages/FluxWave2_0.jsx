@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence, useSpring, useVelocity, useAnimationFrame } from 'framer-motion';
-import { ChevronDown, Send, Code, Target, Zap, Layout, Mic, MessageCircle, HelpCircle } from 'lucide-react';
+import { ChevronDown, Send, Code, Target, Zap, Layout, Mic, MessageCircle, HelpCircle, ExternalLink } from 'lucide-react';
 import Typewriter from 'typewriter-effect';
 import FluxWaveRegistration from '../components/FluxWaveRegistration';
 import FluxWaveArchive from '../components/FluxWaveArchive';
@@ -20,8 +20,10 @@ import gameAvatar from '../assets/events/FluxWave_2.0/domains/game_char.png';
 import posterImage from '../assets/events/FluxWave_2.0/poster.jpeg';
 
 
+const REGISTRATION_TUTORIAL_LINK = "https://drive.google.com/file/d/1OeHlRDNK4yyzpMtawnn5t7ahEIqZf8Sq/view?usp=drive_link";
+
 const timelineData = [
-  { id: 1, date: "July 11, 2026", title: "Registration Launch", desc: "Portals open for hackers" },
+  { id: 1, date: "July 11, 2026", title: "Registration Launch", desc: "Portals open for hackers", tutorialLink: REGISTRATION_TUTORIAL_LINK },
   { id: 2, date: "July 20, 2026", title: "Registration Deadline", desc: "Submissions TBD" },
   { id: 3, date: "July 20–28", title: "Idea & PPT", desc: "Submit problem statement & solution" },
   { id: 4, date: "July 29–31", title: "Evaluation", desc: "Judging panel screens projects" },
@@ -46,11 +48,13 @@ const metrics = [
 ];
 
 const faqs = [
-  { q: "Who can participate?", a: "Open to all undergraduate students of any branch and year." },
-  { q: "What is the team size?", a: "You can participate in teams of 2-4 members." },
-  { q: "Is hardware provided?", a: "Participants need to bring their own basic hardware, though specific sensors may be provided upon prior request." },
-  { q: "Will internet be available?", a: "Yes, high-speed Wi-Fi will be available at Kailash Satyarthi Hall (KSH)." },
-  { q: "Is there any registration fee?", a: "Registration fees (if any) will be announced on the portal launch day." }
+  { q: "Who can participate?", a: "FluxWave 2.0 is open to all undergraduate students of SATI, regardless of branch or year. Whether you're a first-year or final-year student, you're welcome to participate!" },
+  { q: "How do I register for FluxWave 2.0?", a: (<span>Fill out the registration form on this page. If you need help, watch our step-by-step <a href={REGISTRATION_TUTORIAL_LINK} target="_blank" rel="noopener noreferrer" className="text-cyan-500 hover:text-cyan-400 underline underline-offset-2 font-semibold inline-flex items-center gap-1">Registration Tutorial <ExternalLink size={14} /></a> for a complete walkthrough.</span>) },
+  { q: "What is the team size?", a: "Teams must consist of 2 to 4 members. Cross-branch teams are encouraged to bring diverse perspectives and skills to your project." },
+  { q: "What are the domains/tracks available?", a: "FluxWave 2.0 features 6 exciting domains: IoT & Hardware, Artificial Intelligence, Cyber Security, Web3 & Blockchain, Open Innovation, and Game Development. Choose the one that best fits your idea!" },
+  { q: "What is the hackathon format?", a: "FluxWave 2.0 follows a multi-phase format: Register → Submit your Idea & PPT (July 20–28) → Evaluation by judges (July 29–31) → Top teams compete in an 8-Hour Offline Grand Finale at Kailash Satyarthi Hall (KSH) on August 1, 2026." },
+
+  { q: "How will projects be judged?", a: "Projects are scored on: Innovation (30%), Technical Implementation (25%), Problem-Solving (20%), UI/UX & Design (15%), and Presentation (10%). Check the Judging Metrics section above for full details." }
 ];
 
 const MarqueeRibbon = ({ text, bg = "bg-purple-600", rotate = "-rotate-2" }) => {
@@ -395,6 +399,11 @@ const FluxWave2_0 = () => {
                         <div className="inline-block px-3 py-1 bg-purple-100 dark:bg-purple-500/20 text-purple-700 dark:text-purple-300 text-xs font-bold rounded-full mb-3 uppercase tracking-wider">{item.date}</div>
                         <h4 className="text-slate-800 dark:text-slate-200 font-bold text-2xl mb-1" style={{ fontFamily: '"AudiowideReal", sans-serif' }}>{item.title}</h4>
                         <p className="text-slate-700 dark:text-slate-300 text-sm leading-relaxed font-medium">{item.desc}</p>
+                        {item.tutorialLink && (
+                          <a href={item.tutorialLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 mt-3 px-4 py-2 rounded-full bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 text-xs font-bold uppercase tracking-wider hover:bg-cyan-500/20 transition-colors border border-cyan-500/20">
+                            <ExternalLink size={14} /> Registration Tutorial
+                          </a>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -438,6 +447,11 @@ const FluxWave2_0 = () => {
                     <div className="inline-block px-2 py-1 bg-purple-100 dark:bg-purple-500/20 text-purple-700 dark:text-purple-300 text-[10px] font-bold rounded-full mb-2 uppercase">{item.date}</div>
                     <h4 className="text-slate-900 dark:text-white font-bold text-sm md:text-lg mb-1" style={{ fontFamily: '"AudiowideReal", sans-serif' }}>{item.title}</h4>
                     <p className="text-slate-600 dark:text-slate-400 text-xs md:text-sm">{item.desc}</p>
+                    {item.tutorialLink && (
+                      <a href={item.tutorialLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 mt-2 px-3 py-1.5 rounded-full bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 text-[10px] md:text-xs font-bold uppercase tracking-wider hover:bg-cyan-500/20 transition-colors border border-cyan-500/20">
+                        <ExternalLink size={12} /> Tutorial
+                      </a>
+                    )}
                   </div>
 
                   <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-white dark:bg-[#050505] border-4 border-cyan-500 shadow-[0_0_15px_#06b6d4] z-10 flex items-center justify-center">
