@@ -24,7 +24,7 @@ const REGISTRATION_TUTORIAL_LINK = "https://drive.google.com/file/d/1OeHlRDNK4yy
 
 const timelineData = [
   { id: 1, date: "July 11, 2026", title: "Registration Launch", desc: "Portals open for hackers", tutorialLink: REGISTRATION_TUTORIAL_LINK },
-  { id: 2, date: "July 20, 2026", title: "Registration Deadline", desc: "Submissions TBD" },
+  { id: 2, date: "July 25, 2026", title: "Registration Deadline", desc: "Submissions TBD" },
   { id: 3, date: "July 20–28", title: "Idea & PPT", desc: "Submit problem statement & solution" },
   { id: 4, date: "July 29–31", title: "Evaluation", desc: "Judging panel screens projects" },
   { id: 5, date: "August 1, 2026", title: "Grand Finale", desc: "8-Hour Offline Hackathon at KSH" }
