@@ -11,6 +11,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import Auth from "./components/Auth";
 import Loader from "./components/Loader";
 
+
 // Lazy Load Pages
 const Home = React.lazy(() => import("./pages/Home"));
 const BehindFlux = React.lazy(() => import("./pages/BehindFlux"));

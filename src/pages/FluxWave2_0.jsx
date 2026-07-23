@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence, useSpring, useVelocity, useAnimationFrame } from 'framer-motion';
-import { ChevronDown, Send, Code, Target, Zap, Layout, Mic, MessageCircle, HelpCircle, ExternalLink } from 'lucide-react';
+import { ChevronDown, Send, Code, Target, Zap, Layout, Mic, MessageCircle, HelpCircle, ExternalLink, Search, Sparkles, Cpu, ShieldCheck, Coffee } from 'lucide-react';
 import Typewriter from 'typewriter-effect';
 import FluxWaveRegistration from '../components/FluxWaveRegistration';
 import FluxWaveArchive from '../components/FluxWaveArchive';
@@ -18,7 +18,6 @@ import openAvatar from '../assets/events/FluxWave_2.0/domains/open_char.png';
 import gameBg from '../assets/events/FluxWave_2.0/domains/game.jpeg';
 import gameAvatar from '../assets/events/FluxWave_2.0/domains/game_char.png';
 import posterImage from '../assets/events/FluxWave_2.0/poster.jpeg';
-
 
 const REGISTRATION_TUTORIAL_LINK = "https://drive.google.com/file/d/1OeHlRDNK4yyzpMtawnn5t7ahEIqZf8Sq/view?usp=drive_link";
 
@@ -47,15 +46,41 @@ const metrics = [
   { title: "Presentation", weight: 10, color: "#f59e0b", icon: <Mic size={20} /> },
 ];
 
-const faqs = [
-  { q: "Who can participate?", a: "FluxWave 2.0 is open to all undergraduate students of SATI, regardless of branch or year. Whether you're a first-year or final-year student, you're welcome to participate!" },
-  { q: "How do I register for FluxWave 2.0?", a: (<span>Fill out the registration form on this page. If you need help, watch our step-by-step <a href={REGISTRATION_TUTORIAL_LINK} target="_blank" rel="noopener noreferrer" className="text-cyan-500 hover:text-cyan-400 underline underline-offset-2 font-semibold inline-flex items-center gap-1">Registration Tutorial <ExternalLink size={14} /></a> for a complete walkthrough.</span>) },
-  { q: "What is the team size?", a: "Teams must consist of 2 to 4 members. Cross-branch teams are encouraged to bring diverse perspectives and skills to your project." },
-  { q: "What are the domains/tracks available?", a: "FluxWave 2.0 features 6 exciting domains: IoT & Hardware, Artificial Intelligence, Cyber Security, Web3 & Blockchain, Open Innovation, and Game Development. Choose the one that best fits your idea!" },
-  { q: "What is the hackathon format?", a: "FluxWave 2.0 follows a multi-phase format: Register → Submit your Idea & PPT (July 20–28) → Evaluation by judges (July 29–31) → Top teams compete in an 8-Hour Offline Grand Finale at Kailash Satyarthi Hall (KSH) on August 1, 2026." },
-
-  { q: "How will projects be judged?", a: "Projects are scored on: Innovation (30%), Technical Implementation (25%), Problem-Solving (20%), UI/UX & Design (15%), and Presentation (10%). Check the Judging Metrics section above for full details." }
+const faqCategories = [
+  {
+    category: "General & Rules",
+    icon: <Sparkles className="w-4 h-4" />,
+    items: [
+      { q: "Who can participate?", a: "FluxWave 2.0 is open to all undergraduate students of SATI, regardless of branch or year. Whether you're a first-year or final-year student, you're welcome to participate!" },
+      { q: "How do I register for FluxWave 2.0?", a: (<span>Fill out the registration form on this page. If you need help, watch our step-by-step <a href={REGISTRATION_TUTORIAL_LINK} target="_blank" rel="noopener noreferrer" className="text-cyan-500 hover:text-cyan-400 underline underline-offset-2 font-semibold inline-flex items-center gap-1">Registration Tutorial <ExternalLink size={14} /></a> for a complete walkthrough.</span>) },
+      { q: "What is the team size?", a: "Teams must consist of 2 to 4 members. Cross-branch and cross-year teams are highly encouraged to bring diverse skills to your build." },
+      { q: "What are the domains/tracks available?", a: "FluxWave 2.0 features 6 exciting domains: IoT & Hardware, Artificial Intelligence, Cyber Security, Web3 & Blockchain, Open Innovation, and Game Development." },
+      { q: "What is the hackathon format?", a: "Multi-phase format: Register → Submit Idea & PPT (July 20–28) → Evaluation by judges (July 29–31) → Top teams compete in an 8-Hour Offline Grand Finale at Kailash Satyarthi Hall (KSH) on August 1, 2026." },
+      { q: "How will projects be judged?", a: "Projects are scored on: Innovation (30%), Technical Implementation (25%), Problem-Solving (20%), UI/UX & Design (15%), and Presentation (10%)." }
+    ]
+  },
+  {
+    category: "Logistics & Venue",
+    icon: <Coffee className="w-4 h-4" />,
+    items: [
+      { q: "Is Wi-Fi available during the event?", a: "Yes, dedicated high-speed Wi-Fi credentials will be issued to all registered teams upon check-in at Kailash Satyarthi Hall (KSH)." },
+      { q: "Will snacks or refreshments be provided?", a: "Yes, complimentary refreshments, energy drinks, and meals will be served to keep hackers fueled throughout the offline finale." },
+      { q: "Will charging points and extension boards be available?", a: "Power sockets are available at each team workstation. However, bringing your team's extension board is recommended for convenience." },
+      { q: "Is internet access available throughout the hackathon?", a: "Yes, continuous, unthrottled internet access will remain active across the venue during the entire hackathon duration." }
+    ]
+  },
+  {
+    category: "Hardware & Tools",
+    icon: <Cpu className="w-4 h-4" />,
+    items: [
+      { q: "Are hardware components available for teams?", a: "Basic microcontrollers, sensors, and components are available in limited quantities on a first-come, first-served basis." },
+      { q: "If hardware components are provided, do they need to be returned?", a: "Yes, all hardware components issued by the Flux organizing team are venue property and must be returned intact after final judging." },
+      { q: "Can we bring our own hardware and tools?", a: "Absolutely! Teams participating in the IoT & Hardware track are encouraged to bring their own development boards, sensor kits, and toolsets." }
+    ]
+  }
 ];
+
+const quickSearchTags = ["WiFi", "Hardware", "Refreshments", "Team Size", "PPT Round", "Extension Board"];
 
 const MarqueeRibbon = ({ text, bg = "bg-purple-600", rotate = "-rotate-2" }) => {
   const baseX = useSpring(0, { stiffness: 400, damping: 90 });
@@ -95,14 +120,13 @@ const MarqueeRibbon = ({ text, bg = "bg-purple-600", rotate = "-rotate-2" }) => 
   );
 };
 
-
-
 const FluxWave2_0 = () => {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const [activeFaq, setActiveFaq] = useState(null);
+  const [activeCategory, setActiveCategory] = useState("General & Rules");
+  const [faqSearchQuery, setFaqSearchQuery] = useState("");
   const [hoveredMetric, setHoveredMetric] = useState(null);
 
-  // Countdown timer logic
   useEffect(() => {
     const targetDate = new Date("July 25, 2026 23:59:59").getTime();
     const interval = setInterval(() => {
@@ -122,7 +146,6 @@ const FluxWave2_0 = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // Desktop Timeline Scroll logic
   const containerRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -175,15 +198,13 @@ const FluxWave2_0 = () => {
         }
       `}} />
 
-      {/* Background Topography Pattern */}
       <div className="fixed inset-0 z-0 pointer-events-none opacity-[0.03] dark:opacity-[0.05]" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg width=\\'60\\' height=\\'60\\' viewBox=\\'0 0 60 60\\' xmlns=\\'http://www.w3.org/2000/svg\\'%3E%3Cg fill=\\'none\\' fill-rule=\\'evenodd\\'%3E%3Cg fill=\\'%23ffffff\\' fill-opacity=\\'1\\'%3E%3Cpath d=\\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')" }}></div>
       <div className="fixed top-0 w-full h-[50vh] bg-gradient-to-b from-purple-500/10 via-transparent to-transparent pointer-events-none z-0"></div>
 
-      {/* HERO SECTION (100vw Width) */}
+      {/* HERO SECTION */}
       <section className="relative z-10 w-full min-h-[90vh] flex flex-col justify-center px-6 md:px-12 lg:px-24 pb-16 pt-20">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-12 w-full max-w-[1400px] mx-auto">
           
-          {/* Left Column (Text & CTAs) */}
           <div className="flex flex-col justify-center items-start w-full lg:w-1/2">
             <div className="flex items-center gap-2 sm:gap-4 mb-4 bg-white/50 dark:bg-white/5 p-2 pr-4 sm:p-3 sm:pr-5 rounded-full border border-slate-200 dark:border-white/10 backdrop-blur-sm shadow-sm w-fit max-w-full">
               <img src="/fluxlogo.png" alt="Flux Logo" className="w-6 h-6 sm:w-8 sm:h-8 rounded-full flex-shrink-0" onError={(e) => e.target.style.display = 'none'} />
@@ -210,7 +231,6 @@ const FluxWave2_0 = () => {
               />
             </div>
 
-            {/* CTAs & Timer */}
             <div className="mt-12 flex flex-col items-start gap-6 w-full">
               <div className="flex flex-wrap gap-4 items-center">
                 <button
@@ -231,7 +251,6 @@ const FluxWave2_0 = () => {
                 </a>
               </div>
 
-              {/* Countdown Timer */}
               <div className="bg-gradient-to-r from-purple-500 to-cyan-500 p-[2px] rounded-2xl w-full sm:w-fit shadow-[0_0_40px_rgba(168,85,247,0.3)]">
                 <div className="bg-white dark:bg-[#050505] rounded-2xl px-4 py-4 sm:px-8 sm:py-6 flex justify-between sm:justify-start gap-2 sm:gap-6 md:gap-12 backdrop-blur-xl relative overflow-hidden">
                   <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop')] bg-cover opacity-5 dark:opacity-10 mix-blend-screen"></div>
@@ -251,18 +270,15 @@ const FluxWave2_0 = () => {
             </div>
           </div>
 
-          {/* Right Column (Poster) */}
           <div className="w-full lg:w-1/3 flex justify-center lg:justify-end relative perspective-[1200px] mt-8 lg:mt-80 z-20">
              <div className="relative group w-full max-w-sm xl:max-w-md aspect-[3/4] rounded-2xl overflow-hidden shadow-[0_0_40px_rgba(168,85,247,0.3)] border border-cyan-500/30 [transform-style:preserve-3d] transition-all duration-700 hover:rotate-y-6 hover:scale-[1.02] bg-black">
                 
-                {/* Base Image */}
                 <img 
                   src={posterImage} 
                   alt="FluxWave 2.0 Poster" 
                   className="w-full h-full object-cover relative z-0 transition-all duration-700 group-hover:brightness-110 group-hover:contrast-125 group-hover:saturate-150"
                 />
 
-                {/* Glitch Layer 1 (Red offset) */}
                 <div 
                   className="absolute inset-0 w-full h-full bg-cover bg-center opacity-0 opacity-70 mix-blend-screen pointer-events-none z-10"
                   style={{ 
@@ -272,7 +288,6 @@ const FluxWave2_0 = () => {
                   }}
                 ></div>
 
-                {/* Glitch Layer 2 (Cyan offset) */}
                 <div 
                   className="absolute inset-0 w-full h-full bg-cover bg-center opacity-0 group-hover:opacity-70 mix-blend-screen pointer-events-none z-10"
                   style={{ 
@@ -282,16 +297,9 @@ const FluxWave2_0 = () => {
                   }}
                 ></div>
 
-                {/* Repeating Scanlines Overlay */}
                 <div className="absolute inset-0 pointer-events-none z-20 opacity-20 group-hover:opacity-40 transition-opacity duration-500" style={{ backgroundImage: 'repeating-linear-gradient(transparent, transparent 2px, rgba(0, 0, 0, 0.8) 2px, rgba(0, 0, 0, 0.8) 4px)' }}></div>
-
-                {/* Moving Glowing Scanline */}
                 <div className="absolute top-0 left-0 right-0 h-[10%] bg-gradient-to-b from-transparent via-cyan-400/40 to-transparent pointer-events-none z-30 opacity-0 group-hover:opacity-100 animate-[scanline_3s_linear_infinite]"></div>
-
-                {/* Static Noise Overlay */}
                 <div className="absolute inset-0 opacity-20 pointer-events-none mix-blend-overlay z-40 animate-[noise_0.2s_infinite]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")' }}></div>
-
-                {/* Glowing Vignette */}
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 bg-[radial-gradient(circle_at_center,transparent_40%,rgba(168,85,247,0.4)_100%)] pointer-events-none z-50 mix-blend-screen"></div>
 
              </div>
@@ -302,7 +310,7 @@ const FluxWave2_0 = () => {
 
       <MarqueeRibbon text="IDEATE ✦ BUILD ✦ CODE ✦ DEBUG ✦ PITCH ✦ NETWORK ✦ INNOVATE ✦ COLLABORATE ✦ CREATE ✦ DEPLOY ✦ DEMO ✦ WIN" bg="bg-purple-600" />
 
-      {/* EXPLORE DOMAINS SECTION */}
+      {/* DOMAINS SECTION */}
       <section className="relative w-full px-6 md:px-12 lg:px-24 py-20 z-10">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white uppercase tracking-widest mb-4" style={{ fontFamily: '"Russo One", sans-serif' }}>
@@ -315,12 +323,9 @@ const FluxWave2_0 = () => {
           {domainsData.map((domain) => (
             <div key={domain.id} className="group relative flex flex-col items-center cursor-pointer w-full perspective-[1200px]">
 
-              {/* 16:9 Container */}
               <div className="relative w-full aspect-video rounded-3xl overflow-visible [transform-style:preserve-3d]">
 
-                {/* Background Card that tilts back */}
                 <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-xl transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:[transform:rotateX(40deg)] group-hover:shadow-purple-500/40 origin-bottom border border-slate-200 dark:border-white/10 z-10 bg-slate-100 dark:bg-[#12121a]">
-                  {/* Background Image */}
                   <img
                     src={domain.img}
                     alt={domain.title}
@@ -328,7 +333,6 @@ const FluxWave2_0 = () => {
                   />
                 </div>
 
-                {/* Pop-out Avatar - Original size/position to match background, translates UP on hover */}
                 <div className="absolute inset-0 z-20 transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] transform group-hover:-translate-y-6 group-hover:scale-105 pointer-events-none drop-shadow-2xl">
                   <img
                     src={domain.avatar}
@@ -337,7 +341,6 @@ const FluxWave2_0 = () => {
                   />
                 </div>
 
-                {/* Text Content - visible on hover, NOT tilted, top z-index */}
                 <div className={`absolute inset-y-0 p-6 md:p-8 flex flex-col justify-center w-[70%] opacity-0 group-hover:opacity-100 transition-all duration-700 delay-100 z-30 pointer-events-none ${domain.id === 2 ? 'right-0 text-right items-end' : 'left-0 text-left items-start'}`}>
                   <p className="text-white text-xs md:text-sm lg:text-base font-bold leading-relaxed drop-shadow-black] transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]">
                     {domain.desc}
@@ -353,12 +356,9 @@ const FluxWave2_0 = () => {
         </div>
       </section>
 
-      {/* <MarqueeRibbon text="REGISTER NOW ✦ AI ✦ IoT & HARDWARE ✦ CYBER SECURITY ✦ WEB3 ✦ OPEN INNOVATION ✦ GAME DEVELOPMENT ✦ REGISTER NOW" bg="bg-cyan-600" rotate="rotate-2" />*/}
-
-      {/* WAVY TIMELINE - DESKTOP */}
+      {/* TIMELINE */}
       <div className="hidden lg:block">
         <div ref={containerRef} className="h-[400vh] relative z-10 w-full">
-          {/* Sticking container needs to cover screen, removed overflow-x-hidden from parent body/root */}
           <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col">
 
             <div className="absolute top-20 left-24 z-20">
@@ -414,7 +414,6 @@ const FluxWave2_0 = () => {
         </div>
       </div>
 
-      {/* WAVY TIMELINE - MOBILE */}
       <section className="lg:hidden w-full px-6 py-24 relative z-10 overflow-hidden">
         <div className="text-center mb-24">
           <h2 className="text-4xl font-bold text-slate-900 dark:text-white uppercase tracking-widest mb-2" style={{ fontFamily: '"Russo One", sans-serif' }}>The Journey</h2>
@@ -464,7 +463,7 @@ const FluxWave2_0 = () => {
         </div>
       </section>
 
-      {/* JUDGING METRICS - VISUALIZATION */}
+      {/* JUDGING METRICS */}
       <section className="relative w-full px-6 md:px-12 lg:px-24 py-24 z-10">
         <div className="max-w-1xl mx-auto flex flex-col lg:flex-row gap-16 items-center">
 
@@ -519,40 +518,158 @@ const FluxWave2_0 = () => {
 
       <MarqueeRibbon text="REGISTER NOW ✦ AI ✦ IoT & HARDWARE ✦ CYBER SECURITY ✦ WEB3 ✦ OPEN INNOVATION ✦ GAME DEVELOPMENT ✦ REGISTER NOW" bg="bg-emerald-600" rotate='rotate-2' />
 
-      {/* REGISTRATION FORM */}
       <FluxWaveRegistration />
 
-      {/* FAQS */}
-      <section className="relative w-full px-6 md:px-12 lg:px-24 py-16 z-10">
+      {/* ENHANCED CATEGORIZED & SEARCHABLE FAQS SECTION */}
+      <section className="relative w-full px-6 md:px-12 lg:px-24 py-20 z-10">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-bold text-center text-slate-900 dark:text-white uppercase tracking-widest mb-12" style={{ fontFamily: '"Russo One", sans-serif' }}>System FAQs</h2>
-          <div className="space-y-4">
-            {faqs.map((faq, idx) => (
-              <div key={idx} className="border border-slate-200 dark:border-white/10 rounded-xl overflow-hidden bg-white dark:bg-white/5 backdrop-blur-sm shadow-sm">
-                <button
-                  onClick={() => setActiveFaq(activeFaq === idx ? null : idx)}
-                  className="w-full text-left p-6 flex justify-between items-center hover:bg-slate-50 dark:hover:bg-white/10 transition-colors"
-                >
-                  <span className="font-bold text-slate-800 dark:text-white text-lg tracking-wide">{faq.q}</span>
-                  <ChevronDown className={`w-6 h-6 text-cyan-500 transition-transform duration-300 ${activeFaq === idx ? 'rotate-180' : ''}`} />
-                </button>
-                <AnimatePresence>
-                  {activeFaq === idx && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      className="overflow-hidden"
-                    >
-                      <div className="p-6 pt-0 text-slate-600 dark:text-slate-400 border-t border-slate-100 dark:border-white/5 mt-2 leading-relaxed font-medium">
-                        {faq.a}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            ))}
+          
+          {/* Section Heading */}
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-600 dark:text-purple-400 text-xs font-bold uppercase tracking-widest mb-4">
+              <ShieldCheck className="w-4 h-4" /> Clear Your Doubts
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white uppercase tracking-widest" style={{ fontFamily: '"Russo One", sans-serif' }}>
+              System FAQs
+            </h2>
+            <p className="text-slate-600 dark:text-slate-400 font-medium mt-3 text-sm md:text-base">
+              Everything you need to know about FluxWave 2.0 logistics, hardware, and submission guidelines.
+            </p>
           </div>
+
+          {/* Interactive Search Bar & Quick Tags */}
+          <div className="mb-10 space-y-4">
+            <div className="relative group">
+              <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-cyan-500 transition-colors" />
+              <input
+                type="text"
+                placeholder="Search questions (e.g. wifi, hardware, meals, extension board)..."
+                value={faqSearchQuery}
+                onChange={(e) => setFaqSearchQuery(e.target.value)}
+                className="w-full pl-14 pr-10 py-4 rounded-2xl bg-white dark:bg-[#12121a] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-cyan-500 focus:ring-4 focus:ring-cyan-500/10 shadow-lg transition-all text-sm font-medium"
+              />
+              {faqSearchQuery && (
+                <button 
+                  onClick={() => setFaqSearchQuery('')}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400 hover:text-white px-2 py-1 rounded-md bg-white/10"
+                >
+                  CLEAR
+                </button>
+              )}
+            </div>
+
+            {/* Quick Search Tag Chips */}
+            <div className="flex flex-wrap items-center gap-2 pt-1">
+              <span className="text-xs font-bold text-slate-400 uppercase tracking-wider mr-1">Quick Search:</span>
+              {quickSearchTags.map((tag) => (
+                <button
+                  key={tag}
+                  onClick={() => setFaqSearchQuery(tag)}
+                  className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all ${
+                    faqSearchQuery.toLowerCase() === tag.toLowerCase()
+                      ? 'bg-cyan-500 text-white shadow-md'
+                      : 'bg-slate-200/60 dark:bg-white/5 text-slate-700 dark:text-slate-300 hover:bg-cyan-500/20 hover:text-cyan-400 border border-slate-300 dark:border-white/5'
+                  }`}
+                >
+                  #{tag}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Category Tabs (Hidden when actively typing in search) */}
+          {!faqSearchQuery && (
+            <div className="flex flex-wrap justify-center gap-3 mb-10">
+              {faqCategories.map((cat) => {
+                const isActive = activeCategory === cat.category;
+                return (
+                  <button
+                    key={cat.category}
+                    onClick={() => {
+                      setActiveCategory(cat.category);
+                      setActiveFaq(null);
+                    }}
+                    className={`flex items-center gap-2 px-6 py-3 rounded-2xl text-xs md:text-sm font-bold uppercase tracking-wider transition-all duration-300 border ${
+                      isActive
+                        ? 'bg-gradient-to-r from-purple-600 to-cyan-600 text-white border-transparent shadow-lg shadow-purple-500/20 scale-105'
+                        : 'bg-white dark:bg-[#12121a] text-slate-600 dark:text-slate-300 border-slate-200 dark:border-white/10 hover:border-purple-500/50'
+                    }`}
+                  >
+                    {cat.icon}
+                    {cat.category}
+                  </button>
+                );
+              })}
+            </div>
+          )}
+
+          {/* FAQ Accordion List */}
+          <div className="space-y-4">
+            {faqCategories
+              .flatMap(cat => cat.items.map(item => ({ ...item, category: cat.category })))
+              .filter(item => {
+                if (faqSearchQuery.trim()) {
+                  const query = faqSearchQuery.toLowerCase();
+                  return (
+                    item.q.toLowerCase().includes(query) ||
+                    (typeof item.a === 'string' && item.a.toLowerCase().includes(query))
+                  );
+                }
+                return item.category === activeCategory;
+              })
+              .map((faq, idx) => {
+                const isOpen = activeFaq === idx;
+                return (
+                  <motion.div 
+                    key={idx}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.2, delay: idx * 0.05 }}
+                    className={`border rounded-2xl overflow-hidden backdrop-blur-md transition-all duration-300 ${
+                      isOpen
+                        ? 'bg-white dark:bg-[#12121e] border-cyan-500/50 shadow-[0_0_25px_rgba(6,182,212,0.15)]'
+                        : 'bg-white/80 dark:bg-white/5 border-slate-200 dark:border-white/10 hover:border-purple-500/40'
+                    }`}
+                  >
+                    <button
+                      onClick={() => setActiveFaq(isOpen ? null : idx)}
+                      className="w-full text-left p-6 flex justify-between items-center gap-4 transition-colors"
+                    >
+                      <div className="flex items-center gap-3">
+                        <span className="w-2 h-2 rounded-full bg-cyan-500 flex-shrink-0"></span>
+                        <span className="font-bold text-slate-800 dark:text-white text-base md:text-lg tracking-wide leading-snug">
+                          {faq.q}
+                        </span>
+                      </div>
+                      <div className={`p-2 rounded-xl transition-all duration-300 flex-shrink-0 ${
+                        isOpen ? 'bg-cyan-500/20 text-cyan-400 rotate-180' : 'bg-slate-100 dark:bg-white/5 text-slate-400'
+                      }`}>
+                        <ChevronDown className="w-5 h-5" />
+                      </div>
+                    </button>
+
+                    <AnimatePresence>
+                      {isOpen && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.3, ease: "easeInOut" }}
+                          className="overflow-hidden"
+                        >
+                          <div className="px-6 pb-6 pt-2 text-slate-600 dark:text-slate-300 border-t border-slate-100 dark:border-white/5 leading-relaxed font-medium text-sm md:text-base">
+                            <p className="pl-5 border-l-2 border-purple-500/50">
+                              {faq.a}
+                            </p>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
+                );
+              })}
+          </div>
+
         </div>
       </section>
 
@@ -572,7 +689,6 @@ const FluxWave2_0 = () => {
           <div className="flex flex-col sm:flex-row gap-4">
             <a href="/contact" className="px-8 py-3 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold tracking-wide flex items-center gap-2 hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors">
               <Send size={18} /> Contact Support
-
             </a>
             <a 
               href="https://chat.whatsapp.com/L8cxv50mB7BIv4PgHmM179"

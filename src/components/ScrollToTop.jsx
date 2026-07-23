@@ -1,15 +1,39 @@
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
 
 const ScrollToTop = () => {
-  const { pathname } = useLocation();
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+    const toggleVisibility = () => {
+      if (window.scrollY > 300) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    };
 
-  return null;
+    window.addEventListener('scroll', toggleVisibility);
+    return () => window.removeEventListener('scroll', toggleVisibility);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+
+  if (!isVisible) return null;
+
+  return (
+    <button
+      onClick={scrollToTop}
+      className="fixed bottom-6 right-6 z-50 p-3 bg-cyan-500 text-white rounded-full shadow-lg hover:bg-cyan-600 transition-all duration-300"
+      aria-label="Back to Top"
+    >
+      ↑ Top
+    </button>
+  );
 };
 
-// This line is what was missing or incorrect!
 export default ScrollToTop;
