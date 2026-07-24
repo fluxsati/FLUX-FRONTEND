@@ -10,6 +10,9 @@ import {
     submitFluxWaveIdea,
     submitFluxWaveFinal,
 } from '../api';
+// At the top of App.jsx (or your chosen page file):
+import FAQDiscussion from './FAQDiscussion/FAQDiscussion';
+
 
 // Keep this in sync with backend/models/FluxWaveRegistration.js -> DOMAINS
 const DOMAINS = [
@@ -246,6 +249,7 @@ const FluxWaveRegistration = () => {
     };
 
     return (
+        <>
         <section id="registration" className="relative w-full px-6 md:px-12 lg:px-24 py-16 z-10 font-sans">
             <div className="max-w-5xl mx-auto">
                 <div className="text-center mb-16">
@@ -594,6 +598,11 @@ const FluxWaveRegistration = () => {
                 </div>
             </div>
         </section>
+
+        {/* Then inside your JSX, add it wherever you want it to appear: */}
+        <FAQDiscussion />
+        </>
+
     );
 };
 
