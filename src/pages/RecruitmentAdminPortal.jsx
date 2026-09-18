@@ -257,10 +257,14 @@ const RecruitmentAdminPortal = () => {
           ...(cand.designingSkills || [])
         ].slice(0, 4).join(', ') || '—';
 
+        const branchDisplay = cand.branch === 'Other' && cand.branchOther
+          ? `Other (${cand.branchOther})`
+          : (cand.branch || '—');
+
         return [
           cand.ticketId || '—',
           `${cand.fullName || '—'}\n${cand.enrollmentNo || '—'}`,
-          `${cand.branch || '—'} (${cand.year || '—'})`,
+          `${branchDisplay}\n(${cand.year || '2nd Year'})`,
           `Ph: ${cand.phone || '—'}\n${cand.email || '—'}`,
           skills,
           (cand.status || 'Pending').toUpperCase(),
@@ -290,10 +294,10 @@ const RecruitmentAdminPortal = () => {
         },
         columnStyles: {
           0: { cellWidth: 70, fontStyle: 'bold' },
-          1: { cellWidth: 140 },
-          2: { cellWidth: 80 },
-          3: { cellWidth: 150 },
-          4: { cellWidth: 160 },
+          1: { cellWidth: 130 },
+          2: { cellWidth: 95 },
+          3: { cellWidth: 140 },
+          4: { cellWidth: 165 },
           5: { cellWidth: 80, fontStyle: 'bold' },
           6: { cellWidth: 80 }
         },
@@ -653,15 +657,18 @@ const RecruitmentAdminPortal = () => {
                 variant="filter"
                 options={[
                   { value: 'ALL', label: 'ALL BRANCHES' },
-                  { value: 'CS', label: 'CS / CSE' },
-                  { value: 'ECE', label: 'ECE' },
-                  { value: 'IOT', label: 'IOT' },
-                  { value: 'CY', label: 'CYBER SECURITY' },
-                  { value: 'AIADS', label: 'AIADS' },
-                  { value: 'IT', label: 'IT' },
-                  { value: 'EE', label: 'Electrical (EE)' },
-                  { value: 'ME', label: 'Mechanical (ME)' },
-                  { value: 'CIVIL', label: 'Civil' }
+                  { value: 'CS', label: 'CS (Computer Science & Eng.)' },
+                  { value: 'IT', label: 'IT (Information Technology)' },
+                  { value: 'BC', label: 'BC (Block Chain)' },
+                  { value: 'AI', label: 'AI (AI & Data Science)' },
+                  { value: 'AL', label: 'AL (AI & Machine Learning)' },
+                  { value: 'EC', label: 'EC / ECE (Electronics & Comm.)' },
+                  { value: 'EE', label: 'EE (Electrical Engineering)' },
+                  { value: 'ME', label: 'ME (Mechanical Engineering)' },
+                  { value: 'CE', label: 'CE / Civil (Civil Engineering)' },
+                  { value: 'IO', label: 'IO / IoT (Internet of Things)' },
+                  { value: 'CY', label: 'CY (Cyber Security)' },
+                  { value: 'OTHER', label: 'Other Branches' }
                 ]}
                 value={selectedBranch}
                 onChange={setSelectedBranch}
@@ -782,8 +789,10 @@ const RecruitmentAdminPortal = () => {
 
                         {/* Branch & Year */}
                         <td className="py-4 px-6 ">
-                          <div className="font-semibold text-slate-800 dark:text-gray-200">{candidate.branch}</div>
-                          <div className="text-[10px] font-mono text-slate-500 dark:text-gray-400">{candidate.year}</div>
+                          <div className="font-semibold text-slate-800 dark:text-gray-200">
+                            {candidate.branch === 'Other' && candidate.branchOther ? `Other (${candidate.branchOther})` : (candidate.branch || '—')}
+                          </div>
+                          <div className="text-[10px] font-mono text-slate-500 dark:text-gray-400">{candidate.year || '2nd Year'}</div>
                         </td>
 
                         {/* Contact Channels */}
@@ -914,8 +923,8 @@ const RecruitmentAdminPortal = () => {
 
                   <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-xs font-mono text-slate-500 dark:text-gray-400 pt-0.5">
                     <span>ENROLLMENT: <strong className="text-slate-900 dark:text-white font-bold">{selectedCandidate.enrollmentNo}</strong></span>
-                    <span>BRANCH: <strong className="text-cyan-600 dark:text-cyan-400 font-bold">{selectedCandidate.branch}</strong></span>
-                    <span>YEAR: <strong className="text-slate-900 dark:text-white font-bold">{selectedCandidate.year}</strong></span>
+                    <span>BRANCH: <strong className="text-cyan-600 dark:text-cyan-400 font-bold">{selectedCandidate.branch === 'Other' && selectedCandidate.branchOther ? `Other (${selectedCandidate.branchOther})` : (selectedCandidate.branch || '—')}</strong></span>
+                    <span>YEAR: <strong className="text-slate-900 dark:text-white font-bold">{selectedCandidate.year || '2nd Year'}</strong></span>
                   </div>
                 </div>
 

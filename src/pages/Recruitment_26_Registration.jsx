@@ -155,9 +155,10 @@ const Recruitment_26_Registration = () => {
     }
   };
 
-  // Branch List matching specified codes: CS, BC, AI, EE, EC, ME, CE, IO, CY, AL
+  // Branch List matching specified codes: CS, IT, BC, AI, EE, EC, ME, CE, IO, CY, AL
   const branches = [
     'CS (Computer Science and Engineering)',
+    'IT (Information Technology)',
     'BC (Block Chain)',
     'AI (Artificial Intelligence & Data Science)',
     'EE (Electrical Engineering)',
