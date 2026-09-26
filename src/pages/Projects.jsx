@@ -36,6 +36,11 @@ const isSoftwareProject = (project) => {
 
 /* ===================== OPTIMIZED CARD COMPONENT ===================== */
 const ProjectCard = memo(({ project }) => {
+  const gitUrl = project.git || project.githubLink;
+  const liveUrl = project.live || project.liveLink;
+  const techList = project.tech || project.techStack || [];
+  const author = project.submittedBy || 'Lead Developer';
+
   return (
     <motion.div
       layout
@@ -46,12 +51,21 @@ const ProjectCard = memo(({ project }) => {
       className="bg-white dark:bg-[#0c0c0c] border border-slate-200 dark:border-white/5 rounded-[1.5rem] md:rounded-[2rem] p-4 flex flex-col group transition-colors duration-300 shadow-sm h-full transform-gpu"
     >
       <div className="aspect-video rounded-xl md:rounded-2xl overflow-hidden mb-4 relative bg-zinc-900 dark:bg-black">
-        <img
-          src={project.img}
-          loading="lazy"
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-          alt={project.title}
-        />
+        {project.img ? (
+          <img
+            src={project.img}
+            loading="lazy"
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            alt={project.title}
+          />
+        ) : (
+          <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-cyan-950/40 via-slate-900 to-black p-4 text-center">
+            <div className="p-3.5 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 mb-2">
+              {getProjectIcon(project.title)}
+            </div>
+            <span className="text-[10px] font-mono tracking-widest uppercase text-cyan-400 font-bold">Community Project</span>
+          </div>
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-50 pointer-events-none" />
         <div className="absolute top-3 left-3 p-2 bg-white dark:bg-black/80 rounded-xl text-cyan-600 border border-white/10 z-10">
           {getProjectIcon(project.title)}
@@ -70,13 +84,13 @@ const ProjectCard = memo(({ project }) => {
 
         <div className="flex items-center gap-2 mb-4 bg-slate-50 dark:bg-white/5 p-2 rounded-lg">
           <User size={12} className="text-cyan-500" />
-          <span className="text-[9px] md:text-[10px] font-bold text-slate-600 dark:text-gray-300 uppercase">
-            Lead Developer
+          <span className="text-[9px] md:text-[10px] font-bold text-slate-600 dark:text-gray-300 uppercase truncate">
+            {author}
           </span>
         </div>
 
         <div className="flex flex-wrap gap-1 mb-5">
-          {project.tech?.map((t, idx) => (
+          {techList.map((t, idx) => (
             <span key={idx} className="px-2 py-0.5 bg-cyan-500/5 text-[9px] font-mono text-cyan-600 dark:text-cyan-400 rounded border border-cyan-500/10">
               {t}
             </span>
@@ -102,9 +116,9 @@ const ProjectCard = memo(({ project }) => {
             </button>
           )}
 
-          {project.git ? (
+          {gitUrl ? (
             <a
-              href={project.git}
+              href={gitUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="p-2.5 md:p-3 bg-slate-100 dark:bg-white/5 rounded-xl border border-slate-200 dark:border-white/10 hover:text-cyan-500 transition-colors"
@@ -121,9 +135,9 @@ const ProjectCard = memo(({ project }) => {
             </button>
           )}
 
-          {project.live && isSoftwareProject(project) ? (
+          {liveUrl && isSoftwareProject(project) ? (
             <a
-              href={project.live}
+              href={liveUrl}
               target="_blank"
               rel="noopener noreferrer"
               title="Live Demo"
@@ -160,15 +174,43 @@ const FluxProjects = () => {
   });
 
   useEffect(() => {
-    if (PROJECTS_DATA) setProjects(PROJECTS_DATA);
+    const fetchApprovedProjects = async () => {
+      try {
+        const res = await API.get('/projects?approved=true');
+        const dbData = Array.isArray(res.data) ? res.data : (res.data?.data || []);
+        const approvedFromDb = dbData.filter(p => p.isApproved || p.status === 'approved');
+
+        const formattedDb = approvedFromDb.map(p => ({
+          _id: p._id,
+          title: p.title,
+          description: p.description,
+          tech: p.techStack || p.tech || [],
+          git: p.githubLink || p.git,
+          live: p.liveLink || p.live,
+          submittedBy: p.submittedBy,
+          date: p.createdAt ? p.createdAt.split('T')[0] : new Date().toISOString().split('T')[0],
+          popularity: p.popularity || 85,
+          img: p.img || null
+        }));
+
+        setProjects([...formattedDb, ...(PROJECTS_DATA || [])]);
+      } catch (err) {
+        console.error("Error fetching projects from registry:", err);
+        if (PROJECTS_DATA) setProjects(PROJECTS_DATA);
+      }
+    };
+
+    fetchApprovedProjects();
   }, []);
 
   const filteredProjects = projects.filter(project => {
     const query = searchQuery.toLowerCase();
+    const techItems = project.tech || project.techStack || [];
     return (
       project.title?.toLowerCase().includes(query) ||
       project.description?.toLowerCase().includes(query) ||
-      project.tech?.some(t => t.toLowerCase().includes(query))
+      techItems.some(t => t.toLowerCase().includes(query)) ||
+      project.submittedBy?.toLowerCase().includes(query)
     );
   });
 
@@ -191,7 +233,7 @@ const FluxProjects = () => {
     try {
       const res = await API.post('/projects', payload);
       if (res.status === 201 || res.status === 200) {
-        toast.success("Proposal Sent to Registry Successfully", {
+        toast.success("Proposal Sent to Registry! Awaiting Admin Approval.", {
           style: { background: '#0c0c0c', color: '#fff', border: '1px solid rgba(255,255,255,0.1)' },
           iconTheme: { primary: '#06b6d4', secondary: '#fff' }
         });

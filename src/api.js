@@ -39,8 +39,10 @@ export const register = (formData) => API.post('/auth/register', formData);
 export const logout = () => API.post('/auth/logout');
 
 // --- PROJECT ENDPOINTS ---
-export const fetchProjects = () => API.get('/projects');
+export const fetchProjects = (params) => API.get('/projects', { params });
 export const uploadProject = (projectData) => API.post('/projects', projectData);
+export const approveProject = (id) => API.put(`/projects/${id}/approve`);
+export const deleteProject = (id) => API.delete(`/projects/${id}`);
 
 // --- USER ENDPOINTS ---
 export const fetchActiveUsers = () => API.get('/users/active');

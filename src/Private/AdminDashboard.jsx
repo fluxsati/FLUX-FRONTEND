@@ -80,6 +80,18 @@ const AdminDashboard = () => {
     }
   };
 
+  const handleApproveProject = async (id) => {
+    try {
+      await API.put(`/projects/${id}/approve`);
+      setData(prev => 
+        prev.map(item => item._id === id ? { ...item, status: 'approved', isApproved: true } : item)
+      );
+      toast.success("PROJECT_APPROVED");
+    } catch (err) {
+      toast.error(err.response?.data?.message || "APPROVAL_FAILED");
+    }
+  };
+
   const handleDeleteEntry = async (id) => {
     if (!window.confirm("PERMANENTLY_PURGE_RECORD?")) return;
     try {
@@ -198,38 +210,64 @@ const AdminDashboard = () => {
             <th className="p-4 border-b border-slate-200 dark:border-white/10">Source</th>
             <th className="p-4 border-b border-slate-200 dark:border-white/10">Project_Data</th>
             <th className="p-4 border-b border-slate-200 dark:border-white/10">Stack</th>
-            <th className="p-4 border-b border-slate-200 dark:border-white/10 text-center">Purge</th>
+            <th className="p-4 border-b border-slate-200 dark:border-white/10">Status</th>
+            <th className="p-4 border-b border-slate-200 dark:border-white/10 text-center">Protocol</th>
           </tr>
         </thead>
         <tbody className="text-xs">
-          {data.map((project) => (
-            <tr key={project._id} className="border-b border-slate-100 dark:border-white/5 hover:bg-slate-50 dark:hover:bg-white/[0.02] align-top transition-colors">
-              <td className="p-4">
-                <div className="flex items-center gap-2 text-slate-900 dark:text-white font-bold mb-1">
-                  <User size={12} className="text-cyan-600 dark:text-cyan-500"/> {project.submittedBy || 'Anonymous'}
-                </div>
-                <p className="text-[9px] text-slate-400 dark:text-gray-500 lowercase">{project.email}</p>
-              </td>
-              <td className="p-4 max-w-sm">
-                <p className="text-cyan-700 dark:text-cyan-400 font-black uppercase mb-1">{project.title}</p>
-                <p className="text-[10px] text-slate-600 dark:text-gray-400 line-clamp-2 italic">"{project.description}"</p>
-                <div className="flex gap-3 mt-2">
-                  {project.githubLink && <a href={project.githubLink} target="_blank" rel="noreferrer" className="text-slate-500 hover:text-slate-900 dark:text-white/40 dark:hover:text-white transition-colors"><Github size={12}/></a>}
-                  {project.liveLink && <a href={project.liveLink} target="_blank" rel="noreferrer" className="text-emerald-600 hover:text-emerald-500 dark:text-emerald-500/70 dark:hover:text-emerald-400 transition-colors"><Globe size={12}/></a>}
-                </div>
-              </td>
-              <td className="p-4">
-                <div className="flex gap-1 flex-wrap">
-                  {project.techStack?.slice(0, 4).map((tag, i) => (
-                    <span key={i} className="bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 border border-slate-200 dark:border-zinc-700 px-2 py-0.5 rounded text-[8px] uppercase">{tag}</span>
-                  ))}
-                </div>
-              </td>
-              <td className="p-4 text-center">
-                <button onClick={() => handleDeleteEntry(project._id)} className="text-red-400 hover:text-red-600 dark:text-red-500/40 dark:hover:text-red-500 transition-colors"><Trash2 size={16}/></button>
-              </td>
-            </tr>
-          ))}
+          {data.map((project) => {
+            const isApproved = project.isApproved || project.status === 'approved';
+            return (
+              <tr key={project._id} className="border-b border-slate-100 dark:border-white/5 hover:bg-slate-50 dark:hover:bg-white/[0.02] align-top transition-colors">
+                <td className="p-4">
+                  <div className="flex items-center gap-2 text-slate-900 dark:text-white font-bold mb-1">
+                    <User size={12} className="text-cyan-600 dark:text-cyan-500"/> {project.submittedBy || 'Anonymous'}
+                  </div>
+                  <p className="text-[9px] text-slate-400 dark:text-gray-500 lowercase">{project.email}</p>
+                </td>
+                <td className="p-4 max-w-sm">
+                  <p className="text-cyan-700 dark:text-cyan-400 font-black uppercase mb-1">{project.title}</p>
+                  <p className="text-[10px] text-slate-600 dark:text-gray-400 line-clamp-2 italic">"{project.description}"</p>
+                  <div className="flex gap-3 mt-2">
+                    {project.githubLink && <a href={project.githubLink} target="_blank" rel="noreferrer" className="text-slate-500 hover:text-slate-900 dark:text-white/40 dark:hover:text-white transition-colors" title="GitHub"><Github size={12}/></a>}
+                    {project.liveLink && <a href={project.liveLink} target="_blank" rel="noreferrer" className="text-emerald-600 hover:text-emerald-500 dark:text-emerald-500/70 dark:hover:text-emerald-400 transition-colors" title="Live Link"><Globe size={12}/></a>}
+                  </div>
+                </td>
+                <td className="p-4">
+                  <div className="flex gap-1 flex-wrap">
+                    {project.techStack?.slice(0, 4).map((tag, i) => (
+                      <span key={i} className="bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 border border-slate-200 dark:border-zinc-700 px-2 py-0.5 rounded text-[8px] uppercase">{tag}</span>
+                    ))}
+                  </div>
+                </td>
+                <td className="p-4">
+                  <span className={`px-2 py-1 rounded-full text-[8px] font-black uppercase border ${isApproved ? 'text-emerald-600 dark:text-emerald-400 border-emerald-500/30 bg-emerald-500/10' : 'text-amber-600 dark:text-amber-400 border-amber-500/30 bg-amber-500/10'}`}>
+                    {isApproved ? 'APPROVED' : 'PENDING'}
+                  </span>
+                </td>
+                <td className="p-4 text-center">
+                  <div className="flex items-center justify-center gap-2">
+                    {!isApproved && (
+                      <button 
+                        onClick={() => handleApproveProject(project._id)} 
+                        className="text-emerald-600 dark:text-emerald-400 p-2 hover:bg-emerald-500/10 rounded-lg transition-colors" 
+                        title="Approve Project"
+                      >
+                        <CheckCircle size={16}/>
+                      </button>
+                    )}
+                    <button 
+                      onClick={() => handleDeleteEntry(project._id)} 
+                      className="text-red-400 hover:text-red-600 dark:text-red-500/40 dark:hover:text-red-500 p-2 hover:bg-red-500/10 rounded-lg transition-colors" 
+                      title="Purge"
+                    >
+                      <Trash2 size={16}/>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>
